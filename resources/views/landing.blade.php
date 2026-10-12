@@ -199,8 +199,6 @@
 
         .lang button.active { background: #eef3ff; color: #2855dd; }
 
-        .login-link { font-size: 13px; font-weight: 600; color: #4a576e; padding: 8px 6px; }
-
         .hamburger {
             display: none;
             width: 38px;
@@ -965,8 +963,7 @@
                     <button type="button" class="active">ID</button>
                     <button type="button">EN</button>
                 </div>
-                <a href="{{ route('dashboard') }}" class="login-link">&#x2192; Admin Login</a>
-                <a href="{{ route('dashboard') }}" class="btn btn-primary btn-sm">Login</a>
+                <a href="{{ route('login') }}" class="btn btn-primary btn-sm">Login</a>
             </div>
 
             <button type="button" class="hamburger" id="navToggle" aria-label="Buka navigasi" aria-expanded="false">
@@ -987,7 +984,7 @@
                         and make better-informed decisions.
                     </p>
                     <div class="hero-cta">
-                        <a href="{{ route('dashboard') }}" class="btn btn-primary">Get Started</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary">Get Started</a>
                         <a href="#how" class="btn btn-ghost">&#x25B7; See How It Works</a>
                     </div>
                     <div class="hero-stats">
@@ -1209,7 +1206,7 @@
                         </div>
 
                         <div class="hero-cta" style="margin-top:20px">
-                            <a href="{{ route('dashboard') }}" class="btn btn-primary">&#x25CB; Complete Documents</a>
+                            <a href="{{ route('login') }}" class="btn btn-primary">&#x25CB; Complete Documents</a>
                             <span style="font-size:11px;color:var(--soft);align-self:center">Instantly recalculates readiness when files are added</span>
                         </div>
                     </div>
@@ -1438,7 +1435,7 @@
                     <h2>Take Control of Your Insurance Coverage Today</h2>
                     <p>Upload your policy in less than 60 seconds and experience the clarity of evidence-grounded AI guidance.</p>
                     <div class="cta-actions">
-                        <a href="{{ route('dashboard') }}" class="btn btn-light">&#x2191; Get Started Now</a>
+                        <a href="{{ route('login') }}" class="btn btn-light">&#x2191; Get Started Now</a>
                         <a href="#how" class="btn btn-outline-light">&#x25B7; Explore Documentation</a>
                     </div>
                     <div class="cta-foot">

@@ -160,6 +160,26 @@
             color: var(--muted);
         }
 
+        .logout-button {
+            width: 100%;
+            border: 1px solid var(--line);
+            background: #fff;
+            color: #627087;
+            font: inherit;
+            font-size: 12px;
+            font-weight: 600;
+            padding: 9px 12px;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: all .18s ease;
+        }
+
+        .logout-button:hover {
+            border-color: #cdd6e6;
+            color: #c03246;
+            background: #fdf0f2;
+        }
+
         /* ── Main layout ─────────────────────────────────────── */
         .main {
             margin-left: 246px;
@@ -669,12 +689,21 @@
 
             {{-- Profile --}}
             <div class="profile">
-                <div class="avatar">IM</div>
+                <div class="avatar">
+                    {{ strtoupper(substr(Auth::user()->name ?? 'IM', 0, 2)) }}
+                </div>
                 <div>
-                    <b>Pengguna</b>
-                    <small>Ruang pribadi</small>
+                    <b>{{ Auth::user()->name ?? 'Pengguna' }}</b>
+                    <small>{{ (Auth::user()->isAdmin() ?? false) ? 'Administrator' : 'Ruang pribadi' }}</small>
                 </div>
             </div>
+
+            <form method="POST" action="{{ route('logout') }}" style="margin-top:14px">
+                @csrf
+                <button type="submit" class="logout-button">
+                    &#x2190; Keluar
+                </button>
+            </form>
 
         </aside>
 
