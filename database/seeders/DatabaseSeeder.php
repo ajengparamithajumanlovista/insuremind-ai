@@ -53,4 +53,3 @@ class DatabaseSeeder extends Seeder
         $this->call(InsuranceProductSeeder::class);
     }
 }
-
