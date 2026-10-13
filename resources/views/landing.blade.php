@@ -1391,7 +1391,6 @@
 
                         <nav class="nav" aria-label="Navigasi utama"
                  data-id-aria="Navigasi utama" data-en-aria="Main navigation">
-                                <a href="{{ route('landing') }}" data-id="Beranda" data-en="Landing Page">Landing Page</a>
                 <a href="{{ route('dashboard') }}" data-id="Portal Pengguna" data-en="User Portal">User Portal</a>
                 <a href="#reviewer" data-id="Pusat Reviewer" data-en="Reviewer Center">Reviewer Center</a>
                 <a href="#admin" data-id="Konsol Admin" data-en="Admin Console">Admin Console</a>
