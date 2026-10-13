@@ -35,4 +35,22 @@ return [
         ],
     ],
 
+    /*
+    |--------------------------------------------------------------------------
+    | AI Chat Assistant (OpenAI)
+    |--------------------------------------------------------------------------
+    |
+    | Bila API key tidak diisi, ChatAssistantService otomatis memakai
+    | mesin jawaban berbasis aturan (rule-based) sehingga fitur chatbot
+    | tetap berfungsi penuh tanpa koneksi ke layanan eksternal.
+    |
+    */
+
+    'openai' => [
+        'key' => env('OPENAI_API_KEY'),
+        'model' => env('OPENAI_MODEL', 'gpt-4o-mini'),
+        'base_url' => env('OPENAI_BASE_URL', 'https://api.openai.com/v1'),
+        'timeout' => (int) env('OPENAI_TIMEOUT', 20),
+    ],
+
 ];

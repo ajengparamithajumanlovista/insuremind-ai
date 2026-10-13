@@ -1,0 +1,200 @@
+﻿14: <style>
+17: --ink: #17243b;
+18: --muted: #77839a;
+19: --soft: #8a95a8;
+20: --line: #e7ebf2;
+21: --blue: #3b5fe3;
+22: --blue-dark: #2949bd;
+23: --pale: #f7f8fc;
+24: --navy: #172e53;
+25: --green: #159b75;
+26: --green-dark: #087b5b;
+27: --green-bg: #e5f7ef;
+28: --orange: #e99a28;
+29: --orange-dark: #bd7110;
+30: --orange-bg: #fff3df;
+31: --purple: #8b63d9;
+32: --purple-dark: #6944b5;
+33: --purple-bg: #f0eaff;
+34: --teal: #149ca5;
+35: --teal-dark: #087b82;
+36: --teal-bg: #e2f7f6;
+37: --pink: #df6688;
+38: --pink-dark: #b84468;
+39: --pink-bg: #ffedf2;
+65: @keyframes fadeInUp {
+69: @keyframes fadeIn {
+73: @keyframes fadeInScale {
+77: @keyframes float {
+81: @keyframes floatSlow {
+85: @keyframes pulseSoft {
+89: @keyframes gradientShift {
+94: @keyframes glowPulse {
+98: @keyframes spin {
+102: @keyframes drawLine {
+106: @keyframes shim {
+110: @keyframes drift {
+116: .animate-fade-up { animation: fadeInUp .7s ease-out both; }
+117: .animate-fade { animation: fadeIn .6s ease-out both; }
+118: .animate-fade-scale { animation: fadeInScale .6s cubic-bezier(.25,.4,.25,1) both; }
+119: .animate-float { animation: float 4s ease-in-out infinite; }
+120: .animate-float-slow { animation: floatSlow 6s ease-in-out infinite; }
+121: .animate-pulse-soft { animation: pulseSoft 2s ease-in-out infinite; }
+122: .animate-gradient { background-size: 200% 200%; animation: gradientShift 8s ease infinite; }
+123: .animate-glow { animation: glowPulse 2.5s ease-in-out infinite; }
+124: .animate-spin-slow { animation: spin 12s linear infinite; }
+125: .animate-stagger-1 { animation-delay: 0.1s; }
+126: .animate-stagger-2 { animation-delay: 0.2s; }
+127: .animate-stagger-3 { animation-delay: 0.3s; }
+128: .animate-stagger-4 { animation-delay: 0.4s; }
+129: .animate-stagger-5 { animation-delay: 0.5s; }
+130: .animate-stagger-6 { animation-delay: 0.6s; }
+132: .wrap {
+139: .eyebrow {
+147: .section { padding: 76px 0; }
+149: .section-head {
+155: .section-head h2 {
+162: .section-head p {
+169: .btn {
+182: .btn-primary {
+198: .btn-ghost {
+206: .btn-light { background: #fff; color: var(--ink); }
+208: .btn-outline-light {
+214: .btn-sm { padding: 8px 14px; font-size: 12px; }
+217: .brand { display: flex; align-items: center; gap: 11px; }
+219: .brand-mark {
+230: .brand-name {
+236: .brand-name span { color: var(--blue); }
+239: .header {
+248: .header-inner {
+256: .nav { display: flex; align-items: center; gap: 4px; margin-left: 6px; }
+258: .nav a {
+266: .nav a:hover { background: #eef3ff; color: #2855dd; }
+268: .header-right {
+275: .lang {
+284: .lang button {
+294: .lang button.active { background: #eef3ff; color: #2855dd; }
+296: .hamburger {
+310: .hero { padding: 60px 0 40px; }
+312: .hero-grid {
+319: .pill {
+331: .pill i {
+339: .hero h1 {
+346: .hero h1 em { font-style: normal; color: var(--blue); }
+348: .hero p { margin: 16px 0 0; color: var(--muted); font-size: 15.5px; max-width: 520px; }
+350: .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+352: .hero-stats {
+359: .hero-stat {
+386: .hero-stat .stat-ico {
+397: .hero-stats b {
+404: .hero-stats small { display: block; margin-top: 2px; color: var(--soft); font-size: 10.5px; line-height: 1.35; }
+407: .mock {
+415: .mock-head {
+424: .mock-avatar {
+435: .mock-head b { display: block; font-size: 12.5px; }
+437: .mock-head small { color: var(--soft); font-size: 10.5px; }
+439: .tag {
+450: .mock-body { padding: 17px; }
+452: .mock-label {
+460: .mock-foot {
+474: .svc-viz {
+481: .svc-tile {
+498: .svc-glyph {
+516: .svc-tile b { display: block; font-size: 11.5px; color: #2b3a55; letter-spacing: -.1px; }
+517: .svc-tile small { color: var(--soft); font-size: 9.5px; }
+520: .card {
+526: .grid-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 18px; }
+528: .grid-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; }
+531: .friction {
+537: .fraud-card { padding: 21px; }
+539: .fraud-icon {
+550: .fraud-card h3 { margin: 0; font-size: 15px; letter-spacing: -.2px; }
+552: .fraud-card p { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); }
+554: .fraud-foot {
+564: .journey-head {
+572: .journey-head h2 { margin: 10px 0 0; font-size: 30px; letter-spacing: -.9px; line-height: 1.2; }
+574: .journey-head p { margin: 0; color: var(--muted); font-size: 13px; max-width: 320px; }
+576: .step-card { padding: 22px; }
+578: .step-num {
+591: .step-card h3 { margin: 0; font-size: 16px; letter-spacing: -.2px; }
+593: .step-card p { margin: 8px 0 0; font-size: 12.5px; color: var(--muted); }
+595: .check-list { margin: 15px 0 0; padding: 0; list-style: none; display: grid; gap: 8px; }
+597: .check-list li {
+605: .check-list li::before {
+614: .score-panel {
+627: .svc-panel {
+648: .svc-head {
+656: .svc-live {
+670: .svc-live i {
+678: .svc-steps {
+695: .svc-step {
+714: .svc-icon {
+733: .svc-copy { min-width: 0; }
+735: .svc-copy b {
+742: .svc-copy small {
+750: .svc-state {
+763: .svc-foot {
+775: .svc-foot b { color: #2d55c8; }
+777: .score-copy h2 { margin: 10px 0 0; font-size: 30px; letter-spacing: -.9px; line-height: 1.2; }
+779: .score-copy > p { margin: 12px 0 0; color: var(--muted); font-size: 13.5px; }
+782: .citation-card {
+792: .citation-head { display: flex; align-items: center; gap: 11px; flex-wrap: wrap; }
+794: .citation-head .card-icon {
+805: .citation-head b { font-size: 13px; }
+807: .conf { font-size: 10px; font-weight: 700; background: #e7f7ee; color: #1f8a55; border-radius: 20px; padding: 3px 10px; }
+809: .citation-head .model { margin-left: auto; font-size: 10.5px; color: var(--soft); }
+811: .factors { margin: 18px 0 0; }
+813: .factor-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 10px; }
+815: .factor {
+828: .quote {
+837: .quote .mock-label { color: #4a68c9; letter-spacing: .6px; }
+839: .quote p { margin: 8px 0 0; font-size: 13px; font-style: italic; color: #344159; line-height: 1.6; }
+841: .quote-foot {
+854: .quote-foot a { color: #2d55c8; font-weight: 650; }
+857: .loop { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
+859: .loop-step { padding: 18px 14px; text-align: center; }
+861: .loop-icon {
+872: .loop-step b { font-size: 11.5px; display: block; }
+874: .loop-step small { color: var(--soft); font-size: 10px; display: block; margin-top: 4px; line-height: 1.4; }
+882: .notice {
+895: .notice span:first-child {
+907: .process-card { padding: 20px; }
+909: .process-num { font-size: 11px; font-weight: 800; color: #315ee8; letter-spacing: 1px; }
+911: .process-icon {
+922: .process-card h3 { margin: 0; font-size: 15px; }
+924: .process-card p { margin: 7px 0 0; font-size: 12px; color: var(--muted); }
+926: .process-tag {
+939: .compliance-card { padding: 22px; }
+941: .compliance-icon {
+952: .compliance-card h3 { margin: 0; font-size: 15.5px; }
+954: .compliance-card p { margin: 9px 0 0; font-size: 12.5px; color: var(--muted); }
+956: .compliance-foot {
+967: .cta {
+987: .cta-tag {
+999: .cta h2 {
+1009: .cta p { position: relative; z-index: 1; margin: 14px 0 0; color: #d0dcf2; font-size: 14px; max-width: 520px; }
+1011: .cta-actions { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+1013: .cta-foot {
+1024: .cta-foot span { display: inline-flex; align-items: center; gap: 7px; }
+1027: .footer {
+1033: .footer-inner {
+1043: .footer-badges { display: flex; gap: 20px; flex-wrap: wrap; }
+1045: .footer-badges span { display: inline-flex; align-items: center; gap: 7px; color: #6d7a91; }
+1048: .hero {
+1065: .hero .wrap { position: relative; }
+1067: .hero h1 em {
+1074: .hero .pill {
+1079: .hero .pill i {
+1091: .brand-mark {
+1096: .section-head .eyebrow,
+1097: .journey-head .eyebrow,
+1098: .score-copy .eyebrow {
+1102: .friction {
+1109: .card,
+1110: .citation-card,
+1111: .score-panel,
+1112: .hero-stat,
+1113: .mock {
+1156: .fraud-card,
+1157: .step-card,
+1158: .process-card,

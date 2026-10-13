@@ -35,6 +35,9 @@ class DatabaseSeeder extends Seeder
                 'role' => 'user',
             ]
         );
+
+        // Sample insurance products (clearly labelled as demo data).
+        $this->call(InsuranceProductSeeder::class);
     }
 }
 
