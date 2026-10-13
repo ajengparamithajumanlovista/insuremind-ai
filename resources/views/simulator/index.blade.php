@@ -161,7 +161,7 @@
                     </div>
                 </div>
             </div>
-        @if ($result)
+
             {{-- ── Ringkasan selisih ─────────────────────────── --}}
             <div class="grid grid-4 reveal reveal-3" style="margin-top:16px">
                 <div class="stat">

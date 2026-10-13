@@ -20,7 +20,7 @@
         $highlightByIndex = [];
         foreach ($highlights as $key => $index) {
             if ($index !== null) {
-                $highlightByIndex[$index] = $highlightLabels[$key] ?? ['id' => $key, 'en' => $key];
+                $highlightByIndex[$index][] = $highlightLabels[$key] ?? ['id' => $key, 'en' => $key];
             }
         }
     @endphp
