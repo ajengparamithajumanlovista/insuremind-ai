@@ -30,6 +30,8 @@ class UserFactory extends Factory
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
             'remember_token' => Str::random(10),
+            'role' => 'user',
+            'status' => 'active',
         ];
     }
 
@@ -41,5 +43,40 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    /**
+     * Akun dengan peran dan status tertentu.
+     */
+    public function role(string $role, string $status = 'active'): static
+    {
+        return $this->state(fn (array $attributes) => [
+            'role' => $role,
+            'status' => $status,
+        ]);
+    }
+
+    /**
+     * Akun administrator.
+     */
+    public function admin(): static
+    {
+        return $this->role('admin');
+    }
+
+    /**
+     * Akun reviewer AI Quality Review.
+     */
+    public function reviewer(): static
+    {
+        return $this->role('reviewer');
+    }
+
+    /**
+     * Akun yang dinonaktifkan tetapi riwayatnya tetap tersimpan.
+     */
+    public function inactive(): static
+    {
+        return $this->role('user', 'inactive');
     }
 }

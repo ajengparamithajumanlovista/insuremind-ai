@@ -23,6 +23,18 @@ class DatabaseSeeder extends Seeder
                 'name' => 'Admin InsureMind',
                 'password' => Hash::make('password'),
                 'role' => 'admin',
+                'status' => 'active',
+            ]
+        );
+
+        // Default reviewer for the AI Quality Review queue.
+        User::updateOrCreate(
+            ['email' => 'reviewer@insuremind.ai'],
+            [
+                'name' => 'Reviewer InsureMind',
+                'password' => Hash::make('password'),
+                'role' => 'reviewer',
+                'status' => 'active',
             ]
         );
 
@@ -33,6 +45,7 @@ class DatabaseSeeder extends Seeder
                 'name' => 'User InsureMind',
                 'password' => Hash::make('password'),
                 'role' => 'user',
+                'status' => 'active',
             ]
         );
 

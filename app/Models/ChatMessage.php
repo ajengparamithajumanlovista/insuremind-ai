@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class ChatMessage extends Model
 {
@@ -28,6 +29,39 @@ class ChatMessage extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /**
+     * Umpan balik pengguna atas pesan asisten ini.
+     */
+    public function feedback(): HasMany
+    {
+        return $this->hasMany(ChatFeedback::class);
+    }
+
+    /**
+     * Kasus review yang dipicu oleh pesan ini.
+     */
+    public function reviewCases(): HasMany
+    {
+        return $this->hasMany(AiReviewCase::class);
+    }
+
+    /**
+     * Apakah mesin jawaban benar-benar menyertakan referensi yang dapat
+     * diverifikasi. Dipakai untuk mendeteksi kasus "tanpa referensi pasal".
+     */
+    public function hasVerifiableReference(): bool
+    {
+        $meta = $this->meta ?? [];
+
+        if (is_array($meta) && ! empty($meta['references'])) {
+            return true;
+        }
+
+        return $this->role === 'assistant'
+            && is_string($this->body_id)
+            && str_contains($this->body_id, 'Sumber:');
     }
 
     /**
