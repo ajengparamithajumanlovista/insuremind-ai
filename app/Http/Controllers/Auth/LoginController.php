@@ -24,7 +24,7 @@ class LoginController extends Controller
     public function showLoginForm(): View|RedirectResponse
     {
         if (Auth::check()) {
-            return redirect($this->redirectTo);
+            return redirect($this->homeFor(Auth::user()));
         }
 
         return view('auth.login');
@@ -51,7 +51,22 @@ class LoginController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended($this->redirectTo);
+        return redirect()->intended($this->homeFor($request->user()));
+    }
+
+    /**
+     * Tentukan halaman tujuan setelah masuk sesuai peran akun.
+     *
+     * Admin dan reviewer diarahkan ke area admin, sedangkan pengguna biasa
+     * tetap ke dashboard pribadinya.
+     */
+    private function homeFor(?User $user): string
+    {
+        return match ($user?->role) {
+            'admin' => '/admin',
+            'reviewer' => '/admin/tinjauan',
+            default => $this->redirectTo,
+        };
     }
 
     /**

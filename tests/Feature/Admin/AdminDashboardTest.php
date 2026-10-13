@@ -1,0 +1,264 @@
+<?php
+
+namespace Tests\Feature\Admin;
+
+use App\Models\AiReviewCase;
+use App\Models\AuditLog;
+use App\Models\InsuranceProduct;
+use App\Models\PolicyDocument;
+use App\Models\User;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
+
+/**
+ * Memverifikasi alur Admin Dashboard: hak akses per peran, pengelolaan
+ * pengguna/produk, tinjauan kasus AI, dan keterbacaan Audit Log.
+ */
+class AdminDashboardTest extends TestCase
+{
+    use RefreshDatabase;
+
+    private function admin(): User
+    {
+        return User::factory()->admin()->create();
+    }
+
+    public function test_guest_is_redirected_to_login(): void
+    {
+        $this->get(route('admin.dashboard'))->assertRedirect(route('login'));
+    }
+
+    public function test_regular_user_cannot_open_admin_area(): void
+    {
+        $user = User::factory()->create();
+
+        // Ringkasan admin mengarahkan pengguna biasa ke antrean review,
+        // sedangkan halaman khusus admin menolak dengan 403.
+        $this->actingAs($user)->get(route('admin.dashboard'))->assertRedirect(route('admin.review.index'));
+        $this->actingAs($user)->get(route('admin.users.index'))->assertForbidden();
+        $this->actingAs($user)->get(route('admin.review.index'))->assertForbidden();
+    }
+
+    public function test_inactive_user_is_signed_out_by_active_middleware(): void
+    {
+        $user = User::factory()->admin()->create(['status' => 'inactive']);
+
+        $this->actingAs($user)
+            ->get(route('admin.dashboard'))
+            ->assertRedirect(route('login'));
+
+        $this->assertGuest();
+    }
+
+    public function test_admin_can_open_every_admin_page(): void
+    {
+        $admin = $this->admin();
+        $product = InsuranceProduct::create([
+            'slug' => 'uji-produk',
+            'provider' => 'Uji',
+            'name' => 'Produk Uji',
+            'category' => 'health',
+            'monthly_premium' => 100_000,
+            'coverage_limit' => 10_000_000,
+            'benefits' => [],
+            'exclusions' => [],
+            'claim_documents' => [],
+            'is_active' => true,
+        ]);
+        $case = AiReviewCase::create([
+            'user_id' => $admin->id,
+            'issue_type' => 'missing_reference',
+            'status' => 'pending',
+        ]);
+
+        $this->actingAs($admin)->get(route('admin.dashboard'))->assertOk();
+        $this->actingAs($admin)->get(route('admin.users.index'))->assertOk();
+        $this->actingAs($admin)->get(route('admin.users.show', $admin))->assertOk();
+        $this->actingAs($admin)->get(route('admin.products.index'))->assertOk();
+        $this->actingAs($admin)->get(route('admin.products.show', $product))->assertOk();
+        $this->actingAs($admin)->get(route('admin.documents.index'))->assertOk();
+        $this->actingAs($admin)->get(route('admin.audit.index'))->assertOk();
+        $this->actingAs($admin)->get(route('admin.review.index'))->assertOk();
+        $this->actingAs($admin)->get(route('admin.review.show', $case))->assertOk();
+    }
+
+    public function test_reviewer_reaches_review_queue_but_not_admin_pages(): void
+    {
+        $reviewer = User::factory()->reviewer()->create();
+
+        $this->actingAs($reviewer)->get(route('admin.review.index'))->assertOk();
+        $this->actingAs($reviewer)->get(route('admin.users.index'))->assertForbidden();
+        $this->actingAs($reviewer)->get(route('admin.products.index'))->assertForbidden();
+        $this->actingAs($reviewer)->get(route('admin.audit.index'))->assertForbidden();
+    }
+
+    public function test_reviewer_dashboard_redirects_to_queue(): void
+    {
+        $reviewer = User::factory()->reviewer()->create();
+
+        $this->actingAs($reviewer)
+            ->get(route('admin.dashboard'))
+            ->assertRedirect(route('admin.review.index'));
+    }
+
+    public function test_admin_can_suspend_and_reactivate_a_user(): void
+    {
+        $admin = $this->admin();
+        $target = User::factory()->create(['status' => 'active']);
+
+        $this->actingAs($admin)
+            ->post(route('admin.users.suspend', $target))
+            ->assertRedirect();
+
+        $this->assertSame('suspended', $target->fresh()->status);
+
+        $this->actingAs($admin)
+            ->post(route('admin.users.activate', $target))
+            ->assertRedirect();
+
+        $this->assertSame('active', $target->fresh()->status);
+        $this->assertDatabaseHas('audit_logs', [
+            'category' => 'user_management',
+            'action' => 'user.suspended',
+            'subject_id' => $target->id,
+        ]);
+    }
+
+    public function test_admin_cannot_suspend_own_account(): void
+    {
+        $admin = $this->admin();
+
+        $this->actingAs($admin)->post(route('admin.users.suspend', $admin))->assertRedirect();
+
+        $this->assertSame('active', $admin->fresh()->status);
+    }
+
+    public function test_role_change_is_recorded_in_audit_log(): void
+    {
+        $admin = $this->admin();
+        $target = User::factory()->create(['role' => 'user']);
+
+        $this->actingAs($admin)->put(route('admin.users.update', $target), [
+            'name' => $target->name,
+            'role' => 'reviewer',
+            'status' => 'active',
+        ])->assertRedirect();
+
+        $this->assertSame('reviewer', $target->fresh()->role);
+
+        $log = AuditLog::query()->where('action', 'user.updated')->latest('id')->firstOrFail();
+        $this->assertSame('user', $log->before['role']);
+        $this->assertSame('reviewer', $log->after['role']);
+    }
+
+    public function test_product_toggle_hides_from_catalog_and_writes_history(): void
+    {
+        $admin = $this->admin();
+        $product = InsuranceProduct::create([
+            'slug' => 'toggle-produk',
+            'provider' => 'Uji',
+            'name' => 'Produk Toggle',
+            'category' => 'life',
+            'monthly_premium' => 50_000,
+            'coverage_limit' => 5_000_000,
+            'benefits' => [],
+            'exclusions' => [],
+            'claim_documents' => [],
+            'is_active' => true,
+        ]);
+
+        $this->actingAs($admin)->post(route('admin.products.toggle', $product))->assertRedirect();
+
+        $this->assertFalse($product->fresh()->is_active);
+        $this->assertDatabaseHas('product_histories', [
+            'insurance_product_id' => $product->id,
+            'field' => 'is_active',
+            'new_value' => '0',
+        ]);
+        $this->assertDatabaseHas('audit_logs', [
+            'category' => 'insurance_product',
+            'action' => 'product.is_active_changed',
+        ]);
+    }
+
+    public function test_review_workflow_records_actions_and_audit(): void
+    {
+        $admin = $this->admin();
+        $case = AiReviewCase::create([
+            'user_id' => $admin->id,
+            'issue_type' => 'negative_feedback',
+            'status' => 'pending',
+        ]);
+
+        $this->actingAs($admin)->post(route('admin.review.claim', $case))->assertRedirect();
+        $this->assertSame('in_review', $case->fresh()->status);
+
+        $this->actingAs($admin)->post(route('admin.review.decide', $case), [
+            'decision' => 'needs_fix',
+            'note' => 'Referensi pasal tidak sesuai.',
+        ])->assertRedirect();
+
+        $case->refresh();
+        $this->assertSame('needs_fix', $case->status);
+        $this->assertSame($admin->id, $case->reviewed_by);
+        $this->assertNotNull($case->reviewed_at);
+        $this->assertSame('Referensi pasal tidak sesuai.', $case->review_note);
+        $this->assertSame(2, $case->actions()->count());
+        $this->assertDatabaseHas('audit_logs', [
+            'category' => 'ai_quality_review',
+            'action' => 'review.needs_fix',
+        ]);
+    }
+
+    public function test_review_decision_requires_a_note(): void
+    {
+        $admin = $this->admin();
+        $case = AiReviewCase::create([
+            'user_id' => $admin->id,
+            'issue_type' => 'missing_reference',
+            'status' => 'in_review',
+        ]);
+
+        $this->actingAs($admin)
+            ->post(route('admin.review.decide', $case), ['decision' => 'valid'])
+            ->assertSessionHasErrors('note');
+
+        $this->assertSame('in_review', $case->fresh()->status);
+    }
+
+    public function test_audit_log_export_streams_csv_with_filters(): void
+    {
+        $admin = $this->admin();
+
+        AuditLog::create([
+            'category' => 'security',
+            'action' => 'login.failed',
+            'description' => 'Percobaan masuk gagal.',
+            'result' => 'failed',
+        ]);
+
+        $response = $this->actingAs($admin)->get(route('admin.audit.export', ['result' => 'failed']));
+
+        $response->assertOk();
+        $this->assertStringContainsString('text/csv', $response->headers->get('content-type'));
+        $this->assertStringContainsString('login.failed', $response->streamedContent());
+    }
+
+    public function test_document_download_logs_audit_entry(): void
+    {
+        $admin = $this->admin();
+        $document = PolicyDocument::create([
+            'user_id' => $admin->id,
+            'original_name' => 'polisi.pdf',
+            'disk' => 'local',
+            'path' => 'missing/polisi.pdf',
+            'status' => 'uploaded',
+        ]);
+
+        $this->actingAs($admin)
+            ->get(route('admin.documents.download', $document))
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('audit_logs', ['action' => 'document.downloaded']);
+    }
+}
