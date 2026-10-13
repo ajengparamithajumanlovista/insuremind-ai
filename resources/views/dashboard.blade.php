@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" id="htmlRoot">
 
 <head>
     <meta charset="utf-8">
@@ -208,6 +208,30 @@
             align-items: center;
             gap: 12px;
         }
+
+        /* ── Language switcher (shared behaviour with landing page) ─── */
+        .lang {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            border: 1px solid var(--line);
+            border-radius: 9px;
+            padding: 5px;
+            background: #fff;
+        }
+
+        .lang button {
+            border: 0;
+            background: transparent;
+            border-radius: 6px;
+            padding: 4px 9px;
+            font-size: 11px;
+            font-weight: 650;
+            color: #8490a4;
+            cursor: pointer;
+        }
+
+        .lang button.active { background: #eef3ff; color: #2855dd; }
 
         .icon-button,
         .menu-button {
@@ -652,7 +676,8 @@
         <aside class="sidebar" id="sidebar">
 
             {{-- Brand --}}
-            <a href="{{ route('dashboard') }}" class="brand" aria-label="InsureMind AI beranda">
+            <a href="{{ route('dashboard') }}" class="brand" aria-label="InsureMind AI beranda"
+               data-id-aria="InsureMind AI beranda" data-en-aria="InsureMind AI home">
                 <span class="brand-mark">
                     <svg width="21" height="21" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M12 2.8 20 6v5.2c0 5.1-3.4 8.5-8 10-4.6-1.5-8-4.9-8-10V6l8-3.2Z"
@@ -665,26 +690,27 @@
             </a>
 
             {{-- Navigation --}}
-            <div class="nav-label">RUANG KERJA</div>
-            <nav class="nav" aria-label="Navigasi utama">
+            <div class="nav-label" data-id="RUANG KERJA" data-en="WORKSPACE">RUANG KERJA</div>
+            <nav class="nav" aria-label="Navigasi utama"
+                 data-id-aria="Navigasi utama" data-en-aria="Main navigation">
                 <a class="active" href="#dashboard">
-                    <span class="nav-icon">&#x25eb;</span> Dashboard
+                    <span class="nav-icon">&#x25eb;</span> <span data-id="Dashboard" data-en="Dashboard">Dashboard</span>
                 </a>
                 <a href="#dokumen">
-                    <span class="nav-icon">&#x25a4;</span> Dokumen polis
+                    <span class="nav-icon">&#x25a4;</span> <span data-id="Dokumen polis" data-en="Policy documents">Dokumen polis</span>
                 </a>
                 <a href="#ringkasan">
-                    <span class="nav-icon">&#x25f7;</span> Ringkasan AI
+                    <span class="nav-icon">&#x25f7;</span> <span data-id="Ringkasan AI" data-en="AI summary">Ringkasan AI</span>
                 </a>
                 <a href="#chat">
-                    <span class="nav-icon">&#x2733;</span> Chat AI
+                    <span class="nav-icon">&#x2733;</span> <span data-id="Chat AI" data-en="AI chat">Chat AI</span>
                 </a>
             </nav>
 
             {{-- Side note --}}
             <div class="side-note">
-                <strong>Ruang yang aman</strong>
-                Dokumen Anda akan dikelola dengan privasi sebagai prioritas.
+                <strong data-id="Ruang yang aman" data-en="Secure space">Ruang yang aman</strong>
+                <span data-id="Dokumen Anda akan dikelola dengan privasi sebagai prioritas." data-en="Your documents will be managed with privacy as a priority.">Dokumen Anda akan dikelola dengan privasi sebagai prioritas.</span>
             </div>
 
             {{-- Profile --}}
@@ -694,14 +720,15 @@
                 </div>
                 <div>
                     <b>{{ Auth::user()->name ?? 'Pengguna' }}</b>
-                    <small>{{ (Auth::user()->isAdmin() ?? false) ? 'Administrator' : 'Ruang pribadi' }}</small>
+                    <small data-id="{{ (Auth::user()->isAdmin() ?? false) ? 'Administrator' : 'Ruang pribadi' }}"
+                           data-en="{{ (Auth::user()->isAdmin() ?? false) ? 'Administrator' : 'Personal space' }}">{{ (Auth::user()->isAdmin() ?? false) ? 'Administrator' : 'Ruang pribadi' }}</small>
                 </div>
             </div>
 
             <form method="POST" action="{{ route('logout') }}" style="margin-top:14px">
                 @csrf
                 <button type="submit" class="logout-button">
-                    &#x2190; Keluar
+                    &#x2190; <span data-id="Keluar" data-en="Sign out">Keluar</span>
                 </button>
             </form>
 
@@ -717,54 +744,62 @@
             <header class="topbar">
                 <div style="display:flex; align-items:center; gap:12px">
                     <button class="menu-button" id="menuButton"
-                            aria-label="Buka navigasi" aria-expanded="false">
+                            aria-label="Buka navigasi" aria-expanded="false"
+                            data-id-aria="Buka navigasi" data-en-aria="Open navigation">
                         &#x2630;
                     </button>
                     <div class="crumb">
-                        Ruang kerja <span aria-hidden="true">/</span> <b>Dashboard</b>
+                        <span data-id="Ruang kerja" data-en="Workspace">Ruang kerja</span> <span aria-hidden="true">/</span> <b data-id="Dashboard" data-en="Dashboard">Dashboard</b>
                     </div>
                 </div>
                 <div class="top-actions">
                     <span class="subtle-link">AI Finance Insurance</span>
-                    <button class="icon-button" aria-label="Notifikasi" title="Notifikasi">&#x2667;</button>
+                    <div class="lang" role="group" aria-label="Pilih bahasa"
+                         data-id-aria="Pilih bahasa" data-en-aria="Choose language">
+                        <button type="button" id="btnLangID" class="active" onclick="setLang('id')">ID</button>
+                        <button type="button" id="btnLangEN" onclick="setLang('en')">EN</button>
+                    </div>
+                    <button class="icon-button" aria-label="Notifikasi" title="Notifikasi"
+                            data-id-aria="Notifikasi" data-en-aria="Notifications"
+                            data-id-title="Notifikasi" data-en-title="Notifications">&#x2667;</button>
                 </div>
             </header>
 
             {{-- Page heading --}}
-            <h1 class="page-title">Dashboard</h1>
-            <p class="page-subtitle">Kelola dan pahami perlindungan asuransi Anda dalam satu tempat.</p>
+            <h1 class="page-title" data-id="Dashboard" data-en="Dashboard">Dashboard</h1>
+            <p class="page-subtitle" data-id="Kelola dan pahami perlindungan asuransi Anda dalam satu tempat." data-en="Manage and understand your insurance protection in one place.">Kelola dan pahami perlindungan asuransi Anda dalam satu tempat.</p>
 
             {{-- Welcome banner --}}
             <section class="welcome" aria-labelledby="welcome-title">
                 <div class="welcome-content">
-                    <div class="eyebrow">INSUREMIND AI &middot; RUANG KERJA ANDA</div>
-                    <h2 id="welcome-title">Selamat datang di InsureMind AI</h2>
-                    <p>Mulai dengan menambahkan dokumen polis untuk menjelajahi perlindungan Anda.</p>
+                    <div class="eyebrow" data-id="INSUREMIND AI &middot; RUANG KERJA ANDA" data-en="INSUREMIND AI &middot; YOUR WORKSPACE">INSUREMIND AI &middot; RUANG KERJA ANDA</div>
+                    <h2 id="welcome-title" data-id="Selamat datang di InsureMind AI" data-en="Welcome to InsureMind AI">Selamat datang di InsureMind AI</h2>
+                    <p data-id="Mulai dengan menambahkan dokumen polis untuk menjelajahi perlindungan Anda." data-en="Get started by adding a policy document to explore your coverage.">Mulai dengan menambahkan dokumen polis untuk menjelajahi perlindungan Anda.</p>
                 </div>
-                <div class="welcome-badge">&#x2726; &nbsp; Asisten polis Anda</div>
+                <div class="welcome-badge" data-id="&#x2726; &nbsp; Asisten polis Anda" data-en="&#x2726; &nbsp; Your policy assistant">&#x2726; &nbsp; Asisten polis Anda</div>
             </section>
 
             {{-- Upload section --}}
             <section id="unggah" aria-labelledby="upload-title">
                 <div class="section-heading">
                     <div>
-                        <h2 id="upload-title">Tambahkan dokumen polis</h2>
-                        <p>Mulai dari file polis asuransi dalam format PDF.</p>
+                        <h2 id="upload-title" data-id="Tambahkan dokumen polis" data-en="Add a policy document">Tambahkan dokumen polis</h2>
+                        <p data-id="Mulai dari file polis asuransi dalam format PDF." data-en="Start with your insurance policy as a PDF file.">Mulai dari file polis asuransi dalam format PDF.</p>
                     </div>
                 </div>
                 <div class="upload-card">
                     <label class="upload-box" id="dropArea" for="policyFile">
                         <span>
                             <span class="upload-symbol">&#x2191;</span>
-                            <strong>Pilih file PDF atau seret ke sini</strong>
-                            <p>PDF &middot; Maksimum 20 MB</p>
+                            <strong data-id="Pilih file PDF atau seret ke sini" data-en="Choose a PDF file or drag it here">Pilih file PDF atau seret ke sini</strong>
+                            <p data-id="PDF &middot; Maksimum 20 MB" data-en="PDF &middot; Up to 20 MB">PDF &middot; Maksimum 20 MB</p>
                         </span>
                         <input id="policyFile" type="file" accept="application/pdf,.pdf">
                     </label>
                     <div class="picked-file" id="pickedFile" aria-live="polite"></div>
                     <div class="upload-note">
                         <span aria-hidden="true">&#x24d8;</span>
-                        Area unggah ini merupakan pratinjau. Pengiriman dan penyimpanan dokumen belum tersedia.
+                        <span data-id="Area unggah ini merupakan pratinjau. Pengiriman dan penyimpanan dokumen belum tersedia." data-en="This upload area is a preview. Document submission and storage are not available yet.">Area unggah ini merupakan pratinjau. Pengiriman dan penyimpanan dokumen belum tersedia.</span>
                     </div>
                 </div>
             </section>
@@ -773,10 +808,10 @@
             <section id="dokumen" aria-labelledby="documents-title">
                 <div class="section-heading">
                     <div>
-                        <h2 id="documents-title">Dokumen polis</h2>
-                        <p>Daftar dokumen yang Anda tambahkan.</p>
+                        <h2 id="documents-title" data-id="Dokumen polis" data-en="Policy documents">Dokumen polis</h2>
+                        <p data-id="Daftar dokumen yang Anda tambahkan." data-en="The list of documents you have added.">Daftar dokumen yang Anda tambahkan.</p>
                     </div>
-                    <span class="subtle-link">0 dokumen</span>
+                    <span class="subtle-link" data-id="0 dokumen" data-en="0 documents">0 dokumen</span>
                 </div>
                 <div class="documents-card">
                     <div class="empty-state">
@@ -788,8 +823,8 @@
                                       stroke-linecap="round"/>
                             </svg>
                         </div>
-                        <h3>Belum ada dokumen</h3>
-                        <p>Dokumen polis yang ditambahkan akan tampil di sini. Unggah dan pemrosesan belum diaktifkan.</p>
+                        <h3 data-id="Belum ada dokumen" data-en="No documents yet">Belum ada dokumen</h3>
+                        <p data-id="Dokumen polis yang ditambahkan akan tampil di sini. Unggah dan pemrosesan belum diaktifkan." data-en="Policy documents you add will appear here. Upload and processing are not enabled yet.">Dokumen polis yang ditambahkan akan tampil di sini. Unggah dan pemrosesan belum diaktifkan.</p>
                     </div>
                 </div>
             </section>
@@ -801,11 +836,11 @@
                 <section class="preview-card" id="ringkasan" aria-labelledby="summary-title">
                     <div class="card-title">
                         <span class="card-icon">&#x25f7;</span>
-                        <strong id="summary-title">Ringkasan polis</strong>
-                        <span class="status">Belum tersedia</span>
+                        <strong id="summary-title" data-id="Ringkasan polis" data-en="Policy summary">Ringkasan polis</strong>
+                        <span class="status" data-id="Belum tersedia" data-en="Not available yet">Belum tersedia</span>
                     </div>
                     <div class="preview-empty">
-                        Ringkasan akan ditampilkan setelah dokumen tersedia dan pemrosesan polis dikembangkan.
+                        <span data-id="Ringkasan akan ditampilkan setelah dokumen tersedia dan pemrosesan polis dikembangkan." data-en="The summary will appear once documents are available and policy processing is developed.">Ringkasan akan ditampilkan setelah dokumen tersedia dan pemrosesan polis dikembangkan.</span>
                         <div class="placeholder-lines" aria-hidden="true">
                             <i></i>
                             <i></i>
@@ -818,25 +853,26 @@
                 <section class="preview-card" id="chat" aria-labelledby="chat-title">
                     <div class="card-title">
                         <span class="card-icon">&#x2733;</span>
-                        <strong id="chat-title">Chat AI</strong>
-                        <span class="status">Belum aktif</span>
+                        <strong id="chat-title" data-id="Chat AI" data-en="AI chat">Chat AI</strong>
+                        <span class="status" data-id="Belum aktif" data-en="Not active yet">Belum aktif</span>
                     </div>
                     <div class="chat-disabled">
                         <span class="chat-orb">&#x2733;</span>
                         <p>
-                            <strong>Asisten polis belum tersedia</strong>
-                            Chat akan hadir setelah backend AI dan dokumen siap.
+                            <strong data-id="Asisten polis belum tersedia" data-en="Policy assistant is not available yet">Asisten polis belum tersedia</strong>
+                            <span data-id="Chat akan hadir setelah backend AI dan dokumen siap." data-en="Chat will be available once the AI backend and documents are ready.">Chat akan hadir setelah backend AI dan dokumen siap.</span>
                         </p>
                     </div>
                     <div class="chat-input" aria-disabled="true">
-                        <span>Pilih dokumen untuk mulai bertanya...</span>
-                        <button type="button" disabled aria-label="Kirim">&#x2191;</button>
+                        <span data-id="Pilih dokumen untuk mulai bertanya..." data-en="Select a document to start asking...">Pilih dokumen untuk mulai bertanya...</span>
+                        <button type="button" disabled aria-label="Kirim"
+                                data-id-aria="Kirim" data-en-aria="Send">&#x2191;</button>
                     </div>
                 </section>
 
             </div>
 
-            <div class="footer-note">InsureMind AI &middot; Bantu pahami polis Anda dengan lebih mudah.</div>
+            <div class="footer-note" data-id="InsureMind AI &middot; Bantu pahami polis Anda dengan lebih mudah." data-en="InsureMind AI &middot; Understand your policy with greater ease.">InsureMind AI &middot; Bantu pahami polis Anda dengan lebih mudah.</div>
 
         </main>
     </div>
@@ -866,16 +902,18 @@
         });
 
         // ── File upload ───────────────────────────────────────────────────
-        const input      = document.getElementById('policyFile');
-        const dropArea   = document.getElementById('dropArea');
-        const pickedFile = document.getElementById('pickedFile');
+        const input         = document.getElementById('policyFile');
+        const dropArea      = document.getElementById('dropArea');
+        const pickedFile    = document.getElementById('pickedFile');
+        let   lastPickedFile = null;
 
         const showSelection = file => {
             if (!file) return;
+            lastPickedFile = file;
             pickedFile.style.display = 'block';
             pickedFile.textContent = file.name.toLowerCase().endsWith('.pdf')
-                ? 'Dipilih: ' + file.name + ' — belum diunggah.'
-                : 'Pilih file dengan format PDF.';
+                ? t('pickedPdf').replace(':name', file.name)
+                : t('pickedInvalid');
         };
 
         input.addEventListener('change', () => showSelection(input.files[0]));
@@ -897,6 +935,75 @@
         dropArea.addEventListener('drop', event => {
             showSelection(event.dataTransfer.files[0]);
         });
+
+        // ── Language switcher (shared behaviour with landing page) ────────
+        // Dynamic (JS-generated) strings that cannot live in data-attributes.
+        const IM_STRINGS = {
+            id: {
+                pickedPdf: 'Dipilih: :name — belum diunggah.',
+                pickedInvalid: 'Pilih file dengan format PDF.',
+            },
+            en: {
+                pickedPdf: 'Selected: :name — not uploaded yet.',
+                pickedInvalid: 'Please choose a PDF file.',
+            },
+        };
+
+        let currentLang = 'id';
+
+        const t = key => (IM_STRINGS[currentLang] && IM_STRINGS[currentLang][key]) || key;
+
+        function applyLang(lang) {
+            currentLang = lang;
+
+            // Update all elements with data-id / data-en (text content)
+            document.querySelectorAll('[data-id], [data-en]').forEach(el => {
+                const text = lang === 'id' ? el.getAttribute('data-id') : el.getAttribute('data-en');
+                if (text !== null && text !== '') {
+                    el.innerHTML = text;
+                }
+            });
+
+            // Update all elements with data-id-aria / data-en-aria (aria-label)
+            document.querySelectorAll('[data-id-aria], [data-en-aria]').forEach(el => {
+                const label = lang === 'id' ? el.getAttribute('data-id-aria') : el.getAttribute('data-en-aria');
+                if (label !== null) {
+                    el.setAttribute('aria-label', label);
+                }
+            });
+
+            // Update all elements with data-id-title / data-en-title (title tooltip)
+            document.querySelectorAll('[data-id-title], [data-en-title]').forEach(el => {
+                const label = lang === 'id' ? el.getAttribute('data-id-title') : el.getAttribute('data-en-title');
+                if (label !== null) {
+                    el.setAttribute('title', label);
+                }
+            });
+
+            // Update <html lang> attribute
+            document.getElementById('htmlRoot').setAttribute('lang', lang);
+
+            // Update button active states
+            document.getElementById('btnLangID').classList.toggle('active', lang === 'id');
+            document.getElementById('btnLangEN').classList.toggle('active', lang === 'en');
+
+            // Re-render any dynamic text already displayed
+            if (lastPickedFile) {
+                showSelection(lastPickedFile);
+            }
+
+            // Persist choice
+            localStorage.setItem('im_lang', lang);
+        }
+
+        function setLang(lang) {
+            applyLang(lang);
+        }
+
+        // On page load, restore saved language (defaults to Indonesian)
+        (function () {
+            applyLang(localStorage.getItem('im_lang') || 'id');
+        })();
     </script>
 </body>
 
