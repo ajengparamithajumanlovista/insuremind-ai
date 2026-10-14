@@ -35,9 +35,7 @@
             @forelse ($messages->reverse() as $message)
                 <div class="chat-row" style="display:flex;justify-content:{{ $message->role === 'user' ? 'flex-end' : 'flex-start' }}">
                     <div class="chat-bubble {{ $message->role === 'user' ? 'chat-user' : 'chat-assistant' }}"
-                         data-id="{{ nl2br(e($message->body_id)) }}" data-en="{{ nl2br(e($message->body_en)) }}">
-                        {!! nl2br(e($message->body_id)) !!}
-                    </div>
+                         data-id="{{ e($message->body_id) }}" data-en="{{ e($message->body_en) }}">{{ $message->body_id }}</div>
                 </div>
             @empty
                 <div class="empty" id="chatEmpty">
@@ -82,7 +80,16 @@
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const endpoint = @json(route('chat.store'));
 
-            const makeRow = (text, role) => {
+            const csrf = () => {
+                const meta = document.querySelector('meta[name="csrf-token"]');
+                if (meta && meta.getAttribute('content')) {
+                    return meta.getAttribute('content');
+                }
+                const match = document.cookie.match(/(?:^|;\s*)XSRF-TOKEN=([^;]+)/);
+                return match ? decodeURIComponent(match[1]) : '';
+            };
+
+            const makeRow = (text, role, translations = {}) => {
                 const row = document.createElement('div');
                 row.className = 'chat-row';
                 row.style.display = 'flex';
@@ -92,6 +99,9 @@
                 bubble.className = 'chat-bubble ' + (role === 'user' ? 'chat-user' : 'chat-assistant');
                 bubble.textContent = text;
 
+                if (translations.id) bubble.setAttribute('data-id', translations.id);
+                if (translations.en) bubble.setAttribute('data-en', translations.en);
+
                 row.appendChild(bubble);
                 return { row, bubble };
             };
@@ -99,15 +109,17 @@
             const scrollDown = () => { log.scrollTop = log.scrollHeight; };
 
             const send = async (message) => {
-                if (!message.trim()) return;
+                const text = (message || '').trim();
+                if (!text) return;
 
                 document.getElementById('chatEmpty')?.remove();
 
-                const { row } = makeRow(message, 'user');
+                const { row } = makeRow(text, 'user', { id: text, en: text });
                 log.appendChild(row);
                 scrollDown();
 
                 submit.disabled = true;
+                input.disabled = true;
                 submit.textContent = window.imString('sending');
 
                 const { row: typingRow, bubble: typingBubble } = makeRow(
@@ -117,34 +129,61 @@
                 log.appendChild(typingRow);
                 scrollDown();
 
+                const fail = (notice) => {
+                    typingBubble.classList.remove('chat-typing');
+                    typingBubble.textContent = notice;
+                    // Kembalikan pesan ke kotak input agar mudah dikirim ulang.
+                    if (! input.value) input.value = text;
+                };
+
                 try {
                     const response = await fetch(endpoint, {
                         method: 'POST',
                         headers: {
                             'Content-Type': 'application/json',
                             'Accept': 'application/json',
-                            'X-CSRF-TOKEN': token,
+                            'X-CSRF-TOKEN': csrf(),
+                            'X-Requested-With': 'XMLHttpRequest',
                         },
-                        body: JSON.stringify({ message }),
+                        credentials: 'same-origin',
+                        body: JSON.stringify({ message: text }),
                     });
 
-                    if (!response.ok) throw new Error('Request failed');
+                    if (response.status === 419) {
+                        fail(window.imString('sessionExpired'));
+                        return;
+                    }
+
+                    if (response.status === 422) {
+                        const payload = await response.json().catch(() => null);
+                        const first = payload && payload.errors ? Object.values(payload.errors)[0]?.[0] : null;
+                        fail(first || window.imString('error'));
+                        return;
+                    }
+
+                    if (! response.ok) {
+                        fail(window.imString('error'));
+                        return;
+                    }
 
                     const data = await response.json();
                     const lang = window.imLang();
                     typingBubble.classList.remove('chat-typing');
                     typingBubble.textContent = lang === 'en' ? data.assistant.body_en : data.assistant.body_id;
+                    typingBubble.setAttribute('data-id', data.assistant.body_id || '');
+                    typingBubble.setAttribute('data-en', data.assistant.body_en || '');
 
                     if (data.assistant.engine) {
                         document.getElementById('engineLabel').textContent = data.assistant.engine;
                     }
                 } catch (error) {
-                    typingBubble.classList.remove('chat-typing');
-                    typingBubble.textContent = window.imString('error');
+                    fail(window.imString('error'));
                 } finally {
                     submit.disabled = false;
+                    input.disabled = false;
                     submit.textContent = window.imLang() === 'en' ? 'Send' : 'Kirim';
                     scrollDown();
+                    input.focus();
                 }
             };
 
@@ -168,7 +207,7 @@
                 log.querySelectorAll('.chat-bubble').forEach((bubble) => {
                     const text = window.imLang() === 'en' ? bubble.getAttribute('data-en') : bubble.getAttribute('data-id');
                     if (text !== null && text !== '') {
-                        bubble.innerHTML = text;
+                        bubble.textContent = text;
                     }
                 });
             });

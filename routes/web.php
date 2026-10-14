@@ -73,6 +73,7 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
         Route::put('pengguna/{user}', [UserManagementController::class, 'update'])->name('users.update');
         Route::post('pengguna/{user}/aktifkan', [UserManagementController::class, 'activate'])->name('users.activate');
         Route::post('pengguna/{user}/tangguhkan', [UserManagementController::class, 'suspend'])->name('users.suspend');
+        Route::delete('pengguna/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
 
         // Katalog Produk (admin).
         Route::get('produk', [AdminProductController::class, 'index'])->name('products.index');

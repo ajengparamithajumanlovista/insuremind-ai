@@ -135,6 +135,31 @@
                     @endforelse
                 </div>
             </div>
+
+            {{-- ── Zona berbahaya: hapus akun permanen ─────────── --}}
+            @if (! $user->is(auth()->user()))
+                <div class="card" style="border-color:#f3cdd7">
+                    <div class="section-heading">
+                        <div>
+                            <h2 data-id="Hapus Akun" data-en="Delete Account">Hapus Akun</h2>
+                            <p data-id="Tindakan ini permanen dan tidak dapat dibatalkan."
+                               data-en="This action is permanent and cannot be undone.">Tindakan ini permanen dan tidak dapat dibatalkan.</p>
+                        </div>
+                    </div>
+
+                    <p class="hint" style="margin-bottom:12px"
+                       data-id="Menghapus akun akan membuang profil, polis, percakapan, dan data terkait lainnya. Catatan Audit Log tetap tersimpan."
+                       data-en="Deleting the account removes the profile, policies, conversations, and other related data. The Audit Log entries are kept.">Menghapus akun akan membuang profil, polis, percakapan, dan data terkait lainnya. Catatan Audit Log tetap tersimpan.</p>
+
+                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}"
+                          onsubmit="return confirm('{{ $user->email }} akan dihapus permanen beserta seluruh datanya. Lanjutkan?');">
+                        @csrf
+                        @method('DELETE')
+                        <button type="submit" class="btn btn-danger"
+                                data-id="Hapus Akun Ini" data-en="Delete This Account">Hapus Akun Ini</button>
+                    </form>
+                </div>
+            @endif
         </div>
     </div>
 @endsection

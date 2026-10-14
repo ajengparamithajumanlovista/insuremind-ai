@@ -114,6 +114,49 @@ class UserManagementController extends Controller
     }
 
     /**
+     * Hapus akun pengguna secara permanen.
+     *
+     * Berbeda dari menonaktifkan akun (yang hanya mencabut akses masuk),
+     * tindakan ini menghapus baris user beserta seluruh data terkait yang
+     * memakai foreign key `cascadeOnDelete` (profil, polis, percakapan, dsb).
+     * Tabel yang memakai `nullOnDelete` (mis. Audit Log) tetap menyimpan
+     * riwayatnya, sehingga jejak audit tidak hilang.
+     */
+    public function destroy(Request $request, User $user): RedirectResponse
+    {
+        // Administrator tidak boleh menghapus akunnya sendiri agar sesi yang
+        // sedang aktif tidak langsung kehilangan pemiliknya.
+        if ($user->is($request->user())) {
+            return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.|You cannot delete your own account.');
+        }
+
+        // Cegah sistem kehilangan admin terakhirnya.
+        if ($user->isAdmin() && User::query()->where('role', 'admin')->count() <= 1) {
+            return back()->with('error', 'Admin terakhir tidak dapat dihapus.|The last administrator cannot be deleted.');
+        }
+
+        $email = $user->email;
+        $name = $user->name;
+
+        // Catat audit SEBELUM penghapusan agar name/email subjek tetap tersimpan
+        // (kolom user_id pada kolom audit memakai nullOnDelete sehingga baris
+        // log tetap ada walau akunnya sudah dihapus).
+        $this->audit->log([
+            'category' => AuditCategory::USER_MANAGEMENT,
+            'action' => 'user.deleted',
+            'description' => "Menghapus akun {$email}.",
+            'subject' => ['type' => User::class, 'id' => $user->getKey(), 'label' => $name],
+            'before' => ['name' => $name, 'email' => $email, 'role' => $user->role, 'status' => $user->status],
+        ]);
+
+        $user->delete();
+
+        return redirect()
+            ->route('admin.users.index')
+            ->with('status', "Akun {$email} berhasil dihapus.|Account {$email} was deleted.");
+    }
+
+    /**
      * Aktifkan kembali akun yang dinonaktifkan.
      */
     public function activate(Request $request, User $user): RedirectResponse

@@ -398,6 +398,25 @@
             .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0, 1fr); }
         }
 
+        /* ── Badge versi (kanan bawah) ───────────────────────── */
+        .version-badge {
+            position: fixed;
+            right: 14px;
+            bottom: 12px;
+            z-index: 60;
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: .2px;
+            color: #98a3b6;
+            background: #ffffffcc;
+            border: 1px solid var(--line);
+            border-radius: 999px;
+            padding: 3px 10px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+            user-select: none;
+        }
+
         @yield('styles')
     </style>
 </head>
@@ -501,6 +520,8 @@
         @yield('content')
     </main>
 
+    <span class="version-badge" aria-hidden="true">Beta v1.1</span>
+
     <script>
         // ── Sidebar (mobile) ──────────────────────────────────────
         document.getElementById('menuButton')?.addEventListener('click', () => {
@@ -513,12 +534,14 @@
                 thinking: 'Asisten sedang menyusun jawaban…',
                 error: 'Maaf, terjadi kendala teknis. Silakan coba lagi.',
                 sending: 'Mengirim…',
+                sessionExpired: 'Sesi Anda berakhir. Muat ulang halaman lalu masuk kembali.',
                 copied: 'Tersalin',
             },
             en: {
                 thinking: 'The assistant is preparing a reply…',
                 error: 'Sorry, a technical issue occurred. Please try again.',
                 sending: 'Sending…',
+                sessionExpired: 'Your session expired. Reload the page and sign in again.',
                 copied: 'Copied',
             },
         };

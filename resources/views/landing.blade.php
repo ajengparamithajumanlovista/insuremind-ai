@@ -1369,6 +1369,25 @@
             .svc-copy small { display: none; }
             .svc-foot { flex-direction: column; align-items: flex-start; }
         }
+
+        /* ── Badge versi (kanan bawah) ───────────────────────── */
+        .version-badge {
+            position: fixed;
+            right: 14px;
+            bottom: 12px;
+            z-index: 60;
+            font-size: 10.5px;
+            font-weight: 600;
+            letter-spacing: .2px;
+            color: #98a3b6;
+            background: #ffffffcc;
+            border: 1px solid rgba(23, 36, 59, .1);
+            border-radius: 999px;
+            padding: 3px 10px;
+            backdrop-filter: blur(4px);
+            pointer-events: none;
+            user-select: none;
+        }
     </style>
 </head>
 
@@ -2187,6 +2206,8 @@
             applyLang(saved);
         })();
     </script>
+
+    <span class="version-badge" aria-hidden="true">Beta v1.1</span>
 </body>
 
 </html>

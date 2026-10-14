@@ -112,6 +112,14 @@
                                                     data-id="Aktifkan" data-en="Activate">Aktifkan</button>
                                         </form>
                                     @endif
+
+                                    <form method="POST" action="{{ route('admin.users.destroy', $user) }}"
+                                          onsubmit="return confirm('{{ $user->email }} akan dihapus permanen beserta seluruh datanya. Lanjutkan?');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm"
+                                                data-id="Hapus" data-en="Delete">Hapus</button>
+                                    </form>
                                 @endif
                             </div>
                         </td>

@@ -133,6 +133,65 @@ class AdminDashboardTest extends TestCase
         $this->assertSame('active', $admin->fresh()->status);
     }
 
+    public function test_admin_can_delete_a_user_and_audit_is_preserved(): void
+    {
+        $admin = $this->admin();
+        $target = User::factory()->create(['role' => 'reviewer']);
+
+        $this->actingAs($admin)
+            ->delete(route('admin.users.destroy', $target))
+            ->assertRedirect(route('admin.users.index'));
+
+        $this->assertDatabaseMissing('users', ['id' => $target->id]);
+        $this->assertDatabaseHas('audit_logs', [
+            'category' => 'user_management',
+            'action' => 'user.deleted',
+            'subject_id' => $target->id,
+        ]);
+    }
+
+    public function test_admin_cannot_delete_own_account(): void
+    {
+        $admin = $this->admin();
+
+        $this->actingAs($admin)
+            ->delete(route('admin.users.destroy', $admin))
+            ->assertRedirect();
+
+        $this->assertDatabaseHas('users', ['id' => $admin->id]);
+    }
+
+    public function test_last_admin_cannot_be_deleted(): void
+    {
+        $admin = $this->admin();
+        $other = User::factory()->admin()->create();
+
+        // Dua admin: penghapusan masih diizinkan.
+        $this->actingAs($admin)
+            ->delete(route('admin.users.destroy', $other))
+            ->assertRedirect(route('admin.users.index'));
+        $this->assertDatabaseMissing('users', ['id' => $other->id]);
+
+        // Sisanya admin terakhir: tidak boleh dihapus oleh admin lain.
+        $another = User::factory()->create(['role' => 'user']);
+        $this->actingAs($admin)
+            ->delete(route('admin.users.destroy', $another))
+            ->assertRedirect(route('admin.users.index'));
+        $this->assertDatabaseHas('users', ['id' => $admin->id]);
+    }
+
+    public function test_regular_user_cannot_delete_accounts(): void
+    {
+        $user = User::factory()->create();
+        $target = User::factory()->create();
+
+        $this->actingAs($user)
+            ->delete(route('admin.users.destroy', $target))
+            ->assertForbidden();
+
+        $this->assertDatabaseHas('users', ['id' => $target->id]);
+    }
+
     public function test_role_change_is_recorded_in_audit_log(): void
     {
         $admin = $this->admin();
