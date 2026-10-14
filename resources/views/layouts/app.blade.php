@@ -75,9 +75,9 @@
         }
 
         .brand-mark {
-            width: 36px;
-            height: 36px;
-            border-radius: 12px;
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
             background: linear-gradient(145deg, #4778f5, #244bd4);
             display: grid;
             place-items: center;
@@ -418,7 +418,14 @@
 
     <aside class="sidebar" id="sidebar">
         <a href="{{ route('dashboard') }}" class="brand">
-            <span class="brand-mark">◈</span>
+            <span class="brand-mark">
+                <svg width="19" height="19" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M12 2.8 20 6v5.2c0 5.1-3.4 8.5-8 10-4.6-1.5-8-4.9-8-10V6l8-3.2Z"
+                          stroke="currentColor" stroke-width="1.8"/>
+                    <path d="m8.5 12 2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.8"
+                          stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </span>
             <span class="brand-name">Insure<span>Mind</span></span>
         </a>
 

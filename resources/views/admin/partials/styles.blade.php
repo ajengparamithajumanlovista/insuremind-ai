@@ -63,9 +63,9 @@ a { color: inherit; text-decoration: none; }
 }
 
 .brand-mark {
-    width: 36px;
-    height: 36px;
-    border-radius: 12px;
+    width: 34px;
+    height: 34px;
+    border-radius: 11px;
     background: linear-gradient(145deg, #4778f5, #244bd4);
     display: grid;
     place-items: center;
