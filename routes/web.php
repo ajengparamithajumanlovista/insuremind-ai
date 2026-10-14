@@ -76,6 +76,8 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
 
         // Katalog Produk (admin).
         Route::get('produk', [AdminProductController::class, 'index'])->name('products.index');
+        Route::get('produk/tambah', [AdminProductController::class, 'create'])->name('products.create');
+        Route::post('produk', [AdminProductController::class, 'store'])->name('products.store');
         Route::get('produk/{product}', [AdminProductController::class, 'show'])->name('products.show');
         Route::put('produk/{product}', [AdminProductController::class, 'update'])->name('products.update');
         Route::post('produk/{product}/status', [AdminProductController::class, 'toggle'])->name('products.toggle');

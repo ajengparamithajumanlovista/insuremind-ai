@@ -181,6 +181,83 @@ class AdminDashboardTest extends TestCase
         ]);
     }
 
+    public function test_admin_can_create_a_product_with_generated_slug_and_audit(): void
+    {
+        $admin = $this->admin();
+
+        $response = $this->actingAs($admin)->post(route('admin.products.store'), [
+            'provider' => 'Mitra Sehat',
+            'name' => 'Asuransi Jiwa Sejahtera',
+            'category' => 'life',
+            'monthly_premium' => 75_000,
+            'annual_premium' => 800_000,
+            'coverage_limit' => 20_000_000,
+            'description_id' => 'Perlindungan jiwa menyeluruh.',
+            'benefits' => "- Santunan meninggal\n- Nilai tunai",
+            'exclusions' => 'Bunuh diri tahun pertama',
+            'source_url' => 'https://example.com/produk',
+            'is_active' => '1',
+            'reason' => 'Produk baru dari mitra resmi.',
+        ]);
+
+        $product = InsuranceProduct::query()->where('name', 'Asuransi Jiwa Sejahtera')->firstOrFail();
+
+        $response->assertRedirect(route('admin.products.show', $product));
+
+        // Slug dibuat otomatis dari penyedia + nama.
+        $this->assertSame('mitra-sehat-asuransi-jiwa-sejahtera', $product->slug);
+        $this->assertSame('life', $product->category);
+        $this->assertTrue($product->is_active);
+        $this->assertFalse($product->is_sample);
+        $this->assertSame(['Santunan meninggal', 'Nilai tunai'], $product->benefits);
+
+        $this->assertDatabaseHas('product_histories', [
+            'insurance_product_id' => $product->id,
+            'action' => 'created',
+        ]);
+        $this->assertDatabaseHas('audit_logs', [
+            'category' => 'insurance_product',
+            'action' => 'product.created',
+            'subject_id' => $product->id,
+        ]);
+    }
+
+    public function test_product_slug_stays_unique_when_creating_duplicates(): void
+    {
+        $admin = $this->admin();
+
+        $payload = [
+            'provider' => 'Mitra Sama',
+            'name' => 'Produk Sama',
+            'category' => 'health',
+            'monthly_premium' => 10_000,
+            'coverage_limit' => 1_000_000,
+        ];
+
+        $this->actingAs($admin)->post(route('admin.products.store'), $payload)->assertRedirect();
+        $this->actingAs($admin)->post(route('admin.products.store'), $payload)->assertRedirect();
+
+        $this->assertSame(2, InsuranceProduct::query()->count());
+        $this->assertDatabaseHas('insurance_products', ['slug' => 'mitra-sama-produk-sama']);
+        $this->assertDatabaseHas('insurance_products', ['slug' => 'mitra-sama-produk-sama-2']);
+    }
+
+    public function test_reviewer_cannot_create_a_product(): void
+    {
+        $reviewer = User::factory()->reviewer()->create();
+
+        $this->actingAs($reviewer)->get(route('admin.products.create'))->assertForbidden();
+        $this->actingAs($reviewer)->post(route('admin.products.store'), [
+            'provider' => 'Mitra',
+            'name' => 'Terlarang',
+            'category' => 'health',
+            'monthly_premium' => 1_000,
+            'coverage_limit' => 1_000_000,
+        ])->assertForbidden();
+
+        $this->assertDatabaseCount('insurance_products', 0);
+    }
+
     public function test_review_workflow_records_actions_and_audit(): void
     {
         $admin = $this->admin();

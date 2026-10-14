@@ -3,10 +3,16 @@
 @section('title', 'Katalog Produk')
 
 @section('content')
-    <h1 class="page-title reveal" data-id="Katalog Produk" data-en="Product Catalog">Katalog Produk</h1>
-    <p class="page-subtitle reveal reveal-1"
-       data-id="Kelola produk asuransi. Produk nonaktif tetap menyimpan riwayatnya."
-       data-en="Manage insurance products. Inactive products keep their history.">Kelola produk asuransi. Produk nonaktif tetap menyimpan riwayatnya.</p>
+    <div class="section-heading reveal">
+        <div>
+            <h1 class="page-title" style="margin-bottom:5px" data-id="Katalog Produk" data-en="Product Catalog">Katalog Produk</h1>
+            <p class="page-subtitle" style="margin-bottom:0"
+               data-id="Kelola produk asuransi. Produk nonaktif tetap menyimpan riwayatnya."
+               data-en="Manage insurance products. Inactive products keep their history.">Kelola produk asuransi. Produk nonaktif tetap menyimpan riwayatnya.</p>
+        </div>
+        <a href="{{ route('admin.products.create') }}" class="btn btn-primary"
+           data-id="+ Tambah Produk" data-en="+ Add Product">+ Tambah Produk</a>
+    </div>
 
     <div class="grid grid-4 reveal reveal-1" style="margin-bottom:16px">
         <div class="stat">
@@ -115,6 +121,10 @@
                             <div class="empty">
                                 <strong data-id="Tidak ada produk yang cocok" data-en="No matching products">Tidak ada produk yang cocok</strong>
                                 <span data-id="Ubah kata kunci atau filter pencarian." data-en="Adjust your search keyword or filters.">Ubah kata kunci atau filter pencarian.</span>
+                                <div style="margin-top:12px">
+                                    <a href="{{ route('admin.products.create') }}" class="btn btn-primary btn-sm"
+                                       data-id="+ Tambah Produk" data-en="+ Add Product">+ Tambah Produk</a>
+                                </div>
                             </div>
                         </td>
                     </tr>

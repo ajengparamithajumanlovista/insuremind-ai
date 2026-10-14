@@ -290,6 +290,11 @@ a { color: inherit; text-decoration: none; }
 .stat-value { font-size: 21px; font-weight: 750; letter-spacing: -.6px; margin-top: 6px; }
 .stat-note { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
+/* Jarak antar blok ringkasan pada halaman admin. */
+.dash-section { margin-bottom: 16px; }
+.card-accent { border-left: 4px solid var(--blue); }
+.section-note { font-size: 12px; color: #4f5c72; margin: 0; line-height: 1.55; }
+
 .pill {
     display: inline-flex;
     align-items: center;
@@ -476,6 +481,9 @@ table.data .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .kv-row:last-child { border-bottom: 0; padding-bottom: 0; }
 .kv-row dt { color: var(--muted); font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: .4px; margin: 0; }
 .kv-row dd { margin: 0; }
+/* Baris ringkasan dengan label di kiri dan nilai di kanan. */
+.kv-row-split { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
+.kv-strong { font-weight: 750; }
 
 /* ── Responsive ──────────────────────────────────────────── */
 @media (max-width: 1080px) {
@@ -491,5 +499,6 @@ table.data .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
     .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0, 1fr); }
     .diff-row { grid-template-columns: minmax(0, 1fr); }
     .kv-row { grid-template-columns: minmax(0, 1fr); }
+    .kv-row-split { grid-template-columns: minmax(0, 1fr) auto; }
 }
 

@@ -66,6 +66,62 @@ class ProductController extends Controller
     }
 
     /**
+     * Formulir penambahan produk baru.
+     */
+    public function create(): View
+    {
+        return view('admin.products.create', [
+            'categories' => InsuranceProduct::CATEGORIES,
+        ]);
+    }
+
+    /**
+     * Simpan produk baru ke katalog.
+     *
+     * Slug dibuat otomatis dari penyedia + nama produk lalu dijaga tetap unik
+     * (menambahkan akhiran angka bila bentrok). Seluruh kolom katalog ikut
+     * tersimpan, dan penambahan dicatat ke Audit Log dengan riwayat "created".
+     */
+    public function store(Request $request): RedirectResponse
+    {
+        $data = $this->validated($request);
+
+        $product = InsuranceProduct::create([
+            'slug' => $this->uniqueSlug($data['name'], $data['provider']),
+            // Kolom JSON wajib diisi; produk baru dimulai tanpa daftar dokumen.
+            'claim_documents' => [],
+            ...$this->payload($data),
+        ]);
+
+        $this->writeHistory(
+            $product,
+            'created',
+            'name',
+            null,
+            $data['name'],
+            $data['reason'] ?? 'Produk baru ditambahkan ke katalog.',
+            $request
+        );
+
+        $this->audit->log([
+            'category' => AuditCategory::INSURANCE_PRODUCT,
+            'action' => 'product.created',
+            'description' => "Menambahkan produk {$product->name} ke katalog.",
+            'subject' => $product,
+            'before' => null,
+            'after' => $this->flatten($product->only([
+                'provider', 'name', 'category', 'monthly_premium',
+                'annual_premium', 'coverage_limit', 'is_active', 'is_sample',
+            ])),
+            'reason' => $data['reason'] ?? null,
+        ]);
+
+        return redirect()
+            ->route('admin.products.show', $product)
+            ->with('status', 'Produk baru ditambahkan ke katalog.|New product added to catalog.');
+    }
+
+    /**
      * Detail produk beserta riwayat perubahannya.
      */
     public function show(InsuranceProduct $product): View
@@ -119,40 +175,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, InsuranceProduct $product): RedirectResponse
     {
-        $data = $request->validate([
-            'provider' => ['required', 'string', 'max:255'],
-            'name' => ['required', 'string', 'max:255'],
-            'category' => ['required', Rule::in(InsuranceProduct::CATEGORIES)],
-            'monthly_premium' => ['required', 'numeric', 'min:0'],
-            'annual_premium' => ['nullable', 'numeric', 'min:0'],
-            'coverage_limit' => ['required', 'numeric', 'min:0'],
-            'description_id' => ['nullable', 'string', 'max:2000'],
-            'description_en' => ['nullable', 'string', 'max:2000'],
-            'benefits' => ['nullable', 'string', 'max:4000'],
-            'exclusions' => ['nullable', 'string', 'max:4000'],
-            'source_url' => ['nullable', 'url', 'max:500'],
-            'reason' => ['nullable', 'string', 'max:500'],
-            'is_active' => ['nullable', 'boolean'],
-            'is_sample' => ['nullable', 'boolean'],
-        ]);
+        $data = $this->validated($request);
 
-        $payload = [
-            'provider' => $data['provider'],
-            'name' => $data['name'],
-            'category' => $data['category'],
-            'monthly_premium' => (float) $data['monthly_premium'],
-            'annual_premium' => filled($data['annual_premium'] ?? null) ? (float) $data['annual_premium'] : null,
-            'coverage_limit' => (float) $data['coverage_limit'],
-            'description' => array_filter([
-                'id' => $data['description_id'] ?? null,
-                'en' => $data['description_en'] ?? null,
-            ], fn ($value) => filled($value)),
-            'benefits' => $this->lines($data['benefits'] ?? null),
-            'exclusions' => $this->lines($data['exclusions'] ?? null),
-            'source_url' => $data['source_url'] ?? null,
-            'is_active' => (bool) ($data['is_active'] ?? false),
-            'is_sample' => (bool) ($data['is_sample'] ?? false),
-        ];
+        $payload = $this->payload($data);
 
         $before = $this->flatten($product->only(array_keys($payload)));
         $product->update($payload);
@@ -185,6 +210,84 @@ class ProductController extends Controller
         }
 
         return back()->with('status', 'Perubahan produk tersimpan.|Product changes saved.');
+    }
+
+    /**
+     * Aturan validasi bersama untuk pembuatan dan pembaruan produk.
+     *
+     * @return array<string, mixed>
+     */
+    private function validated(Request $request): array
+    {
+        return $request->validate([
+            'provider' => ['required', 'string', 'max:255'],
+            'name' => ['required', 'string', 'max:255'],
+            'category' => ['required', Rule::in(InsuranceProduct::CATEGORIES)],
+            'monthly_premium' => ['required', 'numeric', 'min:0'],
+            'annual_premium' => ['nullable', 'numeric', 'min:0'],
+            'coverage_limit' => ['required', 'numeric', 'min:0'],
+            'description_id' => ['nullable', 'string', 'max:2000'],
+            'description_en' => ['nullable', 'string', 'max:2000'],
+            'benefits' => ['nullable', 'string', 'max:4000'],
+            'exclusions' => ['nullable', 'string', 'max:4000'],
+            'source_url' => ['nullable', 'url', 'max:500'],
+            'reason' => ['nullable', 'string', 'max:500'],
+            'is_active' => ['nullable', 'boolean'],
+            'is_sample' => ['nullable', 'boolean'],
+        ]);
+    }
+
+    /**
+     * Bentuk data siap-simpan dari hasil validasi.
+     *
+     * Dipakai bersama oleh `store()` dan `update()` agar kedua alur selalu
+     * menulis kolom yang sama. Field angka & daftar yang kosong diberi nilai
+     * netral (0 / daftar kosong) karena kolomnya NOT NULL pada skema.
+     *
+     * @param  array<string, mixed>  $data
+     * @return array<string, mixed>
+     */
+    private function payload(array $data): array
+    {
+        return [
+            'provider' => $data['provider'],
+            'name' => $data['name'],
+            'category' => $data['category'],
+            'monthly_premium' => (float) $data['monthly_premium'],
+            'annual_premium' => filled($data['annual_premium'] ?? null) ? (float) $data['annual_premium'] : 0.0,
+            'coverage_limit' => (float) $data['coverage_limit'],
+            'description' => array_filter([
+                'id' => $data['description_id'] ?? null,
+                'en' => $data['description_en'] ?? null,
+            ], fn ($value) => filled($value)),
+            'benefits' => $this->lines($data['benefits'] ?? null) ?? [],
+            'exclusions' => $this->lines($data['exclusions'] ?? null) ?? [],
+            'source_url' => $data['source_url'] ?? null,
+            'is_active' => (bool) ($data['is_active'] ?? false),
+            'is_sample' => (bool) ($data['is_sample'] ?? false),
+        ];
+    }
+
+    /**
+     * Slug unik dari penyedia + nama produk.
+     *
+     * Bila slug sudah dipakai, akhiran angka ditambahkan (`-2`, `-3`, ...)
+     * sampai tersedia sehingga penambahan produk tidak pernah gagal karena
+     * bentrok kolom unik.
+     */
+    private function uniqueSlug(string $name, string $provider): string
+    {
+        $base = Str::slug($provider.' '.$name);
+        $base = $base !== '' ? $base : 'produk';
+        $slug = $base;
+        $suffix = 2;
+
+        while (InsuranceProduct::query()->where('slug', $slug)->exists()) {
+            $slug = $base.'-'.$suffix;
+            $suffix++;
+        }
+
+        return $slug;
     }
 
     /**

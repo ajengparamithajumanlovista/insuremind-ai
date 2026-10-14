@@ -8,15 +8,15 @@
        data-id="Kondisi akun, katalog, dokumen, dan antrean AI Quality Review dalam satu tampilan."
        data-en="Account health, catalog, documents, and the AI Quality Review queue in one view.">Kondisi akun, katalog, dokumen, dan antrean AI Quality Review dalam satu tampilan.</p>
 
-    {{-- ── Stat cards ───────────────────────────────────────── --}}
-    <div class="grid grid-4 reveal reveal-1" style="margin-bottom:16px">
+    {{-- ── Kartu statistik utama ─────────────────────────────── --}}
+    <div class="grid grid-4 dash-section reveal reveal-1">
         <div class="stat">
             <div class="stat-label" data-id="Total Pengguna" data-en="Total Users">Total Pengguna</div>
             <div class="stat-value">{{ number_format($stats['users_total'], 0, ',', '.') }}</div>
-            <div class="stat-note">{{ $stats['users_active'] }}
-                <span data-id="aktif" data-en="active">aktif</span> ·
-                {{ $stats['users_suspended'] }}
-                <span data-id="ditangguhkan" data-en="suspended">ditangguhkan</span>
+            <div class="stat-note">
+                {{ $stats['users_active'] }} <span data-id="aktif" data-en="active">aktif</span>
+                ·
+                {{ $stats['users_suspended'] }} <span data-id="ditangguhkan" data-en="suspended">ditangguhkan</span>
             </div>
         </div>
 
@@ -34,10 +34,8 @@
             <div class="stat-label" data-id="Dokumen Polis" data-en="Policy Documents">Dokumen Polis</div>
             <div class="stat-value">{{ number_format($stats['documents_total'], 0, ',', '.') }}</div>
             <div class="stat-note">
-                <span class="pill pill-rose">{{ $stats['documents_failed'] }}
-                    <span data-id="gagal" data-en="failed">gagal</span></span>
-                <span class="pill pill-amber" style="margin-left:4px">{{ $stats['documents_review'] }}
-                    <span data-id="perlu tinjauan" data-en="needs review">perlu tinjauan</span></span>
+                <span class="pill pill-rose">{{ $stats['documents_failed'] }} <span data-id="gagal" data-en="failed">gagal</span></span>
+                <span class="pill pill-amber">{{ $stats['documents_review'] }} <span data-id="perlu tinjauan" data-en="needs review">perlu tinjauan</span></span>
             </div>
         </div>
 
@@ -48,9 +46,12 @@
                 {{ $stats['review_needs_fix'] }}
                 <span data-id="perlu perbaikan" data-en="need fixing">perlu perbaikan</span>
             </div>
+    </div>
+
+
         </div>
     {{-- ── Ringkasan peran, antrean, dan kepatuhan ──────────── --}}
-    <div class="grid grid-3 reveal reveal-2" style="margin-bottom:16px">
+    <div class="grid grid-3 dash-section reveal reveal-2">
         <div class="card">
             <div class="section-heading">
                 <div>
@@ -69,9 +70,9 @@
 
             <div class="kv">
                 @foreach ($roleLabels as $role => $meta)
-                    <div class="kv-row" style="grid-template-columns:minmax(0,1fr) auto">
+                    <div class="kv-row kv-row-split">
                         <dt><span class="pill pill-{{ $meta['tone'] }}" data-id="{{ $meta['id'] }}" data-en="{{ $meta['en'] }}">{{ $meta['id'] }}</span></dt>
-                        <dd style="font-weight:750">{{ number_format((int) ($roleBreakdown[$role] ?? 0), 0, ',', '.') }}</dd>
+                        <dd class="kv-strong">{{ number_format((int) ($roleBreakdown[$role] ?? 0), 0, ',', '.') }}</dd>
                     </div>
                 @endforeach
             </div>
@@ -87,22 +88,22 @@
             </div>
 
             <div class="kv">
-                <div class="kv-row" style="grid-template-columns:minmax(0,1fr) auto">
+                <div class="kv-row kv-row-split">
                     <dt data-id="Terbuka" data-en="Open">Terbuka</dt>
-                    <dd style="font-weight:750">{{ $stats['review_open'] }}</dd>
+                    <dd class="kv-strong">{{ $stats['review_open'] }}</dd>
                 </div>
-                <div class="kv-row" style="grid-template-columns:minmax(0,1fr) auto">
+                <div class="kv-row kv-row-split">
                     <dt data-id="Perlu perbaikan" data-en="Needs fixing">Perlu perbaikan</dt>
-                    <dd style="font-weight:750">{{ $stats['review_needs_fix'] }}</dd>
+                    <dd class="kv-strong">{{ $stats['review_needs_fix'] }}</dd>
                 </div>
-                <div class="kv-row" style="grid-template-columns:minmax(0,1fr) auto">
+                <div class="kv-row kv-row-split">
                     <dt data-id="Selesai" data-en="Finished">Selesai</dt>
-                    <dd style="font-weight:750">{{ $stats['review_done'] }}</dd>
+                    <dd class="kv-strong">{{ $stats['review_done'] }}</dd>
                 </div>
             </div>
         </div>
 
-        <div class="card" style="border-left:4px solid var(--blue)">
+        <div class="card card-accent">
             <div class="section-heading">
                 <div>
                     <h2 data-id="Kepatuhan & Audit" data-en="Compliance & Audit">Kepatuhan &amp; Audit</h2>
@@ -110,12 +111,13 @@
                 </div>
                 <a href="{{ route('admin.audit.index') }}" class="subtle-link" data-id="Lihat audit" data-en="View audit">Lihat audit</a>
             </div>
-            <p style="font-size:12px;color:#4f5c72;margin:0">
-                <span data-id="Setiap perubahan peran, status akun, katalog, dan keputusan tinjauan ditulis ke Audit Log (append-only) dan tidak dapat diubah dari antarmuka."
-                      data-en="Every role, account status, catalog, and review decision change is written to the append-only Audit Log and cannot be altered from the interface.">Setiap perubahan peran, status akun, katalog, dan keputusan tinjauan ditulis ke Audit Log (append-only) dan tidak dapat diubah dari antarmuka.</span>
-            </p>
+            <p class="section-note"
+               data-id="Setiap perubahan peran, status akun, katalog, dan keputusan tinjauan ditulis ke Audit Log (append-only) dan tidak dapat diubah dari antarmuka."
+               data-en="Every role, account status, catalog, and review decision change is written to the append-only Audit Log and cannot be altered from the interface.">Setiap perubahan peran, status akun, katalog, dan keputusan tinjauan ditulis ke Audit Log (append-only) dan tidak dapat diubah dari antarmuka.</p>
         </div>
-    {{-- ── Aktivitas terbaru ────────────────────────────────── --}}
+    </div>
+
+    {{-- ── Aktivitas terbaru ─────────────────────────────────── --}}
     <div class="grid grid-2 reveal reveal-3">
         <div class="card">
             <div class="section-heading">
