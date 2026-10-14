@@ -49,7 +49,27 @@ class DatabaseSeeder extends Seeder
             ]
         );
 
+        // Akun pengguna tambahan untuk mencoba seluruh peran & status akun.
+        $this->call(DemoUserSeeder::class);
+
         // Sample insurance products (clearly labelled as demo data).
         $this->call(InsuranceProductSeeder::class);
+
+        // Data demo agar setiap fitur aplikasi langsung dapat dicoba:
+        // profil finansial → analisis risiko → simulasi → polis → chat →
+        // dokumen → kasus tinjauan AI → riwayat katalog → audit log.
+        // Urutan penting karena seeder berikutnya bergantung pada pengguna,
+        // produk, dan percakapan yang sudah dibuat di atas.
+        $this->call([
+            UserProfileSeeder::class,
+            PolicySeeder::class,
+            RiskAssessmentSeeder::class,
+            RiskSimulationSeeder::class,
+            ChatSeeder::class,
+            PolicyDocumentSeeder::class,
+            AiReviewCaseSeeder::class,
+            ProductHistorySeeder::class,
+            AuditLogSeeder::class,
+        ]);
     }
 }

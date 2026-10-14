@@ -24,6 +24,16 @@ class ChatFeedback extends Model
     ];
 
     /**
+     * Nama tabel ditulis eksplisit karena "feedback" termasuk kata yang tidak
+     * berubah bentuk jamaknya (uncountable) sehingga penebakan otomatis
+     * Laravel menghasilkan "chat_feedback" — tidak cocok dengan tabel
+     * `chat_feedbacks` yang dibuat migrasi.
+     *
+     * @var string
+     */
+    protected $table = 'chat_feedbacks';
+
+    /**
      * @var list<string>
      */
     protected $fillable = [
