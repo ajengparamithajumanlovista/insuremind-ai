@@ -241,9 +241,9 @@
         .brand { display: flex; align-items: center; gap: 11px; }
 
         .brand-mark {
-            width: 38px;
-            height: 38px;
-            border-radius: 12px;
+            width: 34px;
+            height: 34px;
+            border-radius: 11px;
             background: linear-gradient(145deg, #4778f5, #244bd4);
             display: grid;
             place-items: center;
@@ -258,8 +258,6 @@
         }
 
         .brand-name span { color: var(--blue); }
-
-        .brand-wordmark { flex: none; display: block; }
 
         /* ── Header ──────────────────────────────────────────── */
         .header {
@@ -1284,8 +1282,8 @@
         .hero-stat:nth-child(3n + 3) .stat-ico { color: #fff; background: linear-gradient(145deg, #a98bf6, #7a52e4); box-shadow: 0 5px 12px #7a52e43d; }
 
         .brand-mark {
-            background: linear-gradient(145deg, #4778f5, #244bd4);
-            box-shadow: 0 8px 18px #3b5fe838, inset 0 0 0 1px #ffffff2e;
+            background: linear-gradient(145deg, #4778f5, var(--blue-dark));
+            box-shadow: 0 7px 16px #3b5fe833;
         }
 
         .section-head .eyebrow,
@@ -1585,27 +1583,13 @@
                data-id-aria="InsureMind AI beranda" data-en-aria="InsureMind AI home"
                aria-label="InsureMind AI beranda">
                 <span class="brand-mark">
-                    <svg width="23" height="23" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-                        <g fill="#ffffff" opacity=".7">
-                            <circle cx="5.6" cy="5.6" r="1.5"/>
-                            <circle cx="14" cy="5.6" r="1.5"/>
-                            <circle cx="22.4" cy="5.6" r="1.5"/>
-                            <circle cx="5.6" cy="22.4" r="1.5"/>
-                            <circle cx="14" cy="22.4" r="1.5"/>
-                            <circle cx="22.4" cy="22.4" r="1.5"/>
-                        </g>
-                        <path d="M14 7.2 22 10v4.6c0 4.6-3.1 7.9-8 9.4-4.9-1.5-8-4.8-8-9.4V10l8-2.8Z"
-                              stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/>
-                        <path d="m10.6 15.6 2.5 2.5 5.2-5.7" stroke="#ffffff" stroke-width="1.9"
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 2.8 20 6v5.2c0 5.1-3.4 8.5-8 10-4.6-1.5-8-4.9-8-10V6l8-3.2Z"
+                              stroke="currentColor" stroke-width="1.8"/>
+                        <path d="m8.5 12 2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.8"
                               stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </span>
-                        <svg class="brand-wordmark" width="22" height="22" viewBox="0 0 28 28" fill="none" aria-hidden="true">
-                            <path d="M14 2.8 24 6.6v6.6c0 6.1-4.2 10.4-10 11.9C8.2 23.6 4 19.3 4 13.2V6.6L14 2.8Z"
-                                  fill="#eef3ff" stroke="#2d54d8" stroke-width="1.7" stroke-linejoin="round"/>
-                            <path d="m9.6 13.9 3.1 3.1 6.1-6.6" stroke="#2d54d8" stroke-width="2.3"
-                                  stroke-linecap="round" stroke-linejoin="round"/>
-                        </svg>
                 <span class="brand-name">InsureMind <span>AI</span></span>
             </a>
 
