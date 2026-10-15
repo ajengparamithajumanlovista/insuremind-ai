@@ -165,6 +165,30 @@
             font-size: 15px;
         }
 
+        /* ── Icon consistency ────────────────────────────────── */
+        .btn > svg,
+        .svc-foot a > svg,
+        .quote-foot a > svg,
+        .mock-foot a > svg,
+        .process-tag > svg,
+        .compliance-foot > svg,
+        .cta-foot > span > svg,
+        .footer-badges > span > svg,
+        .notice > span > svg {
+            flex: none;
+        }
+
+        .svc-foot a svg,
+        .quote-foot a svg,
+        .btn svg {
+            transition: transform .32s cubic-bezier(.2,.7,.25,1);
+        }
+
+        .btn:hover > svg,
+        .svc-foot a:hover > svg { transform: translateX(2px); }
+
+        .quote-foot a:hover > svg { transform: translate(2px, -2px); }
+
         /* ── Buttons ─────────────────────────────────────────── */
         .btn {
             display: inline-flex;
@@ -217,9 +241,9 @@
         .brand { display: flex; align-items: center; gap: 11px; }
 
         .brand-mark {
-            width: 34px;
-            height: 34px;
-            border-radius: 11px;
+            width: 38px;
+            height: 38px;
+            border-radius: 12px;
             background: linear-gradient(145deg, #4778f5, #244bd4);
             display: grid;
             place-items: center;
@@ -234,6 +258,8 @@
         }
 
         .brand-name span { color: var(--blue); }
+
+        .brand-wordmark { flex: none; display: block; }
 
         /* ── Header ──────────────────────────────────────────── */
         .header {
@@ -405,34 +431,49 @@
 
         /* ── Mock card ───────────────────────────────────────── */
         .mock {
+            position: relative;
             background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 18px;
-            box-shadow: 0 30px 60px #172e5317;
+            border: 1px solid #e7ecf7;
+            border-radius: 20px;
+            box-shadow:
+                0 2px 4px #172e530a,
+                0 26px 60px #172e531a;
             overflow: hidden;
+        }
+
+        .mock::before {
+            content: "";
+            position: absolute;
+            inset: 0 0 auto 0;
+            height: 3px;
+            background: linear-gradient(90deg, #4f7ef8, #16a29a 45%, #8b5cf6 80%, #e79a1f);
+            opacity: .9;
         }
 
         .mock-head {
             display: flex;
             align-items: center;
             gap: 12px;
-            padding: 15px 17px;
+            padding: 17px 18px;
             border-bottom: 1px solid var(--line);
-            background: #fbfcff;
+            background:
+                radial-gradient(circle at 0% 0%, #eef3ff 0, transparent 12rem),
+                linear-gradient(180deg, #fcfdff, #f7f9ff);
         }
 
         .mock-avatar {
-            width: 34px;
-            height: 34px;
-            border-radius: 10px;
-            background: #eef3ff;
-            color: #4568dc;
+            width: 38px;
+            height: 38px;
+            border-radius: 13px;
+            background: linear-gradient(145deg, #5f8bfb, #2d54d8);
+            color: #fff;
             display: grid;
             place-items: center;
             flex: none;
+            box-shadow: 0 7px 16px #2d54d83d, inset 0 0 0 1px #ffffff33;
         }
 
-        .mock-head b { display: block; font-size: 12.5px; }
+        .mock-head b { display: block; font-size: 12.5px; color: #16233a; letter-spacing: -.1px; }
 
         .mock-head small { color: var(--soft); font-size: 10.5px; }
 
@@ -441,10 +482,23 @@
             font-size: 9.5px;
             font-weight: 700;
             letter-spacing: .4px;
-            border-radius: 7px;
-            padding: 5px 9px;
-            background: #eef3ff;
-            color: #3f5fc4;
+            border-radius: 999px;
+            padding: 5px 11px;
+            background: linear-gradient(145deg, #eef3ff, #e2eaff);
+            color: #3355c9;
+            box-shadow: inset 0 0 0 1px #ffffffb3;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .tag-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex: none;
+            background: linear-gradient(145deg, #5f8bfb, #2d54d8);
+            box-shadow: 0 0 0 2px #ffffffcc, 0 0 0 4px #2d54d81f;
         }
 
         .mock-body { padding: 17px; }
@@ -496,25 +550,110 @@
         }
 
         .svc-glyph {
+            position: relative;
             width: 38px;
             height: 38px;
             flex: none;
-            border-radius: 11px;
+            border-radius: 12px;
             display: grid;
             place-items: center;
-            color: #4568dc;
-            background: linear-gradient(150deg, #eef3ff, #e3ebfd);
+            color: #3d61de;
+            background: linear-gradient(150deg, #eff4ff, #e0e9fd);
+            box-shadow: inset 0 0 0 1px #ffffffcc;
         }
 
-        .svc-glyph.g-ok { color: #1f8a55; background: linear-gradient(150deg, #e9f8f0, #dff3e8); }
-        .svc-glyph.g-warn { color: #b47b1c; background: linear-gradient(150deg, #fdf5e8, #faedd6); }
-        .svc-glyph.g-ink {
-            color: #44506b;
-            background: linear-gradient(150deg, #f1f4fa, #e7ecf6);
+        .svc-glyph::after {
+            content: "";
+            position: absolute;
+            inset: 0;
+            border-radius: inherit;
+            background: linear-gradient(150deg, #ffffffb8, transparent 58%);
+            pointer-events: none;
         }
+
+        .svc-glyph svg { position: relative; z-index: 1; }
+        .svc-glyph svg [stroke] { stroke-width: 1.85; stroke-linecap: round; stroke-linejoin: round; }
+
+        .svc-glyph.g-ok { color: #128a55; background: linear-gradient(150deg, #e6f9ef, #d6f0e3); }
+        .svc-glyph.g-ink { color: #3c4a68; background: linear-gradient(150deg, #f2f5fb, #e3e9f5); }
+        .svc-glyph.g-purple { color: #7a49e0; background: linear-gradient(150deg, #f2ecff, #e6dbff); }
+        .svc-glyph.g-teal { color: #0e8f87; background: linear-gradient(150deg, #e6faf8, #d3f2ef); }
+        .svc-glyph.g-amber { color: #a9700d; background: linear-gradient(150deg, #fdf5e5, #f8ead1); }
+        .svc-glyph.g-purple-soft { color: #6a5acd; background: linear-gradient(150deg, #f1eeff, #e8e2fb); }
+
+        /* Accent gradients reused by the small stat / metric icons and badges */
+        .grad-blue { background: linear-gradient(145deg, #5f8bfb, #2d54d8); box-shadow: 0 5px 12px #2d54d83d; }
+        .grad-teal { background: linear-gradient(145deg, #4fd0c3, #16a29a); box-shadow: 0 5px 12px #16a29a3d; }
+        .grad-purple { background: linear-gradient(145deg, #a98bf6, #7a52e4); box-shadow: 0 5px 12px #7a52e43d; }
 
         .svc-tile b { display: block; font-size: 11.5px; color: #2b3a55; letter-spacing: -.1px; }
         .svc-tile small { color: var(--soft); font-size: 9.5px; }
+
+        /* ── Hero service-suite pipeline illustration ────────── */
+        .suite-viz {
+            display: block;
+            width: 100%;
+            height: auto;
+            margin-top: 12px;
+            border: 1px solid #e8eefa;
+            border-radius: 15px;
+            background:
+                radial-gradient(circle at 12% 8%, #eef3ff 0, transparent 9rem),
+                radial-gradient(circle at 88% 92%, #f1ecff 0, transparent 9rem),
+                linear-gradient(160deg, #fbfdff, #f5f8ff);
+        }
+
+        .suite-viz .sv-g { transform-box: fill-box; transform-origin: center; }
+
+        .suite-viz .sv-g1 { animation: imFloat1 5.4s ease-in-out infinite; }
+        .suite-viz .sv-g2 { animation: imFloat2 5.4s ease-in-out .25s infinite; }
+        .suite-viz .sv-g3 { animation: imFloat3 5.4s ease-in-out .5s infinite; }
+        .suite-viz .sv-g4 { animation: imFloat4 5.4s ease-in-out .75s infinite; }
+        .suite-viz .sv-g5 { animation: imFloat5 5.4s ease-in-out 1s infinite; }
+        .suite-viz .sv-g6 { animation: imFloat3 6.2s ease-in-out 1.2s infinite; }
+
+        @keyframes imFloat1 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+        @keyframes imFloat2 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        @keyframes imFloat3 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3.5px); } }
+        @keyframes imFloat4 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-4px); } }
+        @keyframes imFloat5 { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-3px); } }
+
+        @media (prefers-reduced-motion: reduce) {
+            .suite-viz .sv-g { animation: none; }
+        }
+
+        .mock-metas {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 7px;
+            margin-top: 14px;
+        }
+
+        .meta-chip {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            padding: 6px 11px;
+            border-radius: 999px;
+            border: 1px solid #e9eef8;
+            background: #f8faff;
+            color: #4b5a75;
+            font-size: 9.5px;
+            font-weight: 650;
+            letter-spacing: .2px;
+        }
+
+        .meta-chip i {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex: none;
+            background: linear-gradient(145deg, #5f8bfb, #2d54d8);
+        }
+
+        .meta-chip.teal i { background: linear-gradient(145deg, #4fd0c3, #16a29a); }
+        .meta-chip.purple i { background: linear-gradient(145deg, #a98bf6, #7a52e4); }
+        .meta-chip.amber i { background: linear-gradient(145deg, #ffc46b, #e79a1f); }
 
         /* ── Generic cards ───────────────────────────────────── */
         .card {
@@ -750,15 +889,33 @@
         .svc-state {
             margin-left: auto;
             flex: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
             font-size: 9px;
             font-weight: 700;
-            border-radius: 6px;
-            padding: 4px 8px;
+            letter-spacing: .2px;
+            border-radius: 999px;
+            padding: 4px 10px;
             background: #eef3ff;
             color: #3f5fc4;
+            box-shadow: inset 0 0 0 1px #ffffffb3;
         }
 
         .svc-state.ok { background: #e7f7ee; color: #1f8a55; }
+        .svc-state.key { background: #efeaff; color: #6640ce; }
+
+        .svc-state .svc-dot {
+            width: 6px;
+            height: 6px;
+            border-radius: 50%;
+            flex: none;
+            background: linear-gradient(145deg, #5f8bfb, #2d54d8);
+            box-shadow: 0 0 0 2px #ffffffb3;
+        }
+
+        .svc-state.ok .svc-dot { background: linear-gradient(145deg, #57d69b, #1c9a62); }
+        .svc-state.key .svc-dot { background: linear-gradient(145deg, #a98bf6, #7a52e4); }
 
         .svc-foot {
             display: flex;
@@ -795,18 +952,26 @@
             width: 32px;
             height: 32px;
             border-radius: 9px;
-            background: #eef3ff;
+            background: linear-gradient(145deg, #f0f4ff, #e6ecff);
             color: #4568dc;
             display: grid;
             place-items: center;
             flex: none;
+            box-shadow: inset 0 0 0 1px #ffffffcc;
         }
 
         .citation-head b { font-size: 13px; }
 
         .conf { font-size: 10px; font-weight: 700; background: #e7f7ee; color: #1f8a55; border-radius: 20px; padding: 3px 10px; }
 
-        .citation-head .model { margin-left: auto; font-size: 10.5px; color: var(--soft); }
+        .citation-head .model {
+            margin-left: auto;
+            font-size: 10.5px;
+            color: var(--soft);
+            display: inline-flex;
+            align-items: center;
+            gap: 7px;
+        }
 
         .factors { margin: 18px 0 0; }
 
@@ -851,7 +1016,13 @@
             flex-wrap: wrap;
         }
 
-        .quote-foot a { color: #2d55c8; font-weight: 650; }
+        .quote-foot a {
+            color: #2d55c8;
+            font-weight: 650;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
 
         /* ── Human in the loop ───────────────────────────────── */
         .loop { display: grid; grid-template-columns: repeat(6, 1fr); gap: 14px; }
@@ -862,11 +1033,12 @@
             width: 40px;
             height: 40px;
             border-radius: 12px;
-            background: #eef3ff;
+            background: linear-gradient(145deg, #f0f4ff, #e6ecff);
             color: #4568dc;
             display: grid;
             place-items: center;
             margin: 0 auto 12px;
+            box-shadow: inset 0 0 0 1px #ffffffcc, 0 5px 12px #315ee81a;
         }
 
         .loop-step b { font-size: 11.5px; display: block; }
@@ -1023,6 +1195,29 @@
 
         .cta-foot span { display: inline-flex; align-items: center; gap: 7px; }
 
+        .cta-visual {
+            position: relative;
+            z-index: 1;
+            display: block;
+            width: 100%;
+            max-width: 360px;
+            height: auto;
+            margin-top: 30px;
+            overflow: visible;
+        }
+
+        .cv-node { transform-box: fill-box; transform-origin: center; animation: cvPulse 4.8s ease-in-out infinite; }
+        .cv-n1 { animation-delay: 0s; }
+        .cv-n2 { animation-delay: .35s; }
+        .cv-n3 { animation-delay: .7s; }
+        .cv-n4 { animation-delay: 1.05s; }
+        .cv-n5 { animation-delay: 1.4s; }
+
+        @keyframes cvPulse {
+            0%, 100% { opacity: .82; }
+            42% { opacity: 1; }
+        }
+
         /* ── Footer ──────────────────────────────────────────── */
         .footer {
             border-top: 1px solid var(--line);
@@ -1084,13 +1279,13 @@
         .hero-stat:nth-child(3n + 1)::before { background: linear-gradient(180deg, var(--blue), #8b9cf0); }
         .hero-stat:nth-child(3n + 2)::before { background: linear-gradient(180deg, var(--teal), #75cec6); }
         .hero-stat:nth-child(3n + 3)::before { background: linear-gradient(180deg, var(--purple), #bd9ce9); }
-        .hero-stat:nth-child(3n + 1) .stat-ico { color: var(--blue-dark); background: #e8edff; }
-        .hero-stat:nth-child(3n + 2) .stat-ico { color: var(--teal-dark); background: #e2f7f6; }
-        .hero-stat:nth-child(3n + 3) .stat-ico { color: var(--purple-dark); background: #f0eaff; }
+        .hero-stat:nth-child(3n + 1) .stat-ico { color: #fff; background: linear-gradient(145deg, #5f8bfb, #2d54d8); box-shadow: 0 5px 12px #2d54d83d; }
+        .hero-stat:nth-child(3n + 2) .stat-ico { color: #fff; background: linear-gradient(145deg, #4fd0c3, #16a29a); box-shadow: 0 5px 12px #16a29a3d; }
+        .hero-stat:nth-child(3n + 3) .stat-ico { color: #fff; background: linear-gradient(145deg, #a98bf6, #7a52e4); box-shadow: 0 5px 12px #7a52e43d; }
 
         .brand-mark {
-            background: linear-gradient(145deg, #4778f5, var(--blue-dark));
-            box-shadow: 0 7px 16px #3b5fe833;
+            background: linear-gradient(145deg, #4778f5, #244bd4);
+            box-shadow: 0 8px 18px #3b5fe838, inset 0 0 0 1px #ffffff2e;
         }
 
         .section-head .eyebrow,
@@ -1189,21 +1384,6 @@
                 radial-gradient(circle at 100% 0%, #e9e2ff 0, transparent 15rem),
                 linear-gradient(145deg, #f2f9fb, #f7f6ff 62%, #fff8ef);
             border-color: #e5e8f2;
-        }
-
-        .svc-tile:nth-child(3n + 1) .svc-glyph {
-            color: var(--blue-dark);
-            background: linear-gradient(145deg, #e8edff, #dfe6ff);
-        }
-
-        .svc-tile:nth-child(3n + 2) .svc-glyph {
-            color: var(--teal-dark);
-            background: linear-gradient(145deg, #e2f7f6, #d3f0ee);
-        }
-
-        .svc-tile:nth-child(3n) .svc-glyph {
-            color: var(--purple-dark);
-            background: linear-gradient(145deg, #f0eaff, #e7ddff);
         }
 
         .svc-step:nth-child(3n + 1) .svc-icon {
@@ -1314,6 +1494,13 @@
                 opacity: 1;
                 transform: none;
             }
+
+            .svc-step,
+            .svc-tile,
+            .cv-node {
+                animation: none !important;
+                opacity: 1 !important;
+            }
         }
 
         /* ── Responsive ──────────────────────────────────────── */
@@ -1398,13 +1585,27 @@
                data-id-aria="InsureMind AI beranda" data-en-aria="InsureMind AI home"
                aria-label="InsureMind AI beranda">
                 <span class="brand-mark">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 2.8 20 6v5.2c0 5.1-3.4 8.5-8 10-4.6-1.5-8-4.9-8-10V6l8-3.2Z"
-                              stroke="currentColor" stroke-width="1.8"/>
-                        <path d="m8.5 12 2.2 2.2 4.8-5" stroke="currentColor" stroke-width="1.8"
+                    <svg width="23" height="23" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                        <g fill="#ffffff" opacity=".7">
+                            <circle cx="5.6" cy="5.6" r="1.5"/>
+                            <circle cx="14" cy="5.6" r="1.5"/>
+                            <circle cx="22.4" cy="5.6" r="1.5"/>
+                            <circle cx="5.6" cy="22.4" r="1.5"/>
+                            <circle cx="14" cy="22.4" r="1.5"/>
+                            <circle cx="22.4" cy="22.4" r="1.5"/>
+                        </g>
+                        <path d="M14 7.2 22 10v4.6c0 4.6-3.1 7.9-8 9.4-4.9-1.5-8-4.8-8-9.4V10l8-2.8Z"
+                              stroke="#ffffff" stroke-width="1.6" stroke-linejoin="round"/>
+                        <path d="m10.6 15.6 2.5 2.5 5.2-5.7" stroke="#ffffff" stroke-width="1.9"
                               stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
                 </span>
+                        <svg class="brand-wordmark" width="22" height="22" viewBox="0 0 28 28" fill="none" aria-hidden="true">
+                            <path d="M14 2.8 24 6.6v6.6c0 6.1-4.2 10.4-10 11.9C8.2 23.6 4 19.3 4 13.2V6.6L14 2.8Z"
+                                  fill="#eef3ff" stroke="#2d54d8" stroke-width="1.7" stroke-linejoin="round"/>
+                            <path d="m9.6 13.9 3.1 3.1 6.1-6.6" stroke="#2d54d8" stroke-width="2.3"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
                 <span class="brand-name">InsureMind <span>AI</span></span>
             </a>
 
@@ -1446,11 +1647,16 @@
                     </p>
                     <div class="hero-cta">
                         <a href="{{ route('login') }}" class="btn btn-primary" data-id="Mulai Sekarang" data-en="Get Started">Mulai Sekarang</a>
-                        <a href="#how" class="btn btn-ghost">&#x25B7; <span data-id="Lihat Cara Kerjanya" data-en="See How It Works">Lihat Cara Kerjanya</span></a>
+                        <a href="#how" class="btn btn-ghost">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/>
+                            </svg>
+                            <span data-id="Lihat Cara Kerjanya" data-en="See How It Works">Lihat Cara Kerjanya</span>
+                        </a>
                     </div>
                     <div class="hero-stats">
                         <div class="hero-stat">
-                            <span class="stat-ico">
+                            <span class="stat-ico grad-blue">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                                     <path d="M4 19V9M10 19V5M16 19v-6M22 19H2" stroke="currentColor"
                                           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
@@ -1460,7 +1666,7 @@
                             <small data-id="Rata-rata Kesiapan Klaim" data-en="Avg. Claim Readiness">Rata-rata Kesiapan Klaim</small>
                         </div>
                         <div class="hero-stat">
-                            <span class="stat-ico">
+                            <span class="stat-ico grad-teal">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                                     <circle cx="12" cy="13" r="8" stroke="currentColor" stroke-width="1.9"/>
                                     <path d="M12 9v4.4l2.6 1.6M9 2h6" stroke="currentColor"
@@ -1471,7 +1677,7 @@
                             <small data-id="Ekstraksi Pasal Polis" data-en="Policy Clause Extraction">Ekstraksi Pasal Polis</small>
                         </div>
                         <div class="hero-stat">
-                            <span class="stat-ico">
+                            <span class="stat-ico grad-purple">
                                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none">
                                     <path d="M12 2.8 19.5 6v6c0 5-3.2 8.2-7.5 9.2C7.7 20.2 4.5 17 4.5 12V6L12 2.8Z"
                                           stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
@@ -1488,23 +1694,111 @@
                 <div class="mock" aria-hidden="true">
                     <div class="mock-head">
                         <span class="mock-avatar">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
                                 <path d="M12 2.6 20 6v6.4c0 5.3-3.4 8.5-8 9.6-4.6-1.1-8-4.3-8-9.6V6l8-3.4Z"
                                       stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                                <path d="M9.2 12.2l2.1 2.1 4.4-4.7" stroke="currentColor" stroke-width="1.9"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </span>
                         <div>
                             <b data-id="Suite Layanan InsureMind" data-en="InsureMind Service Suite">InsureMind Service Suite</b>
                             <small data-id="Pipeline klaim end&#8209;to&#8209;end" data-en="End&#8209;to&#8209;end claim pipeline">Pipeline klaim end&#8209;to&#8209;end</small>
                         </div>
-                        <span class="tag">&#x25CF; <span data-id="6 Layanan" data-en="6 Services">6 Layanan</span></span>
+                        <span class="tag"><i class="tag-dot"></i> <span data-id="6 Layanan" data-en="6 Services">6 Layanan</span></span>
                     </div>
 
                     <div class="mock-body">
                         <div class="mock-label" data-id="Layanan Inti InsureMind" data-en="InsureMind Core Services">Layanan Inti InsureMind</div>
+
+                        <svg class="suite-viz" viewBox="0 0 240 104" role="img"
+                             aria-label="Alur pipeline suite layanan InsureMind"
+                             data-id-aria="Alur pipeline suite layanan InsureMind"
+                             data-en-aria="InsureMind service suite pipeline flow">
+                            <defs>
+                                <linearGradient id="imSuiteA" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0" stop-color="#5f8bfb"/>
+                                    <stop offset="1" stop-color="#2d54d8"/>
+                                </linearGradient>
+                                <linearGradient id="imSuiteB" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0" stop-color="#4fd0c3"/>
+                                    <stop offset="1" stop-color="#16a29a"/>
+                                </linearGradient>
+                                <linearGradient id="imSuiteC" x1="0" y1="0" x2="1" y2="1">
+                                    <stop offset="0" stop-color="#a98bf6"/>
+                                    <stop offset="1" stop-color="#7a52e4"/>
+                                </linearGradient>
+                                <linearGradient id="imFlowLine" x1="0" y1="0" x2="1" y2="0">
+                                    <stop offset="0" stop-color="#4f7ef8"/>
+                                    <stop offset=".5" stop-color="#16a29a"/>
+                                    <stop offset="1" stop-color="#7a52e4"/>
+                                </linearGradient>
+                            </defs>
+
+                            <ellipse cx="120" cy="97" rx="104" ry="7" fill="#16233a" opacity=".07"/>
+                            <path d="M34 54h172" stroke="url(#imFlowLine)" stroke-width="2" stroke-dasharray="5 6"
+                                  stroke-linecap="round" opacity=".65"/>
+
+                            <g class="sv-g sv-g1">
+                                <rect x="18" y="35" width="32" height="38" rx="7" fill="url(#imSuiteA)"/>
+                                <path d="M28 45h12M28 52h9M28 59h11" stroke="#fff" stroke-width="1.9"
+                                      stroke-linecap="round" opacity=".92"/>
+                            </g>
+
+                            <g class="sv-g sv-g2">
+                                <circle cx="76" cy="54" r="19" fill="#fff" stroke="#e6ecfa" stroke-width="1.4"/>
+                                <circle cx="76" cy="54" r="13.6" fill="none" stroke="#e4eaf8" stroke-width="4"/>
+                                <circle cx="76" cy="54" r="13.6" fill="none" stroke="url(#imSuiteB)" stroke-width="4"
+                                        stroke-linecap="round" stroke-dasharray="60 86" transform="rotate(-90 76 54)"/>
+                                <text x="76" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="#12405c">82</text>
+                            </g>
+
+                            <g class="sv-g sv-g3">
+                                <circle cx="120" cy="54" r="19" fill="#fff" stroke="#e6ecfa" stroke-width="1.4"/>
+                                <path d="M110 44h13l6 6v14a2 2 0 0 1-2 2h-17a2 2 0 0 1-2-2V46a2 2 0 0 1 2-2Z"
+                                      fill="none" stroke="#5a54cf" stroke-width="1.7" stroke-linejoin="round"/>
+                                <path d="M123 44v6h6" fill="none" stroke="#5a54cf" stroke-width="1.7" stroke-linejoin="round"/>
+                                <path d="m113 56 3 3 5.5-6.5" fill="none" stroke="#16a29a" stroke-width="2.1"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+
+                            <g class="sv-g sv-g4">
+                                <circle cx="164" cy="54" r="19" fill="#fff" stroke="#e6ecfa" stroke-width="1.4"/>
+                                <path d="M157 48.5c2.6-2 6.4-3.1 10.4-3.1s7.8 1.1 10.4 3.1" fill="none"
+                                      stroke="#4f7ef8" stroke-width="1.8" stroke-linecap="round"/>
+                                <path d="M157 48.5v1.6M180.8 48.5v1.6M157 50.1h23.8" fill="none"
+                                      stroke="#4f7ef8" stroke-width="1.8" stroke-linecap="round"/>
+                                <rect x="162" y="53" width="5" height="12" rx="1.6" fill="#4f7ef8"/>
+                                <rect x="170" y="55.5" width="5" height="9.5" rx="1.6" fill="#8aa7fb"/>
+                            </g>
+
+                            <g class="sv-g sv-g5">
+                                <rect x="192" y="37" width="30" height="36" rx="7" fill="url(#imSuiteA)" opacity=".14"/>
+                                <path d="M199 47h16M199 54h11M199 61h13" stroke="#2d54d8" stroke-width="1.9"
+                                      stroke-linecap="round"/>
+                                <path d="M215 65.5V77M215 77l-4-4.2M215 77l4-4.2" stroke="#2d54d8" stroke-width="1.8"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                                <path d="M207 84.5h16" stroke="#2d54d8" stroke-width="1.9" stroke-linecap="round"/>
+                            </g>
+
+                            <g class="sv-g sv-g6">
+                                <circle cx="120" cy="86" r="17" fill="#fff" stroke="#e6ecfa" stroke-width="1.4"/>
+                                <circle cx="120" cy="81.5" r="4.4" fill="url(#imSuiteC)"/>
+                                <path d="M111.5 95c.6-4 4-6.2 8.5-6.2s7.9 2.2 8.5 6.2" fill="url(#imSuiteC)" opacity=".9"/>
+                                <path d="M133 76.5 135.5 74l2.5 2.5M138.5 82l2.5 2.5-2.5 2.5" fill="none"
+                                      stroke="#7a52e4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                            </g>
+                        </svg>
+
+                        <div class="mock-metas">
+                            <span class="meta-chip"><i></i> <span data-id="6 Modul Terhubung" data-en="6 Connected Modules">6 Modul Terhubung</span></span>
+                            <span class="meta-chip teal"><i></i> <span data-id="Tertraceable ke Pasal" data-en="Traceable to Clauses">Tertraceable ke Pasal</span></span>
+                            <span class="meta-chip purple"><i></i> <span data-id="Human&#8209;in&#8209;the&#8209;Loop" data-en="Human&#8209;in&#8209;the&#8209;Loop">Human&#8209;in&#8209;the&#8209;Loop</span></span>
+                        </div>
+
                         <div class="svc-viz">
                             <div class="svc-tile">
-                                <span class="svc-glyph">
+                                <span class="svc-glyph g-teal">
                                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                                         <path d="M4 6h11l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z"
                                               stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
@@ -1514,7 +1808,7 @@
                                 <div><b data-id="Penguraian Polis" data-en="Policy Parsing">Policy Parsing</b><small data-id="Pasal terstruktur" data-en="Structured clauses">Pasal terstruktur</small></div>
                             </div>
                             <div class="svc-tile">
-                                <span class="svc-glyph">
+                                <span class="svc-glyph g-purple-soft">
                                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                                         <path d="M12 3v7l3-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                                         <path d="M12 19a7 7 0 1 0-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -1545,7 +1839,7 @@
                                 <div><b data-id="Kutipan Pasal" data-en="Clause Citation">Clause Citation</b><small data-id="Kutipan pasal" data-en="Clause reference">Kutipan pasal</small></div>
                             </div>
                             <div class="svc-tile">
-                                <span class="svc-glyph g-warn">
+                                <span class="svc-glyph g-purple-soft">
                                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                                         <path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
                                         <path d="M14 3v4h4M9.5 13h5M9.5 16.5h5" stroke="currentColor" stroke-width="1.6"
@@ -1555,7 +1849,7 @@
                                 <div><b data-id="Ekspor Dossier" data-en="Dossier Export">Dossier Export</b><small data-id="Berkas siap kirim" data-en="Submission-ready file">Berkas siap kirim</small></div>
                             </div>
                             <div class="svc-tile">
-                                <span class="svc-glyph">
+                                <span class="svc-glyph g-purple">
                                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                                         <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.7"/>
                                         <path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6" stroke="currentColor" stroke-width="1.7"
@@ -1569,7 +1863,7 @@
                         </div>
 
                         <div class="mock-foot">
-                            <span data-id="&#x2733; Enam layanan, satu pipeline terintegrasi" data-en="&#x2733; Six services, one integrated pipeline">&#x2733; Enam layanan, satu pipeline terintegrasi</span>
+                            <span data-id="Enam layanan, satu pipeline terintegrasi" data-en="Six services, one integrated pipeline"><i class="tag-dot"></i> <span data-id="Enam layanan, satu pipeline terintegrasi" data-en="Six services, one integrated pipeline">Enam layanan, satu pipeline terintegrasi</span></span>
                             <a href="{{ route('login') }}" class="btn btn-primary btn-sm" data-id="Coba Sekarang" data-en="Try Now">Coba Sekarang</a>
                         </div>
                     </div>
@@ -1709,7 +2003,7 @@
                                     <b data-id="Penyerapan Polis &amp; Penguraian Pasal" data-en="Policy Ingestion &amp; Clause Parsing">Policy Ingestion &amp; Clause Parsing</b>
                                     <small data-id="PDF polis dipecah menjadi pasal terstruktur" data-en="Policy PDF split into structured clauses">PDF polis dipecah menjadi pasal terstruktur</small>
                                 </div>
-                                <span class="svc-state ok" data-id="Siap" data-en="Ready">Siap</span>
+                                <span class="svc-state ok"><i class="svc-dot"></i> <span data-id="Siap" data-en="Ready">Siap</span></span>
                             </div>
 
                             <div class="svc-step is-key">
@@ -1724,7 +2018,7 @@
                                     <b data-id="Skor Kesiapan Klaim" data-en="Claim Readiness Score">Claim Readiness Score</b>
                                     <small data-id="Skor 0&ndash;100 atas kelayakan klaim Anda" data-en="Score 0&ndash;100 on your claim eligibility">Skor 0&ndash;100 atas kelayakan klaim Anda</small>
                                 </div>
-                                <span class="svc-state">Engine v2.4</span>
+                                <span class="svc-state key"><i class="svc-dot"></i> Engine v2.4</span>
                             </div>
 
                             <div class="svc-step">
@@ -1739,7 +2033,7 @@
                                     <b data-id="Bukti &amp; Pemeriksaan Dokumen" data-en="Evidence &amp; Document Check">Evidence &amp; Document Check</b>
                                     <small data-id="Verifikasi e-Police, KTP, foto &amp; laporan" data-en="Verify e-Policy, ID, photos &amp; reports">Verifikasi e-Police, KTP, foto &amp; laporan</small>
                                 </div>
-                                <span class="svc-state" data-id="4 Item" data-en="4 Items">4 Items</span>
+                                <span class="svc-state"><i class="svc-dot"></i> <span data-id="4 Item" data-en="4 Items">4 Items</span></span>
                             </div>
 
                             <div class="svc-step">
@@ -1755,7 +2049,7 @@
                                     <b data-id="Kutipan Pasal Tertraceable" data-en="Traceable Clause Citation">Traceable Clause Citation</b>
                                     <small data-id="Setiap penilaian dikutip ke pasal asli" data-en="Every assessment cited to original clause">Setiap penilaian dikutip ke pasal asli</small>
                                 </div>
-                                <span class="svc-state ok" data-id="Terverifikasi" data-en="Grounded">Terverifikasi</span>
+                                <span class="svc-state ok"><i class="svc-dot"></i> <span data-id="Terverifikasi" data-en="Grounded">Terverifikasi</span></span>
                             </div>
 
                             <div class="svc-step">
@@ -1770,7 +2064,7 @@
                                     <b data-id="Pengemasan Dossier" data-en="Dossier Packaging">Dossier Packaging</b>
                                     <small data-id="Berkas siap kirim untuk review adjuster" data-en="Submission-ready file for adjuster review">Berkas siap kirim untuk review adjuster</small>
                                 </div>
-                                <span class="svc-state" data-id="Ekspor" data-en="Export">Ekspor</span>
+                                <span class="svc-state"><i class="svc-dot"></i> <span data-id="Ekspor" data-en="Export">Ekspor</span></span>
                             </div>
 
                             <div class="svc-step">
@@ -1792,9 +2086,13 @@
                         </div>
 
                         <div class="svc-foot">
-                            <span>&#x2733; <span data-id="Semua layanan berjalan dari" data-en="All services run from">Semua layanan berjalan dari</span> <b data-id="satu dashboard" data-en="one dashboard">satu dashboard</b> <span data-id="terintegrasi" data-en="integrated">terintegrasi</span></span>
-                            <a href="{{ route('login') }}" class="btn btn-ghost" style="padding:7px 12px;font-size:11.5px" data-id="Coba Sekarang &#x2192;" data-en="Try Now &#x2192;">
-                                Coba Sekarang &#x2192;
+                            <span><i class="tag-dot"></i> <span data-id="Semua layanan berjalan dari" data-en="All services run from">Semua layanan berjalan dari</span> <b data-id="satu dashboard" data-en="one dashboard">satu dashboard</b> <span data-id="terintegrasi" data-en="integrated">terintegrasi</span></span>
+                            <a href="{{ route('login') }}" class="btn btn-ghost" style="padding:7px 12px;font-size:11.5px">
+                                <span data-id="Coba Sekarang" data-en="Try Now">Coba Sekarang</span>
+                                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M4.5 12h14M13 6.5l5.5 5.5-5.5 5.5" stroke="currentColor" stroke-width="2.1"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
                             </a>
                         </div>
                     </div>
@@ -1808,7 +2106,7 @@
 
                         <div class="svc-viz">
                             <div class="svc-tile">
-                                <span class="svc-glyph">
+                                <span class="svc-glyph g-teal">
                                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                                         <path d="M4 6h11l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z"
                                               stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
@@ -1818,7 +2116,7 @@
                                 <div><b data-id="Penyerapan Polis" data-en="Policy Ingestion">Policy Ingestion</b><small data-id="PDF polis dipecah jadi pasal" data-en="Policy PDF split into clauses">PDF polis dipecah jadi pasal</small></div>
                             </div>
                             <div class="svc-tile">
-                                <span class="svc-glyph">
+                                <span class="svc-glyph g-purple">
                                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                                         <path d="M12 3v7l3-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                                         <path d="M12 19a7 7 0 1 0-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
@@ -1849,7 +2147,7 @@
                                 <div><b data-id="Kutipan Tertraceable" data-en="Traceable Citation">Traceable Citation</b><small data-id="Dikutip ke pasal asli" data-en="Cited to original clause">Dikutip ke pasal asli</small></div>
                             </div>
                             <div class="svc-tile">
-                                <span class="svc-glyph g-warn">
+                                <span class="svc-glyph g-amber">
                                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                                         <path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
                                         <path d="M14 3v4h4M9.5 13h5M9.5 16.5h5" stroke="currentColor" stroke-width="1.6"
@@ -1859,7 +2157,7 @@
                                 <div><b data-id="Pengemasan Dossier" data-en="Dossier Packaging">Dossier Packaging</b><small data-id="Berkas siap kirim" data-en="Submission-ready file">Berkas siap kirim</small></div>
                             </div>
                             <div class="svc-tile">
-                                <span class="svc-glyph">
+                                <span class="svc-glyph g-purple-soft">
                                     <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
                                         <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.7"/>
                                         <path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6" stroke="currentColor" stroke-width="1.7"
@@ -1892,10 +2190,17 @@
 
                 <div class="citation-card">
                     <div class="citation-head">
-                        <span class="card-icon">&#x2713;</span>
+                        <span class="card-icon">
+                            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M12 2.6 19.6 5.9v6.1c0 5-3.3 8.2-7.6 9.2-4.3-1-7.6-4.2-7.6-9.2V5.9L12 2.6Z"
+                                      stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                                <path d="M8.8 12.1l2.2 2.2 4.2-4.6" stroke="currentColor" stroke-width="1.9"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </span>
                         <b data-id="PENENTUAN ALGORITMIK" data-en="ALGORITHMIC DETERMINATION">PENENTUAN ALGORITMIK</b>
                         <span class="conf" data-id="87% Kepercayaan" data-en="87% Confidence">87% Kepercayaan</span>
-                        <span class="model">&#x2733; Model DeepClaim-v4-1D8</span>
+                        <span class="model"><i class="tag-dot"></i> <span data-id="Model DeepClaim-v4-1D8" data-en="Model DeepClaim-v4-1D8">Model DeepClaim-v4-1D8</span></span>
                     </div>
 
                     <div class="factors">
@@ -1908,13 +2213,19 @@
                     </div>
 
                     <div class="quote">
-                        <div class="mock-label" data-id="&#x25A4; Pasal 4.2 Cakupan Bencana Alam" data-en="&#x25A4; Policy Section 4.2 Natural Disaster Coverage">&#x25A4; Pasal 4.2 Cakupan Bencana Alam</div>
+                        <div class="mock-label"><span data-id="Pasal 4.2 Cakupan Bencana Alam" data-en="Policy Section 4.2 Natural Disaster Coverage">Pasal 4.2 Cakupan Bencana Alam</span></div>
                         <p data-id='"Penanggung setuju untuk mengganti kerugian tertanggung atas kerusakan banjir mendadak, genangan air topan, dan kerusakan mesin akibat badai hingga batas agregat yang ditentukan sebesar IDR 350.000.000, tunduk pada deductible standar."' data-en='"The underwriter agrees to indemnify the insured against sudden flood damage, typhoon water inundation, and storm-related mechanical engine stalls up to the specified aggregate limit of IDR 350,000,000, subject to standard deductible."'>
                             "Penanggung setuju untuk mengganti kerugian tertanggung atas kerusakan banjir mendadak, genangan air topan, dan kerusakan mesin akibat badai hingga batas agregat yang ditentukan sebesar IDR 350.000.000, tunduk pada deductible standar."
                         </p>
                         <div class="quote-foot">
                             <span data-id="Kemiripan Dekat: 0,942 terhadap Deskripsi Insiden" data-en="Close Similarity: 0.942 against Incident Description">Kemiripan Dekat: 0,942 terhadap Deskripsi Insiden</span>
-                            <a href="#citations" data-id="Lihat Pasal Polis &#x2197;" data-en="View Policy Clause &#x2197;">Lihat Pasal Polis &#x2197;</a>
+                            <a href="#citations">
+                                <span data-id="Lihat Pasal Polis" data-en="View Policy Clause">Lihat Pasal Polis</span>
+                                <svg width="11" height="11" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M6 18 17.4 6.6M10 6.4h7.6v7.6" stroke="currentColor" stroke-width="2.2"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                            </a>
                         </div>
                     </div>
                 </div>
@@ -1932,39 +2243,88 @@
 
                 <div class="loop">
                     <div class="card loop-step">
-                        <div class="loop-icon">&#x25EB;</div>
+                        <div class="loop-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <circle cx="12" cy="8" r="3.4" stroke="currentColor" stroke-width="1.7"/>
+                                <path d="M5.2 20c0-3.5 3-5.6 6.8-5.6s6.8 2.1 6.8 5.6" stroke="currentColor"
+                                      stroke-width="1.7" stroke-linecap="round"/>
+                            </svg>
+                        </div>
                         <b data-id="Pengguna" data-en="User">Pengguna</b>
                         <small data-id="Pengajuan &amp; Orientasi" data-en="Submission &amp; Onboarding">Pengajuan &amp; Orientasi</small>
                     </div>
                     <div class="card loop-step">
-                        <div class="loop-icon">&#x2733;</div>
+                        <div class="loop-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <rect x="5.5" y="5.5" width="13" height="13" rx="3.4" stroke="currentColor"
+                                      stroke-width="1.7"/>
+                                <path d="M12 2.6v2.6M12 18.8v2.6M2.6 12h2.6M18.8 12h2.6" stroke="currentColor"
+                                      stroke-width="1.7" stroke-linecap="round"/>
+                                <circle cx="12" cy="12" r="2.6" fill="currentColor" opacity=".85"/>
+                            </svg>
+                        </div>
                         <b data-id="Analisis AI" data-en="AI Analysis">Analisis AI</b>
                         <small data-id="Memproses OCR &amp; data idempoten" data-en="Parses OCR &amp; idempotent data">Memproses OCR &amp; data idempoten</small>
                     </div>
                     <div class="card loop-step">
-                        <div class="loop-icon">&#x25A4;</div>
+                        <div class="loop-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M14.5 3H7a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h10a1 1 0 0 0 1-1V6.5L14.5 3Z"
+                                      stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                                <path d="M14.2 3.2V7h3.6M9.2 12.5h5.6M9.2 16h3.8" stroke="currentColor"
+                                      stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                         <b data-id="Bukti" data-en="Evidence">Bukti</b>
                         <small data-id="Indeks pasal yang diverifikasi mesin" data-en="Machine-verified clause index">Indeks pasal yang diverifikasi mesin</small>
                     </div>
                     <div class="card loop-step">
-                        <div class="loop-icon">&#x2713;</div>
+                        <div class="loop-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M4 18V9M9.3 18V5.5M14.7 18v-6.5M20 18V3.5" stroke="currentColor"
+                                      stroke-width="1.9" stroke-linecap="round"/>
+                                <path d="M2.4 21.4h19.2" stroke="currentColor" stroke-width="1.7"
+                                      stroke-linecap="round" opacity=".55"/>
+                            </svg>
+                        </div>
                         <b data-id="Rekomendasi" data-en="Recommendation">Rekomendasi</b>
                         <small data-id="Skor kesiapan &amp; ringkasan" data-en="Readiness score &amp; brief">Skor kesiapan &amp; ringkasan</small>
                     </div>
                     <div class="card loop-step emphasis">
-                        <div class="loop-icon">&#x2699;</div>
+                        <div class="loop-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M12 3.4 19.6 6.6v6c0 5-3.3 8.2-7.6 9.2-4.3-1-7.6-4.2-7.6-9.2v-6L12 3.4Z"
+                                      stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
+                                <path d="M8.9 11.9l2.2 2.2 4.1-4.4" stroke="currentColor" stroke-width="1.8"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                        </div>
                         <b data-id="Tinjauan Manusia" data-en="Human Review">Tinjauan Manusia</b>
                         <small data-id="Pemeriksaan adjudicator berlisensi" data-en="Licensed adjudicator check">Pemeriksaan adjudicator berlisensi</small>
                     </div>
                     <div class="card loop-step">
-                        <div class="loop-icon">&#x25F7;</div>
+                        <div class="loop-icon">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+                                <path d="M3.6 19.4 10.4 4.2l3.4 6.4 3-1.4 3.6 10.2H3.6Z" stroke="currentColor"
+                                      stroke-width="1.7" stroke-linejoin="round"/>
+                                <path d="M3.6 19.4h16.8" stroke="currentColor" stroke-width="1.7"
+                                      stroke-linecap="round"/>
+                            </svg>
+                        </div>
                         <b data-id="Keputusan Akhir" data-en="Final Decision">Keputusan Akhir</b>
                         <small data-id="Persetujuan klaim resmi" data-en="Official claim approval">Persetujuan klaim resmi</small>
                     </div>
                 </div>
 
                 <div class="notice">
-                    <span>&#x2713;</span>
+                    <span>
+                        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 2.6 19.6 5.9v6.1c0 5-3.3 8.2-7.6 9.2-4.3-1-7.6-4.2-7.6-9.2V5.9L12 2.6Z"
+                                  stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+                            <path d="M8.8 12.1l2.2 2.2 4.2-4.6" stroke="currentColor" stroke-width="1.9"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </svg>
+                    </span>
                     <span data-id="InsureMind berperan murni sebagai kopilot pendukung. Sistem secara eksplisit membatasi pemicu pembayaran otomatis. Semua penyelesaian keuangan bergantung pada alur kerja penandatanganan peninjau yang ditetapkan undang-undang." data-en="InsureMind acts purely as an assistive copilot. The system explicitly restricts autonomous payout triggers. All financial resolutions defer to statutory reviewer sign-off workflows.">InsureMind berperan murni sebagai kopilot pendukung. Sistem secara eksplisit membatasi pemicu pembayaran otomatis. Semua penyelesaian keuangan bergantung pada alur kerja penandatanganan peninjau yang ditetapkan undang-undang.</span>
                 </div>
             </div>
@@ -1992,7 +2352,7 @@
                         </div>
                         <h3 data-id="Unggah" data-en="Upload">Unggah</h3>
                         <p data-id="Unggah dokumen asuransi Anda. InsureMind memproses PDF, mengekstrak data penting, dan menyusun semua informasi kritis untuk analisis." data-en="Upload your insurance document. InsureMind parses PDFs, extracts key data, and structures all critical information for analysis.">Unggah dokumen asuransi Anda. InsureMind memproses PDF, mengekstrak data penting, dan menyusun semua informasi kritis untuk analisis.</p>
-                        <span class="process-tag" data-id="&#x25A4; Disanitasi sisi klien" data-en="&#x25A4; Client-side sanitized">&#x25A4; Disanitasi sisi klien</span>
+                        <span class="process-tag" data-id="Disanitasi sisi klien" data-en="Client-side sanitized"><i class="tag-dot"></i> <span data-id="Disanitasi sisi klien" data-en="Client-side sanitized">Disanitasi sisi klien</span></span>
                     </article>
 
                     <article class="card process-card">
@@ -2005,7 +2365,7 @@
                         </div>
                         <h3 data-id="Pahami" data-en="Understand">Pahami</h3>
                         <p data-id="Dapatkan gambaran terstruktur secara instan. Pelajari cakupan, deductible, batas, dan pengecualian eksplisit secara langsung." data-en="Get an instant structured overview. Learn about your coverage, deductibles, limits, and explicit exclusions instantly.">Dapatkan gambaran terstruktur secara instan. Pelajari cakupan, deductible, batas, dan pengecualian eksplisit secara langsung.</p>
-                        <span class="process-tag" data-id="&#x25A4; Indeks pasal dibuat" data-en="&#x25A4; Clause index generated">&#x25A4; Indeks pasal dibuat</span>
+                        <span class="process-tag" data-id="Indeks pasal dibuat" data-en="Clause index generated"><i class="tag-dot"></i> <span data-id="Indeks pasal dibuat" data-en="Clause index generated">Indeks pasal dibuat</span></span>
                     </article>
 
                     <article class="card process-card">
@@ -2018,7 +2378,7 @@
                         </div>
                         <h3 data-id="Periksa" data-en="Check">Periksa</h3>
                         <p data-id="Nilai keabsahan klaim dengan Skor Kesiapan Klaim, kesiapan dokumen, dan indikasi kepercayaan hingga pra-adjudikasi." data-en="Assess claim validity with our Claim Readiness Score, document readiness, and confidence indications up to pre-adjudication.">Nilai keabsahan klaim dengan Skor Kesiapan Klaim, kesiapan dokumen, dan indikasi kepercayaan hingga pra-adjudikasi.</p>
-                        <span class="process-tag" data-id="&#x25CB; Skor 0-100% instan" data-en="&#x25CB; Instant 0-100% score">&#x25CB; Skor 0-100% instan</span>
+                        <span class="process-tag" data-id="Skor 0-100% instan" data-en="Instant 0-100% score"><i class="tag-dot"></i> <span data-id="Skor 0-100% instan" data-en="Instant 0-100% score">Skor 0-100% instan</span></span>
                     </article>
 
                     <article class="card process-card">
@@ -2060,7 +2420,7 @@
                         </div>
                         <h3>UU PDP Data Privacy</h3>
                         <p data-id="Kontrol persetujuan pengguna yang terperinci, penghapusan PII otomatis pada KTP, kartu, dan riwayat login yang diunggah, serta jaminan privasi data zero-trust tingkat platform untuk tindakan pasal sesuai permintaan." data-en="Granular user consent controls, automatic PII scrubbing on uploaded IDs, cards, and login history, plus platform-level zero-trust data privacy assurance on-demand clause actions.">Kontrol persetujuan pengguna yang terperinci, penghapusan PII otomatis pada KTP, kartu, dan riwayat login yang diunggah, serta jaminan privasi data zero-trust tingkat platform untuk tindakan pasal sesuai permintaan.</p>
-                        <span class="compliance-foot" data-id="&#x25CE; Deteksi Yurisdiksi Lokal" data-en="&#x25CE; Local-Jurisdiction Detection">&#x25CE; Deteksi Yurisdiksi Lokal</span>
+                        <span class="compliance-foot" data-id="Deteksi Yurisdiksi Lokal" data-en="Local-Jurisdiction Detection"><i class="tag-dot"></i> <span data-id="Deteksi Yurisdiksi Lokal" data-en="Local-Jurisdiction Detection">Deteksi Yurisdiksi Lokal</span></span>
                     </article>
 
                     <article class="card compliance-card">
@@ -2073,7 +2433,7 @@
                         </div>
                         <h3 data-id="Keamanan Enterprise" data-en="Enterprise Security">Keamanan Enterprise</h3>
                         <p data-id="Enkripsi AES 256-bit saat istirahat, enkripsi transit TLS 1.3, dan jejak audit terautentikasi berkelanjutan dengan tinjauan kerentanan otomatis." data-en="256-bit AES encryption at rest, TLS 1.3 transit encryption, and continuous authenticated audit trails with automatic vulnerability reviews.">Enkripsi AES 256-bit saat istirahat, enkripsi transit TLS 1.3, dan jejak audit terautentikasi berkelanjutan dengan tinjauan kerentanan otomatis.</p>
-                        <span class="compliance-foot" data-id="&#x25CE; Kontrol Selaras ISO 27001" data-en="&#x25CE; ISO 27001 Aligned Controls">&#x25CE; Kontrol Selaras ISO 27001</span>
+                        <span class="compliance-foot" data-id="Kontrol Selaras ISO 27001" data-en="ISO 27001 Aligned Controls"><i class="tag-dot"></i> <span data-id="Kontrol Selaras ISO 27001" data-en="ISO 27001 Aligned Controls">Kontrol Selaras ISO 27001</span></span>
                     </article>
 
                     <article class="card compliance-card">
@@ -2086,7 +2446,7 @@
                         </div>
                         <h3 data-id="Sistem Sadar Kepatuhan" data-en="Compliance-Aware System">Sistem Sadar Kepatuhan</h3>
                         <p data-id="Klasifikasi asistif yang eksplisit. Kami menghindari penikatan penjaminan otonom, menjaga akuntabilitas penanggung yang diamanatkan OJK." data-en="Explicit assistive classification. We avoid autonomous underwriting binding, preserving OJK mandated insurer accountability.">Klasifikasi asistif yang eksplisit. Kami menghindari penikatan penjaminan otonom, menjaga akuntabilitas penanggung yang diamanatkan OJK.</p>
-                        <span class="compliance-foot" data-id="&#x25CB; Alat AI Non-Adjudicating" data-en="&#x25CB; Non-Adjudicating AI Tool">&#x25CB; Alat AI Non-Adjudicating</span>
+                        <span class="compliance-foot" data-id="Alat AI Non-Adjudicating" data-en="Non-Adjudicating AI Tool"><i class="tag-dot"></i> <span data-id="Alat AI Non-Adjudicating" data-en="Non-Adjudicating AI Tool">Alat AI Non-Adjudicating</span></span>
                     </article>
                 </div>
             </div>
@@ -2096,17 +2456,87 @@
         <section class="section" id="architecture">
             <div class="wrap">
                 <div class="cta">
-                    <span class="cta-tag" data-id="&#x2733; Perlindungan Data Industri" data-en="&#x2733; Industry Data Protection">&#x2733; Perlindungan Data Industri</span>
+                    <span class="cta-tag" data-id="Perlindungan Data Industri" data-en="Industry Data Protection"><i class="tag-dot"></i> <span data-id="Perlindungan Data Industri" data-en="Industry Data Protection">Perlindungan Data Industri</span></span>
                     <h2 data-id="Kendalikan Cakupan Asuransi Anda Hari Ini" data-en="Take Control of Your Insurance Coverage Today">Kendalikan Cakupan Asuransi Anda Hari Ini</h2>
                     <p data-id="Unggah polis Anda dalam kurang dari 60 detik dan rasakan kejelasan panduan AI berbasis bukti." data-en="Upload your policy in less than 60 seconds and experience the clarity of evidence-grounded AI guidance.">Unggah polis Anda dalam kurang dari 60 detik dan rasakan kejelasan panduan AI berbasis bukti.</p>
                     <div class="cta-actions">
-                        <a href="{{ route('login') }}" class="btn btn-light" data-id="&#x2191; Mulai Sekarang" data-en="&#x2191; Get Started Now">&#x2191; Mulai Sekarang</a>
-                        <a href="#how" class="btn btn-outline-light" data-id="&#x25B7; Jelajahi Dokumentasi" data-en="&#x25B7; Explore Documentation">&#x25B7; Jelajahi Dokumentasi</a>
+                        <a href="{{ route('login') }}" class="btn btn-light" data-id="Mulai Sekarang" data-en="Get Started Now">
+                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M12 19V5M12 5l-5.2 5.2M12 5l5.2 5.2" stroke="currentColor" stroke-width="2.1"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span data-id="Mulai Sekarang" data-en="Get Started Now">Mulai Sekarang</span>
+                        </a>
+                        <a href="#how" class="btn btn-outline-light">
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/>
+                            </svg>
+                            <span data-id="Jelajahi Dokumentasi" data-en="Explore Documentation">Jelajahi Dokumentasi</span>
+                        </a>
                     </div>
                     <div class="cta-foot">
-                        <span data-id="&#x25CB; Tidak perlu kartu kredit" data-en="&#x25CB; No credit card required">&#x25CB; Tidak perlu kartu kredit</span>
-                        <span data-id="&#x2733; Ekstraksi OCR Instan" data-en="&#x2733; Instant OCR Extraction">&#x2733; Ekstraksi OCR Instan</span>
+                        <span>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <rect x="2.5" y="6" width="19" height="12" rx="2.5" stroke="currentColor"
+                                      stroke-width="1.9"/>
+                                <path d="M2.5 10h19" stroke="currentColor" stroke-width="1.9"/>
+                            </svg>
+                            <span data-id="Tidak perlu kartu kredit" data-en="No credit card required">Tidak perlu kartu kredit</span>
+                        </span>
+                        <span>
+                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                <path d="M4 7V4.8h15.2V7M12 4.8V19M9 19h6" stroke="currentColor" stroke-width="1.9"
+                                      stroke-linecap="round" stroke-linejoin="round"/>
+                            </svg>
+                            <span data-id="Ekstraksi OCR Instan" data-en="Instant OCR Extraction">Ekstraksi OCR Instan</span>
+                        </span>
                     </div>
+
+                    <svg class="cta-visual" viewBox="0 0 320 74" role="img"
+                         aria-label="Pipeline layanan InsureMind"
+                         data-id-aria="Pipeline layanan InsureMind"
+                         data-en-aria="InsureMind service pipeline">
+                        <path d="M40 37h240" stroke="#ffffff" stroke-width="2" stroke-dasharray="4 7"
+                              stroke-linecap="round" opacity=".45"/>
+
+                        <g class="cv-node cv-n1">
+                            <circle cx="40" cy="37" r="19" fill="#ffffffee"/>
+                            <path d="M34 27h9.5l4.5 4.5V47h-14z" fill="none" stroke="#2d54d8" stroke-width="1.8"
+                                  stroke-linejoin="round"/>
+                            <path d="M36 35h6M36 39.5h6M36 44h4" stroke="#2d54d8" stroke-width="1.6"
+                                  stroke-linecap="round"/>
+                        </g>
+
+                        <g class="cv-node cv-n2">
+                            <circle cx="110" cy="37" r="19" fill="#ffffffee"/>
+                            <circle cx="110" cy="37" r="11" fill="none" stroke="#d5e3ec" stroke-width="3.4"/>
+                            <circle cx="110" cy="37" r="11" fill="none" stroke="#16a29a" stroke-width="3.4"
+                                    stroke-linecap="round" stroke-dasharray="48 70" transform="rotate(-90 110 37)"/>
+                            <text x="110" y="41" text-anchor="middle" font-size="9" font-weight="700" fill="#12405c">82</text>
+                        </g>
+
+                        <g class="cv-node cv-n3">
+                            <circle cx="180" cy="37" r="19" fill="#ffffffee"/>
+                            <path d="M172 30h12l5 5v12h-17z" fill="none" stroke="#7a52e4" stroke-width="1.8"
+                                  stroke-linejoin="round"/>
+                            <path d="m176 38.5 2.6 2.6 5-5.6" fill="none" stroke="#16a29a" stroke-width="2"
+                                  stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+
+                        <g class="cv-node cv-n4">
+                            <circle cx="250" cy="37" r="19" fill="#ffffffee"/>
+                            <path d="M243 30h14M243 37h9M243 44h11" stroke="#2d54d8" stroke-width="1.8"
+                                  stroke-linecap="round"/>
+                            <path d="M254 44v9M254 53l-3.4-3.6M254 53l3.4-3.6" fill="none" stroke="#2d54d8"
+                                  stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
+                        </g>
+
+                        <g class="cv-node cv-n5">
+                            <circle cx="300" cy="37" r="15" fill="#ffffffee"/>
+                            <circle cx="300" cy="34" r="3.6" fill="#7a52e4"/>
+                            <path d="M293.5 45c.5-3.4 3.3-5.2 6.5-5.2s6 1.8 6.5 5.2" fill="#7a52e4" opacity=".85"/>
+                        </g>
+                    </svg>
                 </div>
             </div>
         </section>
@@ -2116,9 +2546,31 @@
         <div class="wrap footer-inner">
             <span data-id="Dirancang dengan Pertimbangan Kepatuhan OJK &amp; PDP" data-en="Designed with OJK &amp; PDP Compliance Considerations">Dirancang dengan Pertimbangan Kepatuhan OJK &amp; PDP</span>
             <div class="footer-badges">
-                <span>&#x25A4; 256-AES</span>
-                <span>&#x25CE; ISO 27001</span>
-                <span data-id="&#x2713; Dilindungi PDP" data-en="&#x2713; PDP Protected">&#x2713; Dilindungi PDP</span>
+                <span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="1.9"/>
+                        <path d="M8.4 10V7.6a3.6 3.6 0 0 1 7.2 0V10" stroke="currentColor" stroke-width="1.9"
+                              stroke-linecap="round"/>
+                    </svg>
+                    256-AES
+                </span>
+                <span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="M12 2.8 19.5 6v6c0 5-3.2 8.2-7.5 9.2C7.7 20.2 4.5 17 4.5 12V6L12 2.8Z"
+                              stroke="currentColor" stroke-width="1.9" stroke-linejoin="round"/>
+                        <path d="M9 12l2.2 2.2L15.4 10" stroke="currentColor" stroke-width="1.9"
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    ISO 27001
+                </span>
+                <span>
+                    <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <circle cx="12" cy="12" r="8.6" stroke="currentColor" stroke-width="1.9"/>
+                        <path d="m8.4 12.3 2.4 2.4 4.8-5.1" stroke="currentColor" stroke-width="1.9"
+                              stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span data-id="Dilindungi PDP" data-en="PDP Protected">Dilindungi PDP</span>
+                </span>
             </div>
             <span data-id="&copy; {{ date('Y') }} InsureMind AI. Seluruh hak cipta dilindungi." data-en="&copy; {{ date('Y') }} InsureMind AI. All rights reserved.">&copy; {{ date('Y') }} InsureMind AI. Seluruh hak cipta dilindungi.</span>
         </div>

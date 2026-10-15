@@ -21,15 +21,6 @@ return Application::configure(basePath: dirname(__DIR__))
             'reviewer' => EnsureUserIsReviewer::class,
         ]);
 
-        // Railway (dan platform PaaS sejenis) mengakhiri TLS di reverse proxy
-        // miliknya, lalu meneruskan request sebagai HTTP biasa. Tanpa
-        // konfigurasi ini Laravel mengira situs berjalan di atas HTTP, sehingga
-        // URL yang dihasilkan memakai skema http:// dan cookie sesi "secure"
-        // tidak pernah dikirim. Akibatnya permintaan POST (kirim pesan,
-        // simpan akun, dsb.) gagal, sesi tampak "mati", atau browser
-        // menampilkan "resend form / lanjut kirim atau tidak".
-        // Mempercayai proxy membuat Laravel mengenali HTTPS melalui header
-        // X-Forwarded-* dan sesi tetap konsisten.
         $middleware->trustProxies(at: '*');
     })
     ->withExceptions(function (Exceptions $exceptions): void {
