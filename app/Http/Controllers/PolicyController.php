@@ -12,7 +12,7 @@ use Illuminate\View\View;
 class PolicyController extends Controller
 {
     /**
-     * Daftar polis dan pengingat jatuh tempo.
+     * List policies and due-date reminders.
      */
     public function index(Request $request): View
     {
@@ -32,7 +32,7 @@ class PolicyController extends Controller
     }
 
     /**
-     * Simpan polis baru.
+     * Save a new policy.
      */
     public function store(Request $request): RedirectResponse
     {
@@ -46,7 +46,7 @@ class PolicyController extends Controller
     }
 
     /**
-     * Perbarui data polis.
+     * Update policy data.
      */
     public function update(Request $request, int $policy): RedirectResponse
     {
@@ -61,7 +61,7 @@ class PolicyController extends Controller
     }
 
     /**
-     * Hapus polis.
+     * Delete a policy.
      */
     public function destroy(Request $request, int $policy): RedirectResponse
     {

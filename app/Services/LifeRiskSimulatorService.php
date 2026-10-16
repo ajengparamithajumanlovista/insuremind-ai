@@ -6,12 +6,12 @@ use App\Models\UserProfile;
 use App\Support\Bi;
 
 /**
- * Simulator risiko hidup: memproyeksikan kondisi keuangan keluarga
- * sebelum dan sesudah terjadinya risiko (meninggal, sakit kritis,
- * kehilangan penghasilan) dengan dan tanpa perlindungan asuransi.
+ * Life risk simulator: projects a family's financial situation before and
+ * after a risk event (death, critical illness, or income loss), with and
+ * without insurance coverage.
  *
- * Semua angka adalah estimasi sederhana (tanpa bunga/inflasi) agar
- * mudah dijelaskan dan diaudit oleh pengguna.
+ * All figures are simple estimates (excluding interest/inflation) so they are
+ * easy for users to understand and audit.
  */
 class LifeRiskSimulatorService
 {
@@ -43,16 +43,16 @@ class LifeRiskSimulatorService
         $burn = $expense + $debt;
         $horizon = $scenario['horizon'];
 
-        // Arus kas bulanan rumah tangga setelah risiko.
+        // Household monthly cash flow after the risk event.
         $shockIncome = match ($scenarioKey) {
-            'life' => $income * 0.30,             // sebagian penghasilan keluarga hilang
-            'critical_illness' => $income * 0.50, // produktivitas turun saat pemulihan
-            'income_loss' => 0.0,                 // penghasilan berhenti sementara
+            'life' => $income * 0.30,             // part of the family's income is lost
+            'critical_illness' => $income * 0.50, // productivity drops during recovery
+            'income_loss' => 0.0, // income temporarily stops
         };
 
         $shockExtraCost = match ($scenarioKey) {
             'life' => 0.0,
-            'critical_illness' => max($income * 0.35, 2_000_000), // biaya pengobatan bulanan
+            'critical_illness' => max($income * 0.35, 2_000_000), // monthly medical expenses
             'income_loss' => 0.0,
         };
 
@@ -60,7 +60,7 @@ class LifeRiskSimulatorService
         $coverageInput = max(0, $coverage);
         $premiumInput = max(0, $premium);
 
-        // Neto bulanan jika perlindungan aktif (premi mengurangi, manfaat menambah).
+        // Monthly net if coverage is active (premiums reduce it, benefits increase it).
         $netMonthlyWith = $monthlyBurnWithout + $premiumInput;
 
         $shortfallWithout = $this->shortfall($savings, $monthlyBurnWithout, $horizon);
@@ -100,7 +100,7 @@ class LifeRiskSimulatorService
     }
 
     /**
-     * Metadata skenario risiko (label dan penjelasan dua bahasa).
+     * Risk scenario metadata (bilingual labels and descriptions).
      *
      * @return array{horizon: int, label: array{id: string, en: string}, description: array{id: string, en: string}}
      */
@@ -135,7 +135,7 @@ class LifeRiskSimulatorService
     }
 
     /**
-     * Hitung berapa bulan tabungan mampu menutup kekurangan arus kas.
+     * Calculate how many months savings can cover a cash-flow shortfall.
      *
      * @return array{months_covered: float, deficit: float, surplus: float, final_balance: float}
      */
@@ -146,7 +146,7 @@ class LifeRiskSimulatorService
 
         for ($month = 0; $month < $horizon; $month++) {
             if ($monthlyDeficit <= 0) {
-                // Tidak ada defisit: tabungan tetap utuh (tanpa memperhitungkan bunga).
+                // No deficit: savings remain intact (excluding interest).
                 $months = (float) $horizon;
                 break;
             }
@@ -172,7 +172,7 @@ class LifeRiskSimulatorService
     }
 
     /**
-     * Proyeksi saldo tabungan bulan per bulan, dua skenario.
+     * Project the savings balance month by month for two scenarios.
      *
      * @return array<int, array<string, float|int>>
      */
@@ -195,7 +195,7 @@ class LifeRiskSimulatorService
     }
 
     /**
-     * Catatan interpretasi agar pengguna memahami asumsi simulator.
+     * Interpretation notes to help users understand the simulator's assumptions.
      *
      * @return array<int, array{id: string, en: string}>
      */

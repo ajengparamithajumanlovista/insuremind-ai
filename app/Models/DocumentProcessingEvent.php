@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Satu tahapan pada riwayat pemrosesan dokumen.
+ * A single step in a document's processing history.
  *
- * Contoh: dokumen diunggah → validasi selesai → ekstraksi dimulai →
- * ekstraksi selesai → analisis dimulai → analisis selesai.
+ * Example: document uploaded → validation completed → extraction started →
+ * extraction completed → analysis started → analysis completed.
  */
 class DocumentProcessingEvent extends Model
 {

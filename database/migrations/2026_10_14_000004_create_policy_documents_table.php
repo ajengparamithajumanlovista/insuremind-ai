@@ -5,12 +5,12 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Dokumen polis yang diunggah pengguna beserta jejak pemrosesannya.
+ * Policy documents uploaded by users and their processing trails.
  *
- * Alur status yang dilacak (lihat brief bagian 4E):
+ * Tracked status flow (see brief section 4E):
  *   uploaded → validated → extracting → extracted → analysing → analysed
- * dan bercabang ke `failed` bila salah satu tahap gagal. Status `failed`
- * TIDAK boleh berubah menjadi sukses hanya karena dokumen dibuka kembali.
+ * and branches to `failed` if any stage fails. A `failed` status MUST NOT
+ * become successful just because the document is reopened.
  */
 return new class extends Migration
 {
@@ -30,8 +30,8 @@ return new class extends Migration
             $table->string('extraction_status', 30)->default('pending')->index();
             $table->string('analysis_status', 30)->default('pending')->index();
 
-            // Ringkasan hasil analisis AI (dua bahasa) dan referensi yang
-            // benar-benar ditemukan. Tidak boleh diisi referensi fiktif.
+            // AI analysis summary (both languages) and references actually
+            // found. Do not populate this with fabricated references.
             $table->json('summary')->nullable();
             $table->json('references')->nullable();
             $table->text('failure_reason')->nullable();
@@ -43,7 +43,7 @@ return new class extends Migration
             $table->index(['user_id', 'created_at']);
         });
 
-        // Tahapan pemrosesan (tab "Riwayat Pemrosesan").
+        // Processing stages ("Processing History" tab).
         Schema::create('document_processing_events', function (Blueprint $table) {
             $table->id();
             $table->foreignId('policy_document_id')->constrained('policy_documents')->cascadeOnDelete();

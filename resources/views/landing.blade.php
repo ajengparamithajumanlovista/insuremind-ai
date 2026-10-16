@@ -789,7 +789,7 @@
             box-shadow: 0 18px 42px #172e530d;
         }
 
-        /* ── Services showcase (sistem InsureMind) ──────────── */
+        /* ── Services showcase (InsureMind system) ──────────── */
         .svc-panel {
             position: relative;
             overflow: visible;
@@ -1681,7 +1681,7 @@
             .cta-foot { gap: 12px; }
         }
 
-        /* ── Badge versi (kanan bawah) ───────────────────────── */
+        /* ── Version badge (bottom right) ───────────────────── */
         .version-badge {
             position: fixed;
             right: 14px;

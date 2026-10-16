@@ -5,10 +5,10 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Riwayat perubahan katalog produk (tab "Riwayat" pada detail produk).
+ * Product catalog change history ("History" tab on product details).
  *
- * Setiap perubahan penting (premi, manfaat, status) dicatat beserta nilai
- * lama dan nilai baru agar dapat ditelusuri kembali melalui Audit Log.
+ * Each significant change (premium, benefits, status) is recorded with its old
+ * and new values so it can be traced through the Audit Log.
  */
 return new class extends Migration
 {

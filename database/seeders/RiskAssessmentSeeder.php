@@ -7,11 +7,11 @@ use App\Services\RiskAssessmentService;
 use Illuminate\Database\Seeder;
 
 /**
- * Riwayat analisis risiko contoh.
+ * Sample risk analysis history.
  *
- * Hasil dihitung memakai RiskAssessmentService yang sama dengan aplikasi
- * sehingga struktur `reasons`, `suggestions`, `metrics`, dan `snapshot`
- * persis seperti yang ditulis pengendali saat pengguna menjalankan analisis.
+ * Results are calculated using the same RiskAssessmentService as the
+ * application, so the `reasons`, `suggestions`, `metrics`, and `snapshot`
+ * structures match what the controller writes when a user runs an analysis.
  */
 class RiskAssessmentSeeder extends Seeder
 {
@@ -29,7 +29,7 @@ class RiskAssessmentSeeder extends Seeder
                 continue;
             }
 
-            // Hindari duplikasi saat seeder dijalankan ulang.
+            // Avoid duplicates when the seeder is run again.
             if ($user->riskAssessments()->exists()) {
                 continue;
             }

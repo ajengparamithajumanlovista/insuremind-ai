@@ -19,12 +19,12 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Memverifikasi bahwa DatabaseSeeder mengisi data demo untuk SELURUH fitur
- * aplikasi, sehingga setiap halaman langsung dapat dicoba tanpa data kosong.
+ * Verifies that DatabaseSeeder populates demo data for ALL application
+ * features, so every page can be tried immediately without empty data.
  *
- * Sekaligus menjaga agar nama tabel tetap sinkron dengan model — khususnya
- * `chat_feedbacks` yang tidak dapat ditebak otomatis karena "feedback"
- * termasuk kata tak berubah bentuk jamak.
+ * Also ensures table names remain in sync with models — particularly
+ * `chat_feedbacks`, which cannot be inferred automatically because "feedback"
+ * is an uncountable noun.
  */
 class DemoSeederTest extends TestCase
 {
@@ -88,8 +88,8 @@ class DemoSeederTest extends TestCase
 
     public function test_chat_seed_contains_message_without_reference(): void
     {
-        // Minimal satu jawaban asisten tanpa referensi agar antrean AI Quality
-        // Review tidak kosong dan pengujian deteksi referensi tetap bermakna.
+        // At least one assistant answer without a reference keeps the AI Quality
+        // Review queue non-empty and makes reference detection testing meaningful.
         $withoutReference = ChatMessage::query()
             ->where('role', 'assistant')
             ->get()

@@ -13,7 +13,7 @@
         @method('PUT')
 
         <div class="grid grid-2" style="align-items:start">
-            {{-- ── Data pribadi & penghasilan ─────────────────── --}}
+            {{-- ── Personal details & income ──────────────────── --}}
             <div class="card">
                 <div class="section-heading">
                     <div>
@@ -60,7 +60,7 @@
                 </div>
             </div>
 
-            {{-- ── Arus kas bulanan ──────────────────────────── --}}
+            {{-- ── Monthly cash flow ──────────────────────────── --}}
             <div class="card">
                 <div class="section-heading">
                     <div>
@@ -105,7 +105,7 @@
             </div>
         </div>
 
-        {{-- ── Perlindungan yang sudah dimiliki & rencana pendidikan ── --}}
+        {{-- ── Existing coverage & education plans ──────────────── --}}
         <div class="card reveal reveal-2" style="margin-top:16px">
             <div class="section-heading">
                 <div>

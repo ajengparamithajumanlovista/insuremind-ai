@@ -16,17 +16,17 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     /**
-     * Peran yang dikenal sistem (Role-Based Access Control).
+     * Roles recognized by the system (Role-Based Access Control).
      *
-     * - user     : mengelola perlindungan pribadinya sendiri.
-     * - reviewer : memeriksa kasus AI Quality Review yang ditugaskan.
-     * - admin    : mengelola katalog, akun, dan proses operasional.
+     * - user     : manages their own personal protection.
+     * - reviewer : reviews assigned AI Quality Review cases.
+     * - admin    : manages the catalog, accounts, and operational processes.
      */
     public const ROLES = ['user', 'reviewer', 'admin'];
 
     /**
-     * Status akun. Akun nonaktif tidak boleh login, namun riwayat
-     * aktivitasnya tetap tersimpan.
+     * Account status. Inactive accounts cannot sign in, but their activity
+     * history is retained.
      */
     public const STATUSES = ['active', 'inactive', 'suspended'];
 
@@ -55,7 +55,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Apakah pengguna boleh mengakses area AI Quality Review.
+     * Whether the user can access the AI Quality Review area.
      */
     public function isReviewer(): bool
     {
@@ -63,7 +63,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Apakah akun masih diizinkan menggunakan platform.
+     * Whether the account is still allowed to use the platform.
      */
     public function isActive(): bool
     {
@@ -71,7 +71,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Label peran untuk ditampilkan pada antarmuka.
+     * Role label displayed in the interface.
      *
      * @return array{id: string, en: string}
      */
@@ -85,7 +85,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Label status akun untuk ditampilkan pada antarmuka.
+     * Account status label displayed in the interface.
      *
      * @return array{id: string, en: string}
      */
@@ -108,7 +108,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Profil finansial pengguna (dipakai untuk analisis risiko).
+     * User's financial profile (used for risk analysis).
      */
     public function profile(): HasOne
     {
@@ -116,7 +116,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Daftar polis yang dicatat pengguna.
+     * Policies recorded by the user.
      */
     public function policies(): HasMany
     {
@@ -124,7 +124,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Riwayat analisis kebutuhan perlindungan.
+     * Protection needs analysis history.
      */
     public function riskAssessments(): HasMany
     {
@@ -132,7 +132,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Riwayat simulasi risiko kehidupan.
+     * Life risk simulation history.
      */
     public function riskSimulations(): HasMany
     {
@@ -140,7 +140,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Riwayat percakapan dengan chatbot.
+     * Chatbot conversation history.
      */
     public function chatMessages(): HasMany
     {
@@ -148,7 +148,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Dokumen polis yang diunggah pengguna.
+     * Policy documents uploaded by the user.
      */
     public function policyDocuments(): HasMany
     {
@@ -156,7 +156,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Kasus AI Quality Review yang berasal dari aktivitas pengguna ini.
+     * AI Quality Review cases originating from this user's activity.
      */
     public function reviewCases(): HasMany
     {
@@ -164,7 +164,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Kasus AI Quality Review yang ditangani pengguna ini sebagai reviewer.
+     * AI Quality Review cases handled by this user as a reviewer.
      */
     public function reviewedCases(): HasMany
     {
@@ -172,7 +172,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Catatan Audit Log yang dibuat oleh pengguna ini.
+     * Audit Log entries created by this user.
      */
     public function auditLogs(): HasMany
     {
@@ -180,7 +180,7 @@ class User extends Authenticatable
     }
 
     /**
-     * Profil pengguna, dibuat otomatis bila belum ada.
+     * User profile, created automatically if one does not exist.
      */
     public function profileOrDefault(): UserProfile
     {

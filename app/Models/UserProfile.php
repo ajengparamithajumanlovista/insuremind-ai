@@ -53,7 +53,7 @@ class UserProfile extends Model
     }
 
     /**
-     * Uang yang tersedia setiap bulan (penghasilan − pengeluaran − cicilan).
+     * Money available each month (income − expenses − installments).
      */
     public function monthlySurplus(): float
     {
@@ -61,7 +61,7 @@ class UserProfile extends Model
     }
 
     /**
-     * Berapa bulan tabungan saat ini dapat menutup pengeluaran bila penghasilan hilang.
+     * How many months current savings can cover expenses if income is lost.
      */
     public function emergencyFundMonths(): float
     {
@@ -75,7 +75,7 @@ class UserProfile extends Model
     }
 
     /**
-     * Apakah profil sudah diisi cukup untuk dianalisis.
+     * Whether the profile has enough information for analysis.
      */
     public function isReady(): bool
     {

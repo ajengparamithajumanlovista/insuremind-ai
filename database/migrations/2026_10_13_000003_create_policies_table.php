@@ -31,7 +31,7 @@ return new class extends Migration
             $table->date('start_date')->nullable();
             $table->date('next_due_date')->nullable();
 
-            // Berapa hari sebelum jatuh tempo pengingat ditampilkan.
+            // How many days before the due date to display a reminder.
             $table->unsignedSmallInteger('reminder_days')->default(7);
 
             $table->text('notes')->nullable();

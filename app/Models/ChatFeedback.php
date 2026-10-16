@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Umpan balik pengguna atas sebuah jawaban asisten.
+ * User feedback on an assistant answer.
  *
- * Feedback negatif merupakan sinyal untuk pemeriksaan lebih lanjut, bukan
- * bukti bahwa jawaban salah (brief bagian 5F).
+ * Negative feedback is a signal for further review, not proof that an answer
+ * is wrong (brief section 5F).
  */
 class ChatFeedback extends Model
 {
@@ -24,10 +24,10 @@ class ChatFeedback extends Model
     ];
 
     /**
-     * Nama tabel ditulis eksplisit karena "feedback" termasuk kata yang tidak
-     * berubah bentuk jamaknya (uncountable) sehingga penebakan otomatis
-     * Laravel menghasilkan "chat_feedback" — tidak cocok dengan tabel
-     * `chat_feedbacks` yang dibuat migrasi.
+     * The table name is specified explicitly because "feedback" is
+     * uncountable, so Laravel's automatic pluralization produces
+     * "chat_feedback", which does not match the `chat_feedbacks` table created
+     * by the migration.
      *
      * @var string
      */

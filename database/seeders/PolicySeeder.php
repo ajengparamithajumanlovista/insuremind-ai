@@ -7,10 +7,10 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 /**
- * Polis contoh beserta tanggal jatuh tempo yang bervariasi.
+ * Sample policies with varied due dates.
  *
- * Variasi tanggal sengaja dibuat agar halaman "Polis & Pengingat" menampilkan
- * ketiga status pengingat sekaligus: overdue, due_soon, dan upcoming.
+ * Dates are intentionally varied so the "Policies & Reminders" page displays
+ * all three reminder statuses at once: overdue, due_soon, and upcoming.
  */
 class PolicySeeder extends Seeder
 {
@@ -51,7 +51,7 @@ class PolicySeeder extends Seeder
                     'coverage_amount' => 500_000_000,
                     'payment_period' => 'monthly',
                     'start_date' => now()->subYears(2)->startOfDay(),
-                    // Sudah lewat → status pengingat "overdue".
+                    // Past due → reminder status "overdue".
                     'next_due_date' => now()->subDays(5)->startOfDay(),
                     'reminder_days' => 14,
                     'notes' => 'Polis kesehatan keluarga utama.',
@@ -66,7 +66,7 @@ class PolicySeeder extends Seeder
                     'coverage_amount' => 750_000_000,
                     'payment_period' => 'annual',
                     'start_date' => now()->subYears(3)->startOfDay(),
-                    // Jatuh tempo dalam 4 hari → "due_soon".
+                    // Due in 4 days → "due_soon".
                     'next_due_date' => now()->addDays(4)->startOfDay(),
                     'reminder_days' => 14,
                     'notes' => 'Asuransi jiwa untuk penggantian penghasilan.',
@@ -81,7 +81,7 @@ class PolicySeeder extends Seeder
                     'coverage_amount' => 400_000_000,
                     'payment_period' => 'monthly',
                     'start_date' => now()->subMonths(8)->startOfDay(),
-                    // Masih lama → "upcoming".
+                    // Not due soon → "upcoming".
                     'next_due_date' => now()->addMonths(2)->startOfDay(),
                     'reminder_days' => 14,
                     'notes' => 'Dana pendidikan anak pertama.',

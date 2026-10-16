@@ -9,15 +9,15 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 /**
  * Kasus AI Quality Review.
  *
- * Satu baris = satu kasus unik, yaitu satu jawaban yang perlu diperiksa
- * manusia. Alasan beragam (tanpa referensi, feedback negatif, referensi
- * meragukan) disimpan pada kolom `issues` sehingga satu jawaban tidak
- * menghasilkan beberapa kasus yang saling menduplikasi.
+ * One row represents one unique case: an answer that needs human review.
+ * Different reasons (missing references, negative feedback, or questionable
+ * references) are stored in the `issues` column so one answer does not create
+ * multiple duplicate cases.
  */
 class AiReviewCase extends Model
 {
     /**
-     * Jenis masalah yang dikenal sistem.
+     * Issue types recognized by the system.
      */
     public const ISSUE_TYPES = [
         'missing_reference',
@@ -28,12 +28,12 @@ class AiReviewCase extends Model
     ];
 
     public const STATUSES = [
-        'pending',     // menunggu tinjauan
-        'in_review',   // sedang diperiksa
-        'valid',       // ditandai valid
-        'needs_fix',   // perlu perbaikan
-        'escalated',   // dieskalasi
-        'done',        // selesai ditinjau
+        'pending',     // awaiting review
+        'in_review',   // under review
+        'valid',       // marked valid
+        'needs_fix',   // needs fixing
+        'escalated',   // escalated
+        'done',        // review complete
     ];
 
     public const DECISIONS = [
@@ -102,7 +102,7 @@ class AiReviewCase extends Model
     }
 
     /**
-     * Kasus yang belum selesai ditinjau.
+     * Cases that have not yet completed review.
      */
     public function scopeOpen($query)
     {

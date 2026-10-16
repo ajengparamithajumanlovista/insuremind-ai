@@ -6,10 +6,10 @@ use App\Models\InsuranceProduct;
 use Illuminate\Database\Seeder;
 
 /**
- * Data contoh produk asuransi untuk keperluan demo.
+ * Sample insurance product data for demo purposes.
  *
- * Semua baris ditandai `is_sample = true` dan `data_source` yang jelas agar
- * pengguna tidak salah mengira ini penawaran resmi dari perusahaan asuransi.
+ * All rows are marked `is_sample = true` and have a clear `data_source` so
+ * users do not mistake them for official offers from insurance companies.
  */
 class InsuranceProductSeeder extends Seeder
 {

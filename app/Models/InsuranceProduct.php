@@ -8,7 +8,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
 class InsuranceProduct extends Model
 {
     /**
-     * Kategori yang didukung platform.
+     * Categories supported by the platform.
      *
      * @var list<string>
      */
@@ -59,7 +59,7 @@ class InsuranceProduct extends Model
     }
 
     /**
-     * Produk yang masih ditawarkan pada katalog pengguna.
+     * Products currently offered in the user catalog.
      */
     public function scopeActive($query)
     {
@@ -67,7 +67,7 @@ class InsuranceProduct extends Model
     }
 
     /**
-     * Riwayat perubahan katalog produk.
+     * Product catalog change history.
      */
     public function histories(): HasMany
     {
@@ -75,7 +75,7 @@ class InsuranceProduct extends Model
     }
 
     /**
-     * Badge sumber data: membedakan data contoh dari data yang terverifikasi.
+     * Data source badge: distinguishes sample data from verified data.
      *
      * @return array{label: array{id: string, en: string}, tone: string}
      */
@@ -95,7 +95,7 @@ class InsuranceProduct extends Model
     }
 
     /**
-     * Deskripsi dalam bahasa aktif.
+     * Description in the active language.
      */
     public function description(string $lang = 'id'): ?string
     {
@@ -106,7 +106,7 @@ class InsuranceProduct extends Model
     }
 
     /**
-     * Rasio manfaat terhadap premi (semakin tinggi semakin efisien).
+     * Benefits-to-premium ratio (higher values indicate greater efficiency).
      */
     public function valueRatio(): float
     {

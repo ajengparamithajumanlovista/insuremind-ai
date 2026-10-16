@@ -8,11 +8,11 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
 /**
- * Dokumen polis contoh beserta jejak pemrosesannya.
+ * Sample policy documents and their processing trails.
  *
- * Mencakup tiga status agar halaman "Dokumen Polis" admin menampilkan
- * variasi lengkap: `analysed` (selesai), `review` (menunggu tinjauan), dan
- * `failed` (gagal) — status gagal tidak pernah ditampilkan sebagai sukses.
+ * Includes three statuses so the admin "Policy Documents" page displays a
+ * complete range: `analysed` (complete), `review` (awaiting review), and
+ * `failed` — a failed status is never shown as successful.
  */
 class PolicyDocumentSeeder extends Seeder
 {
@@ -25,7 +25,7 @@ class PolicyDocumentSeeder extends Seeder
                 continue;
             }
 
-            // Hindari duplikasi saat seeder dijalankan ulang.
+            // Avoid duplicates when the seeder is run again.
             if ($user->policyDocuments()->where('original_name', $document['original_name'])->exists()) {
                 continue;
             }
@@ -77,7 +77,7 @@ class PolicyDocumentSeeder extends Seeder
     }
 
     /**
-     * Dokumen yang selesai dianalisis penuh.
+     * Document with completed full analysis.
      *
      * @return array<string, mixed>
      */
@@ -117,7 +117,7 @@ class PolicyDocumentSeeder extends Seeder
     }
 
     /**
-     * Dokumen yang menunggu tinjauan manual.
+     * Document awaiting manual review.
      *
      * @return array<string, mixed>
      */
@@ -155,7 +155,7 @@ class PolicyDocumentSeeder extends Seeder
     }
 
     /**
-     * Dokumen yang gagal diproses.
+     * Document that failed processing.
      *
      * @return array<string, mixed>
      */

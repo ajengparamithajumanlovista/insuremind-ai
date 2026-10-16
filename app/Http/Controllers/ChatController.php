@@ -14,7 +14,7 @@ class ChatController extends Controller
     ) {}
 
     /**
-     * Halaman chatbot beserta riwayat percakapan.
+     * Chatbot page and conversation history.
      */
     public function index(Request $request): View
     {
@@ -32,7 +32,7 @@ class ChatController extends Controller
     }
 
     /**
-     * Terima pesan pengguna, simpan, dan kembalikan balasan asisten (JSON).
+     * Accept and save the user's message, then return the assistant's reply (JSON).
      */
     public function store(Request $request): JsonResponse
     {

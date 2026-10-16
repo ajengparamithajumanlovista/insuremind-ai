@@ -7,12 +7,12 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 
 /**
- * Akun contoh untuk mencoba seluruh fitur aplikasi.
+ * Sample accounts for trying all application features.
  *
- * Seeder ini melengkapi akun inti pada DatabaseSeeder dengan beberapa
- * pengguna biasa yang mewakili variasi status akun (aktif, nonaktif,
- * ditangguhkan). Data dibuat idempoten (`updateOrCreate` berdasarkan email)
- * sehingga aman dijalankan berulang kali.
+ * This seeder supplements the core accounts in DatabaseSeeder with several
+ * regular users representing different account statuses (active, inactive,
+ * suspended). Data is created idempotently (`updateOrCreate` by email)
+ * so it is safe to run repeatedly.
  */
 class DemoUserSeeder extends Seeder
 {

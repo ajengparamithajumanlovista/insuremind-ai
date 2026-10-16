@@ -3,10 +3,10 @@
 namespace App\Support;
 
 /**
- * Daftar kategori aktivitas Audit Log.
+ * List of Audit Log activity categories.
  *
- * Didefinisikan sebagai konstan agar pemanggil tidak menulis string bebas
- * dan kategori tetap konsisten dengan filter pada halaman Audit Log.
+ * Defined as constants so callers do not use arbitrary strings and categories
+ * remain consistent with the filters on the Audit Log page.
  */
 final class AuditCategory
 {
@@ -29,7 +29,7 @@ final class AuditCategory
     public const AUDIT = 'audit';
 
     /**
-     * Semua kategori yang valid untuk filter.
+     * All valid categories for filtering.
      *
      * @return list<string>
      */

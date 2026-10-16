@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Menolak pengguna yang akunnya tidak lagi aktif.
+ * Rejects users whose accounts are no longer active.
  *
- * Menonaktifkan akun TIDAK menghapus data maupun riwayat aktivitasnya
- * (brief bagian 7D); pengguna hanya kehilangan akses masuk.
+ * Deactivating an account does NOT delete its data or activity history
+ * (brief section 7D); the user only loses sign-in access.
  */
 class EnsureUserIsActive
 {

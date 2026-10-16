@@ -55,10 +55,10 @@ class LoginController extends Controller
     }
 
     /**
-     * Tentukan halaman tujuan setelah masuk sesuai peran akun.
+     * Determine the destination page after sign-in based on the account role.
      *
-     * Admin dan reviewer diarahkan ke area admin, sedangkan pengguna biasa
-     * tetap ke dashboard pribadinya.
+     * Admins and reviewers are directed to the admin area, while regular users
+     * are directed to their personal dashboard.
      */
     private function homeFor(?User $user): string
     {

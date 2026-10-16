@@ -13,11 +13,11 @@ use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * Dokumen Polis (khusus admin).
+ * Policy Documents (admin only).
  *
- * Menampilkan jejak pemrosesan tiap dokumen (upload → validasi → ekstraksi →
- * analisis) apa adanya. Status `failed` tidak pernah ditampilkan sebagai
- * sukses hanya karena dokumen dibuka kembali (brief bagian 4E).
+ * Displays each document's processing trail (upload → validation → extraction
+ * → analysis) as-is. A `failed` status is never shown as successful just
+ * because a document is reopened (brief section 4E).
  */
 class DocumentController extends Controller
 {
@@ -26,7 +26,7 @@ class DocumentController extends Controller
     ) {}
 
     /**
-     * Daftar dokumen dengan filter status.
+     * List documents with status filters.
      */
     public function index(Request $request): View
     {
@@ -61,7 +61,7 @@ class DocumentController extends Controller
     }
 
     /**
-     * Detail dokumen beserta tahapan pemrosesan dan hasil analisisnya.
+     * Document details, processing stages, and analysis results.
      */
     public function show(PolicyDocument $document): View
     {
@@ -73,15 +73,15 @@ class DocumentController extends Controller
     }
 
     /**
-     * Kirim berkas dokumen ke admin (download terkendali).
+     * Send a document file to an admin (controlled download).
      *
-     * Pengunduhan dicatat ke Audit Log karena menyangkut berkas pribadi
-     * pengguna.
+     * Downloads are recorded in the Audit Log because they involve a user's
+     * private files.
      */
     public function download(Request $request, PolicyDocument $document): StreamedResponse|RedirectResponse
     {
-        // Akses berkas pribadi dicatat lebih dulu, termasuk saat berkas tidak
-        // ditemukan, agar percobaan pengunduhan tetap dapat ditelusuri.
+        // Access to private files is recorded first, even when the file is not
+        // found, so download attempts can still be traced.
         $this->audit->log([
             'category' => AuditCategory::POLICY_DOCUMENT,
             'action' => 'document.downloaded',

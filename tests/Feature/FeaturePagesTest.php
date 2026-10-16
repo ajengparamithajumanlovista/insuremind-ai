@@ -10,8 +10,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Memastikan setiap halaman fitur InsureMind AI dapat dirender tanpa error
- * untuk pengguna dengan profil lengkap (branch terdalam).
+ * Ensures every InsureMind AI feature page renders without errors for users
+ * with a complete profile (the deepest branch).
  */
 class FeaturePagesTest extends TestCase
 {

@@ -5,15 +5,15 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Audit Log — jejak aktivitas penting yang tidak boleh diubah sembarangan.
+ * Audit Log — a trail of important activity that must not be changed arbitrarily.
  *
- * Tabel ini dirancang append-only: tidak ada kolom `updated_at` dan tidak
- * akan ada endpoint update/delete untuk baris log. Koreksi dilakukan dengan
- * menulis baris baru (lihat kolom `corrects_log_id`).
+ * This table is designed to be append-only: it has no `updated_at` column and
+ * no update/delete endpoint for log rows. Corrections are made by writing a
+ * new row (see the `corrects_log_id` column).
  *
- * Kolom `before`/`after` hanya menyimpan metadata yang aman. Kata sandi,
- * token autentikasi, isi polis lengkap, dan percakapan sensitif DILARANG
- * disimpan di sini; AuditLogger memakai daftar merah sebelum menulis.
+ * The `before`/`after` columns store only safe metadata. Passwords,
+ * authentication tokens, full policy contents, and sensitive conversations
+ * MUST NOT be stored here; AuditLogger uses a denylist before writing.
  */
 return new class extends Migration
 {
@@ -23,7 +23,7 @@ return new class extends Migration
             $table->id();
             $table->uuid('event_id')->unique();
 
-            // Pelaku: bisa pengguna nyata, bisa proses sistem (nullable).
+            // Actor: may be a real user or a system process (nullable).
             $table->foreignId('user_id')->nullable()->constrained('users')->nullOnDelete();
             $table->string('actor_role', 20)->default('system');
             $table->string('actor_name')->nullable();
@@ -32,7 +32,7 @@ return new class extends Migration
             $table->string('action', 60)->index();
             $table->string('description', 500);
 
-            // Objek terdampak memakai identitas yang konsisten antar halaman.
+            // The affected object uses a consistent identity across pages.
             $table->string('subject_type', 60)->nullable();
             $table->unsignedBigInteger('subject_id')->nullable();
             $table->string('subject_label')->nullable();
@@ -48,7 +48,7 @@ return new class extends Migration
 
             $table->foreignId('corrects_log_id')->nullable()->constrained('audit_logs')->nullOnDelete();
 
-            // Hanya created_at — log bersifat append-only.
+            // Only created_at — the log is append-only.
             $table->timestamp('created_at')->nullable()->index();
 
             $table->index(['subject_type', 'subject_id']);

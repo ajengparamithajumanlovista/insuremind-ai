@@ -14,7 +14,7 @@ class ComparisonController extends Controller
     ) {}
 
     /**
-     * Perbandingan produk asuransi (maksimal 3 produk berdampingan).
+     * Compare insurance products (up to 3 products side by side).
      */
     public function index(Request $request): View
     {

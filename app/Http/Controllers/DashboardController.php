@@ -14,7 +14,7 @@ class DashboardController extends Controller
     ) {}
 
     /**
-     * Ringkasan kondisi pengguna: skor risiko, premi, polis, dan langkah berikutnya.
+     * User status summary: risk score, premiums, policies, and next steps.
      */
     public function index(Request $request): View
     {

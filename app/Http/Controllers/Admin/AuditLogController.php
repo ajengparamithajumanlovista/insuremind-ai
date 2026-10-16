@@ -10,16 +10,16 @@ use Illuminate\View\View;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 /**
- * Audit Log (khusus admin).
+ * Audit Log (admin only).
  *
- * Tabel ini append-only: halaman ini hanya menyediakan pembacaan dan ekspor,
- * tidak ada endpoint untuk mengubah atau menghapus baris log. Koreksi
- * dilakukan dengan menulis baris baru melalui layanan AuditLogger.
+ * This table is append-only: this page only provides viewing and export, with
+ * no endpoint to update or delete log rows. Corrections are made by writing a
+ * new row through the AuditLogger service.
  */
 class AuditLogController extends Controller
 {
     /**
-     * Baris log dengan filter kategori, aksi, hasil, dan rentang tanggal.
+     * Log rows filtered by category, action, outcome, and date range.
      */
     public function index(Request $request): View
     {
@@ -49,7 +49,7 @@ class AuditLogController extends Controller
     }
 
     /**
-     * Detail satu baris log, termasuk nilai before/after.
+     * Details for one log row, including before/after values.
      */
     public function show(AuditLog $auditLog): View
     {
@@ -60,10 +60,10 @@ class AuditLogController extends Controller
     }
 
     /**
-     * Ekspor hasil filter sebagai berkas CSV.
+     * Export the filtered results as a CSV file.
      *
-     * Ekspor dibatasi agar berkas tidak membengkakkan memori; gunakan filter
-     * untuk mempersempit rentang bila diperlukan.
+     * Export is limited to prevent excessive memory use; apply filters to
+     * narrow the range if needed.
      */
     public function export(Request $request): StreamedResponse
     {
@@ -104,7 +104,7 @@ class AuditLogController extends Controller
     }
 
     /**
-     * Terapkan filter yang sama pada daftar dan ekspor.
+     * Apply the same filters to the list and export.
      */
     private function filtered(Request $request)
     {

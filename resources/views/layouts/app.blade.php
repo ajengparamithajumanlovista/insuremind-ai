@@ -11,7 +11,7 @@
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
     <style>
-        /* ── Design tokens (selaras dengan landing page) ───────── */
+        /* ── Design tokens (aligned with the landing page) ────── */
         :root {
             --ink: #17243b;
             --muted: #77839a;
@@ -412,7 +412,7 @@
             .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0, 1fr); }
         }
 
-        /* ── Badge versi (kanan bawah) ───────────────────────── */
+        /* ── Version badge (bottom right) ───────────────────── */
         .version-badge {
             position: fixed;
             right: 14px;

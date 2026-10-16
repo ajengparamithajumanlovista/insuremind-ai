@@ -6,21 +6,21 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Catatan riwayat pemeriksaan sebuah kasus AI Quality Review.
+ * Review history entry for an AI Quality Review case.
  *
- * Setiap keputusan reviewer disimpan lengkap dengan identitas, waktu, dan
- * catatan agar alasan keputusan dapat ditelusuri. Tabel ini append-only.
+ * Each reviewer decision is stored with its identity, timestamp, and notes so
+ * the reasoning behind the decision can be traced. This table is append-only.
  */
 class AiReviewAction extends Model
 {
     public const ACTIONS = [
-        'claim',       // mulai meninjau
-        'valid',       // tandai valid
-        'needs_fix',   // perlu perbaikan
-        'escalate',    // eskalasi
-        'done',        // tandai selesai
-        'reopen',      // dibuka kembali
-        'note',        // catatan tanpa mengubah status
+        'claim',       // start review
+        'valid',       // mark as valid
+        'needs_fix',   // needs fixing
+        'escalate',    // escalate
+        'done',        // mark as complete
+        'reopen',      // reopen
+        'note',        // note without changing the status
     ];
 
     /**

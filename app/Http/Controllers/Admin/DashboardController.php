@@ -13,19 +13,19 @@ use Illuminate\Http\Request;
 use Illuminate\View\View;
 
 /**
- * Ringkasan operasional admin.
+ * Admin operations summary.
  *
- * Hanya admin yang boleh membuka halaman ini (lihat middleware route).
- * Reviewer diarahkan langsung ke antrean AI Quality Review.
+ * Only admins can access this page (see the route middleware).
+ * Reviewers are sent directly to the AI Quality Review queue.
  */
 class DashboardController extends Controller
 {
     /**
-     * Ringkasan: kondisi akun, katalog, dokumen, dan antrean review.
+     * Summary of account status, catalog, documents, and review queue.
      */
     public function index(Request $request): View|RedirectResponse
     {
-        // Reviewer tidak punya hak atas ringkasan admin; arahkan ke antreannya.
+        // Reviewers cannot access the admin summary; direct them to their queue.
         if (! $request->user()->can('access-admin-dashboard')) {
             return redirect()->route('admin.review.index');
         }

@@ -5,15 +5,15 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Kolom tambahan untuk Manajemen Pengguna pada Admin Dashboard.
+ * Additional columns for User Management in the Admin Dashboard.
  *
- * - status          : active | inactive | suspended (menonaktifkan akun
- *                     TIDAK menghapus riwayat aktivitasnya).
- * - phone           : opsional, dipakai pada formulir tambah pengguna.
- * - last_activity_at: dipakai untuk kolom "Aktivitas Terakhir" (bukan
- *                     berarti pengguna sedang online).
- * - admin_note      : catatan internal admin, tidak pernah ditampilkan
- *                     kepada pemilik akun.
+ * - status          : active | inactive | suspended (deactivating an account
+ *                     does NOT delete its activity history).
+ * - phone           : optional, used in the add-user form.
+ * - last_activity_at: used for the "Last Activity" column (does not mean
+ *                     the user is currently online).
+ * - admin_note      : internal admin note, never displayed
+ *                     to the account owner.
  */
 return new class extends Migration
 {

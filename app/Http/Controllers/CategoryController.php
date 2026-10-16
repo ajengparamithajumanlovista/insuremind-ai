@@ -15,7 +15,7 @@ class CategoryController extends Controller
     ) {}
 
     /**
-     * Halaman kategori produk (kesehatan, jiwa, risiko kerja, pendidikan).
+     * Product category page (health, life, work risk, education).
      */
     public function show(Request $request, string $category): View
     {
@@ -41,7 +41,7 @@ class CategoryController extends Controller
     }
 
     /**
-     * Metadata kategori (judul, deskripsi, dan penekanan) dua bahasa.
+     * Bilingual category metadata (title, description, and highlights).
      *
      * @return array{title: array{id: string, en: string}, description: array{id: string, en: string}, icon: string}
      */

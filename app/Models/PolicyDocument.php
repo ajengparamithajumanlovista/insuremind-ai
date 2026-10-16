@@ -7,24 +7,24 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * Dokumen polis yang diunggah pengguna.
+ * A policy document uploaded by a user.
  *
- * Status utama (`status`) diturunkan dari kombinasi ekstraksi & analisis
- * sehingga satu dokumen tidak pernah dihitung pada dua kategori yang saling
- * bertentangan pada statistik admin.
+ * The primary status (`status`) is derived from the combination of extraction
+ * and analysis results, so a document is never counted in two conflicting
+ * categories in the admin statistics.
  */
 class PolicyDocument extends Model
 {
     /**
-     * Status akhir yang mungkin dimiliki sebuah dokumen.
+     * Possible final statuses for a document.
      */
     public const STATUSES = [
-        'uploaded',   // baru diunggah, belum divalidasi
-        'validated',  // berkas lolos validasi
-        'processing', // ekstraksi / analisis sedang berjalan
-        'analysed',   // selesai dianalisis
-        'review',     // menunggu pemeriksaan manual
-        'failed',     // gagal diproses
+        'uploaded',   // newly uploaded, not yet validated
+        'validated',  // file passed validation
+        'processing', // extraction / analysis in progress
+        'analysed',   // analysis complete
+        'review',     // awaiting manual review
+        'failed',     // processing failed
     ];
 
     public const STAGES = [
@@ -37,7 +37,7 @@ class PolicyDocument extends Model
     ];
 
     /**
-     * Batas ukuran unggahan (byte) dan tipe berkas yang diterima.
+     * Upload size limit (bytes) and accepted file types.
      */
     public const MAX_SIZE_BYTES = 10_485_760; // 10 MB
 
@@ -97,7 +97,7 @@ class PolicyDocument extends Model
     }
 
     /**
-     * Status ringkas untuk badge tabel admin.
+     * Concise status for the admin table badge.
      */
     public function statusTone(): string
     {
@@ -111,7 +111,7 @@ class PolicyDocument extends Model
     }
 
     /**
-     * Apakah dokumen sudah selesai diproses (berhasil maupun gagal).
+     * Whether document processing has finished (successfully or unsuccessfully).
      */
     public function isFinished(): bool
     {

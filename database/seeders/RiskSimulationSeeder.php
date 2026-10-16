@@ -7,12 +7,12 @@ use App\Services\LifeRiskSimulatorService;
 use Illuminate\Database\Seeder;
 
 /**
- * Riwayat simulasi risiko hidup contoh.
+ * Sample life risk simulation history.
  *
- * Memakai LifeRiskSimulatorService yang sama dengan aplikasi sehingga isi
- * kolom `inputs` dan `result` identik dengan yang ditulis pengendali saat
- * pengguna menyimpan simulasi. Ketiga skenario (life, critical_illness,
- * income_loss) diisi agar riwayat simulator terlihat lengkap.
+ * Uses the same LifeRiskSimulatorService as the application, so the `inputs`
+ * and `result` columns match what the controller writes when a user saves a
+ * simulation. All three scenarios (life, critical_illness, income_loss) are
+ * included so the simulator history looks complete.
  */
 class RiskSimulationSeeder extends Seeder
 {
@@ -30,7 +30,7 @@ class RiskSimulationSeeder extends Seeder
                 continue;
             }
 
-            // Hindari duplikasi saat seeder dijalankan ulang.
+            // Avoid duplicates when the seeder is run again.
             if ($user->riskSimulations()->where('scenario', $scenario)->exists()) {
                 continue;
             }

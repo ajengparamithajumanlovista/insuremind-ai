@@ -46,7 +46,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Akun dengan peran dan status tertentu.
+     * Account with a specific role and status.
      */
     public function role(string $role, string $status = 'active'): static
     {
@@ -57,7 +57,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Akun administrator.
+     * Administrator account.
      */
     public function admin(): static
     {
@@ -65,7 +65,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Akun reviewer AI Quality Review.
+     * AI Quality Review reviewer account.
      */
     public function reviewer(): static
     {
@@ -73,7 +73,7 @@ class UserFactory extends Factory
     }
 
     /**
-     * Akun yang dinonaktifkan tetapi riwayatnya tetap tersimpan.
+     * Account that has been deactivated but whose history is retained.
      */
     public function inactive(): static
     {

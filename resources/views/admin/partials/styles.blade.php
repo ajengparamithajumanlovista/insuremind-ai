@@ -1,4 +1,4 @@
-/* ── Design tokens (selaras dengan layout pengguna) ────── */
+/* ── Design tokens (aligned with the user layout) ──────── */
 :root {
     --ink: #17243b;
     --muted: #77839a;
@@ -304,7 +304,7 @@ a { color: inherit; text-decoration: none; }
 .stat-value { font-size: 21px; font-weight: 750; letter-spacing: -.6px; margin-top: 6px; }
 .stat-note { font-size: 11px; color: var(--muted); margin-top: 4px; }
 
-/* Jarak antar blok ringkasan pada halaman admin. */
+/* Spacing between summary blocks on the admin page. */
 .dash-section { margin-bottom: 16px; }
 .card-accent { border-left: 4px solid var(--blue); }
 .section-note { font-size: 12px; color: #4f5c72; margin: 0; line-height: 1.55; }
@@ -423,7 +423,7 @@ table.data .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .meter.amber > span { background: linear-gradient(90deg, #f0b23f, #d98b12); }
 .meter.rose > span { background: linear-gradient(90deg, #f0718f, #d8446a); }
 
-/* ── Timeline (riwayat pemrosesan & tinjauan) ────────────── */
+/* ── Timeline (processing & review history) ──────────────── */
 .timeline { display: grid; gap: 0; }
 
 .timeline-item {
@@ -495,7 +495,7 @@ table.data .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
 .kv-row:last-child { border-bottom: 0; padding-bottom: 0; }
 .kv-row dt { color: var(--muted); font-size: 11px; font-weight: 650; text-transform: uppercase; letter-spacing: .4px; margin: 0; }
 .kv-row dd { margin: 0; }
-/* Baris ringkasan dengan label di kiri dan nilai di kanan. */
+/* Summary row with the label on the left and value on the right. */
 .kv-row-split { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
 .kv-strong { font-weight: 750; }
 

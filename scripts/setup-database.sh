@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
 #
-# Menyiapkan database InsureMind AI TANPA memerlukan Laragon/MySQL.
+# Set up the InsureMind AI database WITHOUT requiring Laragon/MySQL.
 #
-# Skrip ini memakai SQLite (bawaan Laravel) sehingga tidak butuh server database
-# eksternal. Cocok untuk macOS, Linux, maupun Git Bash/WSL di Windows.
+# This script uses SQLite (Laravel's default), so no external database server is
+# needed. Works on macOS, Linux, and Git Bash/WSL on Windows.
 #
 # Pemakaian:
 #   chmod +x scripts/setup-database.sh
@@ -11,7 +11,7 @@
 
 set -euo pipefail
 
-# Pindah ke root proyek (folder induk dari folder scripts ini).
+# Change to the project root (the parent directory of this scripts folder).
 PROJECT_ROOT="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$PROJECT_ROOT"
 

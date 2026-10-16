@@ -13,25 +13,25 @@ use Illuminate\Support\Str;
 use Throwable;
 
 /**
- * Penulis tunggal untuk Audit Log.
+ * The single writer for the Audit Log.
  *
- * Seluruh halaman admin memakai layanan ini alih-alih menulis langsung ke
- * tabel `audit_logs` agar:
+ * All admin pages use this service instead of writing directly to the
+ * `audit_logs` table so that:
  *
- * 1. Metadata sensitif (kata sandi, token, API key) tersaring otomatis.
- * 2. Identitas pelaku, alamat IP, dan ID permintaan tercatat konsisten.
- * 3. Kegagalan pencatatan log tidak pernah menggagalkan tindakan pengguna
- *    (bersifat best-effort, kesalahan dilaporkan ke berkas log aplikasi).
+ * 1. Sensitive metadata (passwords, tokens, API keys) is filtered automatically.
+ * 2. The actor's identity, IP address, and request ID are recorded consistently.
+ * 3. A failure to record a log never causes the user's action to fail
+ *    (best-effort; errors are reported to the application log file).
  */
 class AuditLogger
 {
     /**
-     * Nama header berisi ID permintaan yang dipakai lintas sistem.
+     * Header name containing a request ID used across systems.
      */
     public const REQUEST_ID_HEADER = 'X-Request-Id';
 
     /**
-     * Catat satu aktivitas ke dalam Audit Log.
+     * Record one activity in the Audit Log.
      *
      * @param  array{
      *     category: string,
@@ -74,7 +74,7 @@ class AuditLogger
                 'request_id' => $this->requestId($request),
             ]);
         } catch (Throwable $e) {
-            // Audit log tidak boleh menggagalkan aksi utama pengguna.
+            // Audit logging must not cause the user's primary action to fail.
             report($e);
 
             return null;
@@ -82,7 +82,7 @@ class AuditLogger
     }
 
     /**
-     * Catat perubahan nilai: hanya field yang benar-benar berubah.
+     * Record value changes: only fields that actually changed.
      *
      * @param  array<string, mixed>  $before
      * @param  array<string, mixed>  $after
@@ -106,7 +106,7 @@ class AuditLogger
     }
 
     /**
-     * Buang kunci sensitif secara rekursif sebelum data disimpan.
+     * Recursively remove sensitive keys before storing the data.
      *
      * @param  array<string, mixed>|null  $data
      * @return array<string, mixed>|null

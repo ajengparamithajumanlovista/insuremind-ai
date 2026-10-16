@@ -12,11 +12,11 @@ use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 /**
- * Manajemen Pengguna (khusus admin).
+ * User management (admin only).
  *
- * Menonaktifkan akun TIDAK menghapus data: `status` diubah sehingga
- * pengguna kehilangan akses masuk, tetapi riwayat aktivitasnya tetap utuh.
- * Setiap perubahan peran/status dicatat ke Audit Log.
+ * Deactivating an account does NOT delete its data: `status` is changed so the
+ * user loses sign-in access, but their activity history remains intact.
+ * Every role/status change is recorded in the Audit Log.
  */
 class UserManagementController extends Controller
 {
@@ -25,7 +25,7 @@ class UserManagementController extends Controller
     ) {}
 
     /**
-     * Daftar pengguna dengan pencarian dan filter.
+     * List users with search and filters.
      */
     public function index(Request $request): View
     {
@@ -63,7 +63,7 @@ class UserManagementController extends Controller
     }
 
     /**
-     * Detail akun beserta jejak aktivitas terkait.
+     * Account details and related activity history.
      */
     public function show(User $user): View
     {
@@ -77,7 +77,7 @@ class UserManagementController extends Controller
     }
 
     /**
-     * Perbarui peran dan status akun.
+     * Update account role and status.
      */
     public function update(Request $request, User $user): RedirectResponse
     {
@@ -89,8 +89,8 @@ class UserManagementController extends Controller
             'admin_note' => ['nullable', 'string', 'max:2000'],
         ]);
 
-        // Administrator tidak boleh menurunkan perannya sendiri agar tidak
-        // ada sistem yang kehilangan admin terakhirnya secara tidak sengaja.
+        // An administrator cannot demote themselves, to avoid accidentally
+        // leaving the system without an administrator.
         if ($user->is($request->user()) && $data['role'] !== 'admin') {
             return back()->with('error', 'Anda tidak dapat mengubah peran akun Anda sendiri.|You cannot change your own role.');
         }
@@ -114,23 +114,23 @@ class UserManagementController extends Controller
     }
 
     /**
-     * Hapus akun pengguna secara permanen.
+     * Permanently delete a user account.
      *
-     * Berbeda dari menonaktifkan akun (yang hanya mencabut akses masuk),
-     * tindakan ini menghapus baris user beserta seluruh data terkait yang
-     * memakai foreign key `cascadeOnDelete` (profil, polis, percakapan, dsb).
-     * Tabel yang memakai `nullOnDelete` (mis. Audit Log) tetap menyimpan
-     * riwayatnya, sehingga jejak audit tidak hilang.
+     * Unlike deactivating an account (which only revokes sign-in access), this
+     * action deletes the user row and all related data using the
+     * `cascadeOnDelete` foreign key (profile, policies, conversations, etc.).
+     * Tables using `nullOnDelete` (e.g. Audit Log) retain their history, so the
+     * audit trail is not lost.
      */
     public function destroy(Request $request, User $user): RedirectResponse
     {
-        // Administrator tidak boleh menghapus akunnya sendiri agar sesi yang
-        // sedang aktif tidak langsung kehilangan pemiliknya.
+        // An administrator cannot delete their own account, which would leave
+        // the active session without an owner.
         if ($user->is($request->user())) {
             return back()->with('error', 'Anda tidak dapat menghapus akun Anda sendiri.|You cannot delete your own account.');
         }
 
-        // Cegah sistem kehilangan admin terakhirnya.
+        // Prevent the system from losing its last administrator.
         if ($user->isAdmin() && User::query()->where('role', 'admin')->count() <= 1) {
             return back()->with('error', 'Admin terakhir tidak dapat dihapus.|The last administrator cannot be deleted.');
         }
@@ -138,9 +138,9 @@ class UserManagementController extends Controller
         $email = $user->email;
         $name = $user->name;
 
-        // Catat audit SEBELUM penghapusan agar name/email subjek tetap tersimpan
-        // (kolom user_id pada kolom audit memakai nullOnDelete sehingga baris
-        // log tetap ada walau akunnya sudah dihapus).
+        // Record the audit BEFORE deletion so the subject's name/email are
+        // retained (the audit's user_id column uses nullOnDelete, so the log
+        // row remains even after the account is deleted).
         $this->audit->log([
             'category' => AuditCategory::USER_MANAGEMENT,
             'action' => 'user.deleted',
@@ -157,7 +157,7 @@ class UserManagementController extends Controller
     }
 
     /**
-     * Aktifkan kembali akun yang dinonaktifkan.
+     * Reactivate a deactivated account.
      */
     public function activate(Request $request, User $user): RedirectResponse
     {
@@ -165,7 +165,7 @@ class UserManagementController extends Controller
     }
 
     /**
-     * Tangguhkan akun (akses masuk dicabut, data tetap tersimpan).
+     * Suspend an account (sign-in access is revoked, but data is retained).
      */
     public function suspend(Request $request, User $user): RedirectResponse
     {
@@ -177,7 +177,7 @@ class UserManagementController extends Controller
     }
 
     /**
-     * Terapkan perubahan status dengan pencatatan audit.
+     * Apply the status change and record it in the audit log.
      */
     private function setStatus(Request $request, User $user, string $status, string $description): RedirectResponse
     {

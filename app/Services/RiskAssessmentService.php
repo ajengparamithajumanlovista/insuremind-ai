@@ -6,10 +6,10 @@ use App\Models\UserProfile;
 use App\Support\Bi;
 
 /**
- * Analisis kebutuhan perlindungan (AI Risk Assessment).
+ * Protection needs analysis (AI Risk Assessment).
  *
- * Hasil bersifat estimasi berbasis aturan yang transparan (bukan prediksi
- * pasti terjadinya risiko) sehingga pengguna dapat memahami alasannya.
+ * Results are transparent, rule-based estimates (not definitive predictions
+ * that a risk will occur), so users can understand the reasoning.
  */
 class RiskAssessmentService
 {
@@ -45,7 +45,7 @@ class RiskAssessmentService
         $reasons = [];
         $suggestions = [];
 
-        // ── Usia ────────────────────────────────────────────────────────
+        // ── Age ─────────────────────────────────────────────────────────
         if ($age >= 50) {
             $score += 20;
             $reasons[] = Bi::of(
@@ -60,7 +60,7 @@ class RiskAssessmentService
             );
         }
 
-        // ── Tanggungan ──────────────────────────────────────────────────
+        // ── Dependents ──────────────────────────────────────────────────
         if ($dependents >= 1) {
             $score += 18;
             $reasons[] = Bi::of(
@@ -78,7 +78,7 @@ class RiskAssessmentService
             );
         }
 
-        // ── Dana darurat ────────────────────────────────────────────────
+        // ── Emergency fund ──────────────────────────────────────────────
         if ($emergencyMonths < 1) {
             $score += 30;
             $reasons[] = Bi::of(
@@ -112,7 +112,7 @@ class RiskAssessmentService
             );
         }
 
-        // ── Cicilan ─────────────────────────────────────────────────────
+        // ── Debt payments ───────────────────────────────────────────────
         if ($debt > 0) {
             $score += 10;
             $reasons[] = Bi::of(
@@ -121,7 +121,7 @@ class RiskAssessmentService
             );
         }
 
-        // ── Arus kas ────────────────────────────────────────────────────
+        // ── Cash flow ───────────────────────────────────────────────────
         if ($surplus <= 0 && $income > 0) {
             $score += 15;
             $reasons[] = Bi::of(
@@ -134,7 +134,7 @@ class RiskAssessmentService
             );
         }
 
-        // ── Perlindungan yang sudah dimiliki ────────────────────────────
+        // ── Existing coverage ──────────────────────────────────────────
         if (! $profile->has_health_insurance) {
             $score += 12;
             $reasons[] = Bi::of(
@@ -185,7 +185,7 @@ class RiskAssessmentService
             );
         }
 
-        // ── Kemampuan menabung ──────────────────────────────────────────
+        // ── Saving capacity ─────────────────────────────────────────────
         $savingRate = $income > 0 ? round($surplus / $income * 100, 1) : 0.0;
 
         if ($income > 0) {
@@ -219,7 +219,7 @@ class RiskAssessmentService
     }
 
     /**
-     * Normalisasi skor, tentukan tingkat kebutuhan, dan susun tingkat per kategori.
+     * Normalize the score, determine the need level, and assign levels by category.
      *
      * @param  array<int, array{id: string, en: string}>  $reasons
      * @param  array<int, array{id: string, en: string}>  $suggestions
@@ -249,7 +249,7 @@ class RiskAssessmentService
     }
 
     /**
-     * Tingkat kebutuhan perlindungan per kategori asuransi.
+     * Protection need level for each insurance category.
      *
      * @param  array<string, float|int>  $metrics
      * @return array<string, array{level: string, note: array{id: string, en: string}}>

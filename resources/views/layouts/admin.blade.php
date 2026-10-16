@@ -14,7 +14,7 @@
         @include('admin.partials.styles')
         @yield('styles')
 
-        /* ── Badge versi (kanan bawah) ───────────────────────── */
+        /* ── Version badge (bottom right) ───────────────────── */
         .version-badge {
             position: fixed;
             right: 14px;
@@ -54,7 +54,7 @@
             document.getElementById('sidebar').classList.toggle('open');
         });
 
-        // ── Language switcher (perilaku sama dengan layout pengguna) ──
+        // ── Language switcher (same behavior as the user layout) ──────
         let currentLang = 'id';
         const t = key => key;
 

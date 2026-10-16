@@ -22,7 +22,7 @@
     <p class="page-subtitle reveal reveal-1"
        data-id="{{ $meta['description']['id'] }}" data-en="{{ $meta['description']['en'] }}">{{ $meta['description']['id'] }}</p>
 
-    {{-- ── Kategori lain ─────────────────────────────────────── --}}
+    {{-- ── Other categories ──────────────────────────────────── --}}
     <div class="reveal reveal-1" style="display:flex;gap:8px;flex-wrap:wrap;margin:16px 0">
         @foreach ($categoryNames as $key => $label)
             <a href="{{ route('categories.show', $key) }}"

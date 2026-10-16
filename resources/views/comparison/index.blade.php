@@ -137,7 +137,7 @@
             </div>
         </div>
 
-        {{-- ── Kesesuaian dengan profil ─────────────────── --}}
+        {{-- ── Profile fit ──────────────────────────────── --}}
         <div class="grid grid-3 reveal reveal-3" style="margin-top:16px">
             @foreach ($selected as $index => $product)
                 @php
@@ -178,7 +178,7 @@
         </div>
     @endif
 
-    {{-- ── Daftar produk tersedia ────────────────────────────── --}}
+    {{-- ── Available products ────────────────────────────────── --}}
     <div class="card reveal reveal-3" style="margin-top:16px">
         <div class="section-heading">
             <div>

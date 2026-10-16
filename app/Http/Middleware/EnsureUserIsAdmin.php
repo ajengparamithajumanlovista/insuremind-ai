@@ -7,13 +7,13 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Membatasi akses area admin pada backend.
+ * Restricts access to the admin area on the backend.
  *
- * Pemeriksaan izin WAJIB dilakukan di server; menyembunyikan tombol pada
- * frontend tidak cukup untuk mengamankan suatu tindakan (brief bagian 7F).
+ * Permission checks MUST be performed on the server; hiding buttons on the
+ * frontend is not enough to secure an action (brief section 7F).
  *
- * Pengguna yang belum masuk diarahkan ke halaman login, sedangkan pengguna
- * yang sudah masuk tetapi tidak berwenang menerima 403.
+ * Users who are not signed in are redirected to the login page, while signed-in
+ * users without permission receive a 403.
  */
 class EnsureUserIsAdmin
 {

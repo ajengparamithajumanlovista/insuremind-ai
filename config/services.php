@@ -40,9 +40,9 @@ return [
     | AI Chat Assistant (OpenAI)
     |--------------------------------------------------------------------------
     |
-    | Bila API key tidak diisi, ChatAssistantService otomatis memakai
-    | mesin jawaban berbasis aturan (rule-based) sehingga fitur chatbot
-    | tetap berfungsi penuh tanpa koneksi ke layanan eksternal.
+    | If no API key is provided, ChatAssistantService automatically uses
+    | a rule-based answer engine so the chatbot remains fully functional
+    | without a connection to an external service.
     |
     */
 

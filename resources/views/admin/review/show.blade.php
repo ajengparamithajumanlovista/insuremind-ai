@@ -156,7 +156,7 @@
         </div>
     </div>
 
-    {{-- ── Riwayat tinjauan ─────────────────────────────────── --}}
+    {{-- ── Review history ───────────────────────────────────── --}}
     <div class="card reveal reveal-2" style="margin-top:16px">
         <div class="section-heading">
             <div>

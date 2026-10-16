@@ -10,12 +10,12 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 /**
- * Kasus AI Quality Review contoh beserta riwayat tindakannya.
+ * Sample AI Quality Review cases and their action history.
  *
- * Mencakup kasus yang berasal dari jawaban chat (tanpa referensi, feedback
- * negatif) maupun dari analisis dokumen yang gagal. Variasi status dibuat
- * agar antrean review menampilkan pending, in_review, needs_fix, dan done.
- * Setiap keputusan reviewer disertai baris pada `ai_review_actions`.
+ * Includes cases from chat answers (missing references, negative feedback)
+ * and failed document analysis. Different statuses are used so the review
+ * queue displays pending, in_review, needs_fix, and done.
+ * Each reviewer decision has a corresponding row in `ai_review_actions`.
  */
 class AiReviewCaseSeeder extends Seeder
 {
@@ -90,7 +90,7 @@ class AiReviewCaseSeeder extends Seeder
     }
 
     /**
-     * Jawaban tanpa referensi yang dapat diverifikasi (masih menunggu).
+     * Answer without a verifiable reference (still pending).
      *
      * @return array<string, mixed>
      */
@@ -111,7 +111,7 @@ class AiReviewCaseSeeder extends Seeder
     }
 
     /**
-     * Jawaban dengan feedback negatif yang sudah ditinjau (needs_fix).
+     * Answer with negative feedback that has been reviewed (needs_fix).
      *
      * @return array<string, mixed>
      */
@@ -139,7 +139,7 @@ class AiReviewCaseSeeder extends Seeder
     }
 
     /**
-     * Kasus dari analisis dokumen yang gagal.
+     * Case from failed document analysis.
      *
      * @return array<string, mixed>
      */

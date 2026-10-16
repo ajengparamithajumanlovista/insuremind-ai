@@ -7,13 +7,13 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 /**
- * Percakapan contoh dengan chatbot beserta umpan baliknya.
+ * Sample chatbot conversations and their feedback.
  *
- * Dibuat dalam format yang sama dengan ChatController: setiap giliran berisi
- * pesan pengguna (role "user") diikuti jawaban asisten (role "assistant").
- * Sebagian jawaban menyertakan `meta.references` sehingga
- * ChatMessage::hasVerifiableReference() bernilai benar, dan sebagian lagi
- * sengaja tanpa referensi untuk memicu kasus AI Quality Review.
+ * Uses the same format as ChatController: each turn contains a user message
+ * (role "user") followed by an assistant reply (role "assistant").
+ * Some answers include `meta.references` so
+ * ChatMessage::hasVerifiableReference() returns true, while others
+ * deliberately lack references to trigger AI Quality Review cases.
  */
 class ChatSeeder extends Seeder
 {
@@ -26,7 +26,7 @@ class ChatSeeder extends Seeder
                 continue;
             }
 
-            // Hindari duplikasi saat seeder dijalankan ulang.
+            // Avoid duplicates when the seeder is run again.
             if ($user->chatMessages()->exists()) {
                 continue;
             }
@@ -71,7 +71,7 @@ class ChatSeeder extends Seeder
     }
 
     /**
-     * Percakapan untuk profil dengan kebutuhan proteksi tinggi.
+     * Conversation for a profile with high protection needs.
      *
      * @return array<int, array<string, mixed>>
      */
@@ -105,7 +105,7 @@ class ChatSeeder extends Seeder
                 ],
             ],
             [
-                // Jawaban sengaja tanpa referensi untuk memicu kasus review.
+                // The answer deliberately lacks a reference to trigger a review case.
                 'q_id' => 'Apakah saya perlu asuransi jiwa?',
                 'q_en' => 'Do I need life insurance?',
                 'a_id' => 'Ya, sebaiknya Anda mempertimbangkan asuransi jiwa karena penghasilan Anda menopang keluarga.',
@@ -124,7 +124,7 @@ class ChatSeeder extends Seeder
     }
 
     /**
-     * Percakapan untuk profil dengan kebutuhan proteksi sedang.
+     * Conversation for a profile with moderate protection needs.
      *
      * @return array<int, array<string, mixed>>
      */

@@ -12,10 +12,10 @@ use Throwable;
 /**
  * Asisten chat InsureMind.
  *
- * Utamanya memakai OpenAI bila API key tersedia; jika tidak (atau bila
- * panggilan gagal), otomatis beralih ke mesin jawaban berbasis aturan yang
- * menyusun jawaban dari data profil & kalkulasi aplikasi. Dengan begitu
- * chatbot selalu memberi jawaban yang relevan dan dapat diaudit.
+ * Primarily uses OpenAI when an API key is available; otherwise (or if a call
+ * fails), it automatically falls back to a rule-based answer engine that
+ * builds responses from profile data and application calculations. This keeps
+ * chatbot responses relevant and auditable.
  */
 class ChatAssistantService
 {
@@ -24,7 +24,7 @@ class ChatAssistantService
     ) {}
 
     /**
-     * Susun balasan untuk pesan pengguna.
+     * Compose a reply to the user's message.
      *
      * @param  array<int, array{role: string, content: string}>  $history
      * @return array{body_id: string, body_en: string, meta: array<string, mixed>}
@@ -48,7 +48,7 @@ class ChatAssistantService
     }
 
     /**
-     * Apakah integrasi OpenAI tersedia.
+     * Whether the OpenAI integration is available.
      */
     public function hasApiKey(): bool
     {
@@ -56,7 +56,7 @@ class ChatAssistantService
     }
 
     /**
-     * Ringkasan konteks pengguna untuk prompt & jawaban berbasis aturan.
+     * User context summary for the prompt and rule-based answers.
      *
      * @return array<string, mixed>
      */
@@ -118,7 +118,7 @@ class ChatAssistantService
     }
 
     /**
-     * Panggil OpenAI Chat Completions dengan ringkasan konteks pengguna.
+     * Call OpenAI Chat Completions with the user context summary.
      *
      * @param  array<int, array{role: string, content: string}>  $history
      * @param  array<string, mixed>  $context
@@ -160,7 +160,7 @@ class ChatAssistantService
     }
 
     /**
-     * Prompt sistem: batasi topik dan sertakan data pengguna terbaru.
+     * System prompt: limit the topic and include the latest user data.
      *
      * @param  array<string, mixed>  $context
      */
@@ -199,7 +199,7 @@ PROMPT;
     }
 
     /**
-     * Mesin jawaban berbasis aturan (fallback tanpa OpenAI).
+     * Rule-based answer engine (fallback when OpenAI is unavailable).
      *
      * @param  array<string, mixed>  $context
      * @return array{body_id: string, body_en: string, meta: array<string, mixed>}
@@ -228,7 +228,7 @@ PROMPT;
     }
 
     /**
-     * Tentukan maksud pesan pengguna dari kata kunci.
+     * Determine the user's intent from message keywords.
      */
     private function detectIntent(string $message): string
     {
@@ -482,7 +482,7 @@ PROMPT;
     }
 
     /**
-     * Format Rupiah ringkas untuk pesan chat.
+     * Compact Rupiah format for chat messages.
      */
     private function rp(float|int $value): string
     {

@@ -5,17 +5,17 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Kolom katalog untuk pengelolaan produk pada Admin Dashboard.
+ * Catalog columns for product management in the Admin Dashboard.
  *
- * - is_active       : produk nonaktif tetap menyimpan riwayatnya, tetapi
- *                     tidak lagi direkomendasikan sebagai produk aktif.
- * - description     : deskripsi produk (dua bahasa disimpan sebagai JSON
- *                     pasangan id/en, konsisten dengan kolom `benefits`).
- * - entry_age_min/max: rentang usia masuk bila berlaku untuk kategori tsb.
- * - source_url      : tautan sumber resmi agar informasi dapat diverifikasi.
+ * - is_active       : inactive products retain their history but are no longer
+ *                     recommended as active products.
+ * - description     : product description (both languages stored as a JSON
+ *                     id/en pair, consistent with the `benefits` column).
+ * - entry_age_min/max: entry age range, when applicable to the category.
+ * - source_url      : official source link so information can be verified.
  *
- * Catatan: migrasi ini bersifat ADITIF. Tidak ada kolom lama yang diubah
- * atau dihapus sehingga User Dashboard yang sudah berjalan tetap aman.
+ * Note: this migration is ADDITIVE. No existing columns are changed or
+ * removed, so the existing User Dashboard remains unaffected.
  */
 return new class extends Migration
 {

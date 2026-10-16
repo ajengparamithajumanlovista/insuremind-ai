@@ -8,7 +8,7 @@
        data-id="Kondisi akun, katalog, dokumen, dan antrean AI Quality Review dalam satu tampilan."
        data-en="Account health, catalog, documents, and the AI Quality Review queue in one view.">Kondisi akun, katalog, dokumen, dan antrean AI Quality Review dalam satu tampilan.</p>
 
-    {{-- ── Kartu statistik utama ─────────────────────────────── --}}
+    {{-- ── Main statistic cards ──────────────────────────────── --}}
     <div class="grid grid-4 dash-section reveal reveal-1">
         <div class="stat">
             <div class="stat-label" data-id="Total Pengguna" data-en="Total Users">Total Pengguna</div>
@@ -50,7 +50,7 @@
 
 
         </div>
-    {{-- ── Ringkasan peran, antrean, dan kepatuhan ──────────── --}}
+    {{-- ── Role, queue, and compliance summary ──────────────── --}}
     <div class="grid grid-3 dash-section reveal reveal-2">
         <div class="card">
             <div class="section-heading">
@@ -117,7 +117,7 @@
         </div>
     </div>
 
-    {{-- ── Aktivitas terbaru ─────────────────────────────────── --}}
+    {{-- ── Recent activity ───────────────────────────────────── --}}
     <div class="grid grid-2 reveal reveal-3">
         <div class="card">
             <div class="section-heading">

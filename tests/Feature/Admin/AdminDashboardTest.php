@@ -11,8 +11,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Memverifikasi alur Admin Dashboard: hak akses per peran, pengelolaan
- * pengguna/produk, tinjauan kasus AI, dan keterbacaan Audit Log.
+ * Verifies the Admin Dashboard flow: role-based permissions, user/product
+ * management, AI case review, and Audit Log readability.
  */
 class AdminDashboardTest extends TestCase
 {
@@ -32,8 +32,8 @@ class AdminDashboardTest extends TestCase
     {
         $user = User::factory()->create();
 
-        // Ringkasan admin mengarahkan pengguna biasa ke antrean review,
-        // sedangkan halaman khusus admin menolak dengan 403.
+        // The admin summary redirects regular users to the review queue, while
+        // admin-only pages reject them with a 403.
         $this->actingAs($user)->get(route('admin.dashboard'))->assertRedirect(route('admin.review.index'));
         $this->actingAs($user)->get(route('admin.users.index'))->assertForbidden();
         $this->actingAs($user)->get(route('admin.review.index'))->assertForbidden();
@@ -166,13 +166,13 @@ class AdminDashboardTest extends TestCase
         $admin = $this->admin();
         $other = User::factory()->admin()->create();
 
-        // Dua admin: penghapusan masih diizinkan.
+        // With two admins, deletion is still allowed.
         $this->actingAs($admin)
             ->delete(route('admin.users.destroy', $other))
             ->assertRedirect(route('admin.users.index'));
         $this->assertDatabaseMissing('users', ['id' => $other->id]);
 
-        // Sisanya admin terakhir: tidak boleh dihapus oleh admin lain.
+        // As the last remaining admin, this account cannot be deleted by another admin.
         $another = User::factory()->create(['role' => 'user']);
         $this->actingAs($admin)
             ->delete(route('admin.users.destroy', $another))
@@ -263,7 +263,7 @@ class AdminDashboardTest extends TestCase
 
         $response->assertRedirect(route('admin.products.show', $product));
 
-        // Slug dibuat otomatis dari penyedia + nama.
+        // Slug is generated automatically from the provider and name.
         $this->assertSame('mitra-sehat-asuransi-jiwa-sejahtera', $product->slug);
         $this->assertSame('life', $product->category);
         $this->assertTrue($product->is_active);

@@ -7,10 +7,10 @@ use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 /**
- * Membatasi akses pada pengguna yang berperan reviewer atau admin.
+ * Restricts access to users with the reviewer or admin role.
  *
- * Reviewer hanya menangani kasus AI Quality Review yang ditugaskan; akses
- * ke manajemen produk, akun, dan audit log tetap eksklusif admin.
+ * Reviewers can only handle assigned AI Quality Review cases; access to
+ * product management, accounts, and the audit log remains exclusive to admins.
  */
 class EnsureUserIsReviewer
 {

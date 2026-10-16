@@ -19,13 +19,13 @@ use Illuminate\Support\Facades\Route;
 
 Route::view('/', 'landing')->name('landing');
 
-// Otentikasi (satu formulir yang mendeteksi peran admin vs pengguna secara otomatis).
+// Authentication (one form that automatically detects admin vs. user roles).
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login']);
 Route::post('/register', [LoginController::class, 'register'])->name('register');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
 
-// Area yang memerlukan otentikasi.
+// Areas that require authentication.
 Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -56,17 +56,17 @@ Route::middleware('auth')->group(function () {
 | Admin Dashboard
 |--------------------------------------------------------------------------
 |
-| Semua rute di bawah hanya dapat diakses pengguna yang sudah masuk DAN
-| akunnya aktif. Hak per-halaman ditegakkan oleh middleware `admin` /
-| `reviewer` serta Gate pada masing-masing aksi, bukan sekadar tombol yang
-| disembunyikan di antarmuka.
+| All routes below are available only to users who are signed in AND whose
+| accounts are active. Per-page permissions are enforced by the `admin` /
+| `reviewer` middleware and the Gate on each action, not merely by hiding
+| buttons in the interface.
 |
 */
 Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(function () {
-    // Ringkasan operasional (admin).
+    // Operations summary (admin).
     Route::get('/', [AdminDashboardController::class, 'index'])->name('dashboard');
 
-    // Manajemen Pengguna (admin).
+    // User Management (admin).
     Route::middleware('admin')->group(function () {
         Route::get('pengguna', [UserManagementController::class, 'index'])->name('users.index');
         Route::get('pengguna/{user}', [UserManagementController::class, 'show'])->name('users.show');
@@ -75,7 +75,7 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
         Route::post('pengguna/{user}/tangguhkan', [UserManagementController::class, 'suspend'])->name('users.suspend');
         Route::delete('pengguna/{user}', [UserManagementController::class, 'destroy'])->name('users.destroy');
 
-        // Katalog Produk (admin).
+        // Product Catalog (admin).
         Route::get('produk', [AdminProductController::class, 'index'])->name('products.index');
         Route::get('produk/tambah', [AdminProductController::class, 'create'])->name('products.create');
         Route::post('produk', [AdminProductController::class, 'store'])->name('products.store');
@@ -83,14 +83,14 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
         Route::put('produk/{product}', [AdminProductController::class, 'update'])->name('products.update');
         Route::post('produk/{product}/status', [AdminProductController::class, 'toggle'])->name('products.toggle');
 
-        // Dokumen Polis (admin).
+        // Policy Documents (admin).
         Route::get('dokumen', [AdminDocumentController::class, 'index'])->name('documents.index');
         Route::get('dokumen/{document}', [AdminDocumentController::class, 'show'])->name('documents.show');
         Route::get('dokumen/{document}/unduh', [AdminDocumentController::class, 'download'])->name('documents.download');
     });
 
-    // AI Quality Review (admin & reviewer). Otorisasi per-kasus ditegakkan
-    // pada controller melalui Gate `review-case`.
+    // AI Quality Review (admin & reviewer). Per-case authorization is enforced
+    // in the controller via the `review-case` Gate.
     Route::middleware('reviewer')->group(function () {
         Route::get('tinjauan', [AdminReviewCaseController::class, 'index'])->name('review.index');
         Route::get('tinjauan/{case}', [AdminReviewCaseController::class, 'show'])->name('review.show');
@@ -99,7 +99,7 @@ Route::middleware(['auth', 'active'])->prefix('admin')->name('admin.')->group(fu
         Route::post('tinjauan/{case}/catatan', [AdminReviewCaseController::class, 'note'])->name('review.note');
     });
 
-    // Audit Log (admin). Hanya baca dan ekspor; tidak ada update/hapus.
+    // Audit Log (admin). Read and export only; no updates or deletes.
     Route::middleware('admin')->group(function () {
         Route::get('audit', [AuditLogController::class, 'index'])->name('audit.index');
         Route::get('audit/ekspor', [AuditLogController::class, 'export'])->name('audit.export');

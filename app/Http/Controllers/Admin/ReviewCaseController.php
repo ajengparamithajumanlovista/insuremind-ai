@@ -15,9 +15,9 @@ use Illuminate\View\View;
 /**
  * AI Quality Review (admin & reviewer).
  *
- * Alur tinjauan: pending → in_review → valid | needs_fix | escalated → done.
- * Setiap keputusan dicatat pada `ai_review_actions` (append-only) dan Audit
- * Log sehingga alasan keputusan dapat ditelusuri.
+ * Review flow: pending → in_review → valid | needs_fix | escalated → done.
+ * Each decision is recorded in `ai_review_actions` (append-only) and the
+ * Audit Log so the reasoning behind it can be traced.
  */
 class ReviewCaseController extends Controller
 {
@@ -26,7 +26,7 @@ class ReviewCaseController extends Controller
     ) {}
 
     /**
-     * Antrean kasus dengan filter status dan alasan.
+     * Case queue with status and reason filters.
      */
     public function index(Request $request): View
     {
@@ -57,7 +57,7 @@ class ReviewCaseController extends Controller
     }
 
     /**
-     * Detail kasus: pertanyaan, jawaban, referensi, dan riwayat tinjauan.
+     * Case details: question, answer, references, and review history.
      */
     public function show(AiReviewCase $case): View
     {
@@ -71,7 +71,7 @@ class ReviewCaseController extends Controller
     }
 
     /**
-     * Mulai meninjau kasus (pending → in_review).
+     * Start reviewing a case (pending → in_review).
      */
     public function claim(Request $request, AiReviewCase $case): RedirectResponse
     {
@@ -87,7 +87,7 @@ class ReviewCaseController extends Controller
     }
 
     /**
-     * Simpan keputusan reviewer.
+     * Save the reviewer's decision.
      */
     public function decide(Request $request, AiReviewCase $case): RedirectResponse
     {
@@ -111,7 +111,7 @@ class ReviewCaseController extends Controller
     }
 
     /**
-     * Tambahkan catatan tanpa mengubah status.
+     * Add a note without changing the status.
      */
     public function note(Request $request, AiReviewCase $case): RedirectResponse
     {
@@ -127,7 +127,7 @@ class ReviewCaseController extends Controller
     }
 
     /**
-     * Terapkan perubahan status beserta pencatatan riwayat.
+     * Apply the status change and record it in the history.
      */
     private function transition(
         Request $request,
@@ -167,8 +167,7 @@ class ReviewCaseController extends Controller
     }
 
     /**
-     * Reviewer hanya boleh menangani kasus yang ditugaskan; admin menangani
-     * semua kasus.
+     * Reviewers can only handle assigned cases; admins can handle all cases.
      */
     private function authorizeCase(AiReviewCase $case): void
     {

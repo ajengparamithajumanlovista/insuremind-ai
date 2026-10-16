@@ -5,11 +5,11 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 /**
- * Umpan balik pengguna atas jawaban AI.
+ * User feedback on AI answers.
  *
- * Data ini menjadi sinyal masuknya kasus ke AI Quality Review. Feedback
- * negatif BUKAN bukti bahwa jawaban salah (lihat brief bagian 5F), hanya
- * penanda agar diperiksa lebih lanjut.
+ * This data is a signal for creating an AI Quality Review case. Negative
+ * feedback is NOT proof that an answer is wrong (see brief section 5F); it is
+ * only a signal for further review.
  */
 return new class extends Migration
 {

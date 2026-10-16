@@ -14,8 +14,8 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
 /**
- * Memverifikasi fondasi Admin Dashboard: skema aditif, peran/status akun,
- * gate otorisasi, dan integritas Audit Log.
+ * Verifies the Admin Dashboard foundations: additive schema changes,
+ * account roles/statuses, authorization gates, and Audit Log integrity.
  */
 class AdminFoundationTest extends TestCase
 {
@@ -213,14 +213,14 @@ class AdminFoundationTest extends TestCase
         $this->assertNull($log->updated_at);
         $this->assertNotNull($log->created_at);
 
-        // Nilai sensitif disunting secara rekursif.
+        // Sensitive values are redacted recursively.
         $this->assertSame('[disunting]', $log->before['password']);
         $this->assertSame('[disunting]', $log->before['nested']['token']);
         $this->assertSame('[disunting]', $log->after['password']);
         $this->assertSame('user', $log->before['role']);
         $this->assertSame('reviewer', $log->after['role']);
 
-        // Metadata tetap dapat ditelusuri.
+        // Metadata remains traceable.
         $this->assertSame('Manajemen Pengguna', $log->categoryLabel()['id']);
         $this->assertSame('green', $log->resultTone());
         $this->assertSame(1, AuditLog::query()->count());
@@ -249,7 +249,7 @@ class AdminFoundationTest extends TestCase
         $this->assertNull($log->updated_at);
         $this->assertSame('rose', $log->resultTone());
 
-        // Eloquent tidak boleh menyentuh kolom updated_at yang tidak ada.
+        // Eloquent must not touch the nonexistent updated_at column.
         $log->touch();
 
         $this->assertDatabaseHas('audit_logs', ['id' => $log->id, 'result' => 'failed']);

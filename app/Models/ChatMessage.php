@@ -32,7 +32,7 @@ class ChatMessage extends Model
     }
 
     /**
-     * Umpan balik pengguna atas pesan asisten ini.
+     * User feedback on this assistant message.
      */
     public function feedback(): HasMany
     {
@@ -40,7 +40,7 @@ class ChatMessage extends Model
     }
 
     /**
-     * Kasus review yang dipicu oleh pesan ini.
+     * Review case triggered by this message.
      */
     public function reviewCases(): HasMany
     {
@@ -48,8 +48,8 @@ class ChatMessage extends Model
     }
 
     /**
-     * Apakah mesin jawaban benar-benar menyertakan referensi yang dapat
-     * diverifikasi. Dipakai untuk mendeteksi kasus "tanpa referensi pasal".
+     * Whether the answer engine actually included a verifiable reference.
+     * Used to detect cases with "no cited reference".
      */
     public function hasVerifiableReference(): bool
     {
@@ -65,7 +65,7 @@ class ChatMessage extends Model
     }
 
     /**
-     * Isi pesan sesuai bahasa aktif.
+     * Message content in the active language.
      */
     public function body(string $lang = 'id'): string
     {

@@ -15,11 +15,11 @@ use Illuminate\Validation\Rule;
 use Illuminate\View\View;
 
 /**
- * Katalog Produk (khusus admin).
+ * Product Catalog (admin only).
  *
- * Setiap perubahan penting (premi, manfaat, status aktif) ditulis ke
- * `product_histories` sekaligus ke Audit Log sehingga riwayat katalog dapat
- * ditelusuri dari dua sudut: halaman produk dan halaman audit.
+ * Every significant change (premium, benefits, active status) is recorded in
+ * `product_histories` and the Audit Log, so catalog history can be traced from
+ * both the product page and the audit page.
  */
 class ProductController extends Controller
 {
@@ -28,7 +28,7 @@ class ProductController extends Controller
     ) {}
 
     /**
-     * Daftar produk dengan pencarian dan filter kategori/status.
+     * List products with search and category/status filters.
      */
     public function index(Request $request): View
     {
@@ -66,7 +66,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Formulir penambahan produk baru.
+     * Form for adding a new product.
      */
     public function create(): View
     {
@@ -76,11 +76,12 @@ class ProductController extends Controller
     }
 
     /**
-     * Simpan produk baru ke katalog.
+     * Save a new product to the catalog.
      *
-     * Slug dibuat otomatis dari penyedia + nama produk lalu dijaga tetap unik
-     * (menambahkan akhiran angka bila bentrok). Seluruh kolom katalog ikut
-     * tersimpan, dan penambahan dicatat ke Audit Log dengan riwayat "created".
+     * The slug is generated automatically from the provider and product name,
+     * then kept unique (by adding a numeric suffix if there is a conflict).
+     * All catalog columns are saved, and creation is recorded in the Audit Log
+     * with a "created" history entry.
      */
     public function store(Request $request): RedirectResponse
     {
@@ -88,7 +89,7 @@ class ProductController extends Controller
 
         $product = InsuranceProduct::create([
             'slug' => $this->uniqueSlug($data['name'], $data['provider']),
-            // Kolom JSON wajib diisi; produk baru dimulai tanpa daftar dokumen.
+            // JSON columns are required; new products start with no document list.
             'claim_documents' => [],
             ...$this->payload($data),
         ]);
@@ -122,7 +123,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Detail produk beserta riwayat perubahannya.
+     * Product details and change history.
      */
     public function show(InsuranceProduct $product): View
     {
@@ -139,7 +140,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Ubah cepat ketersediaan produk (tanpa membuka halaman detail).
+     * Quickly toggle product availability (without opening the detail page).
      */
     public function toggle(Request $request, InsuranceProduct $product): RedirectResponse
     {
@@ -168,10 +169,10 @@ class ProductController extends Controller
     }
 
     /**
-     * Simpan perubahan produk (halaman detail).
+     * Save product changes (detail page).
      *
-     * Deskripsi dan manfaat menerima teks dua bahasa (id/en). Field angka
-     * opsional dikosongkan menjadi null bila tidak diisi.
+     * Descriptions and benefits accept bilingual text (id/en). Empty optional
+     * numeric fields are converted to null.
      */
     public function update(Request $request, InsuranceProduct $product): RedirectResponse
     {
@@ -213,7 +214,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Aturan validasi bersama untuk pembuatan dan pembaruan produk.
+     * Shared validation rules for product creation and updates.
      *
      * @return array<string, mixed>
      */
@@ -238,11 +239,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Bentuk data siap-simpan dari hasil validasi.
+     * Shape validated data for storage.
      *
-     * Dipakai bersama oleh `store()` dan `update()` agar kedua alur selalu
-     * menulis kolom yang sama. Field angka & daftar yang kosong diberi nilai
-     * netral (0 / daftar kosong) karena kolomnya NOT NULL pada skema.
+     * Shared by `store()` and `update()` so both flows always write the same
+     * columns. Empty numeric and list fields receive neutral values (0 / empty
+     * list) because the schema columns are NOT NULL.
      *
      * @param  array<string, mixed>  $data
      * @return array<string, mixed>
@@ -269,11 +270,11 @@ class ProductController extends Controller
     }
 
     /**
-     * Slug unik dari penyedia + nama produk.
+     * Create a unique slug from the provider and product name.
      *
-     * Bila slug sudah dipakai, akhiran angka ditambahkan (`-2`, `-3`, ...)
-     * sampai tersedia sehingga penambahan produk tidak pernah gagal karena
-     * bentrok kolom unik.
+     * If the slug is already in use, add a numeric suffix (`-2`, `-3`, ...)
+     * until it is unique, so adding a product never fails due to a unique
+     * column conflict.
      */
     private function uniqueSlug(string $name, string $provider): string
     {
@@ -291,7 +292,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Catat satu perubahan field ke riwayat produk.
+     * Record one field change in the product history.
      */
     private function writeHistory(
         InsuranceProduct $product,
@@ -314,7 +315,7 @@ class ProductController extends Controller
     }
 
     /**
-     * Ubah input multiline menjadi daftar baris bersih.
+     * Convert multiline input into a clean list of lines.
      *
      * @return list<string>|null
      */
@@ -333,8 +334,8 @@ class ProductController extends Controller
     }
 
     /**
-     * Ratakan nilai array (mis. deskripsi dua bahasa) menjadi string agar
-     * perbandingan before/after tidak menghasilkan false positive.
+     * Flatten array values (e.g. bilingual descriptions) into strings so
+     * before/after comparisons do not produce false positives.
      *
      * @param  array<string, mixed>  $values
      * @return array<string, mixed>

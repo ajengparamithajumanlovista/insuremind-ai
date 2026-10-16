@@ -9,20 +9,20 @@ use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
 /**
- * Contoh baris Audit Log untuk seluruh kategori.
+ * Sample Audit Log rows for all categories.
  *
- * Tabel ini append-only sehingga baris tidak diperbarui: seeder hanya
- * menambahkan contoh log bila datanya belum ada (dicek lewat jumlah baris),
- * agar riwayat audit tidak terduplikasi saat dijalankan ulang.
+ * This table is append-only, so rows are never updated: the seeder only adds
+ * sample logs if none exist (checked by row count), preventing duplicate audit
+ * history when run again.
  *
- * Kolom `before`/`after` hanya berisi metadata aman; tidak ada kata sandi,
- * token, maupun isi polis lengkap yang disimpan di sini.
+ * The `before`/`after` columns contain only safe metadata; no passwords,
+ * tokens, or full policy contents are stored here.
  */
 class AuditLogSeeder extends Seeder
 {
     public function run(): void
     {
-        // Audit Log bersifat append-only; jangan menambah ulang bila sudah ada.
+        // The Audit Log is append-only; do not add entries again if any exist.
         if (AuditLog::query()->exists()) {
             return;
         }

@@ -8,16 +8,15 @@ use App\Support\Bi;
 use Illuminate\Support\Collection;
 
 /**
- * Perbandingan produk asuransi berdampingan.
+ * Side-by-side comparison of insurance products.
  *
- * Menyusun metrik pembanding, menyoroti nilai terbaik, menghitung estimasi
- * kesesuaian dengan profil pengguna, dan menghasilkan rekomendasi berbasis
- * aturan dengan alasan yang transparan.
+ * Builds comparison metrics, highlights the best values, estimates profile
+ * fit, and generates rule-based recommendations with transparent reasoning.
  */
 class InsuranceComparisonService
 {
     /**
-     * Ambil produk sesuai filter kategori/pencarian.
+     * Retrieve products using the category/search filters.
      *
      * @return Collection<int, InsuranceProduct>
      */
@@ -35,7 +34,7 @@ class InsuranceComparisonService
     }
 
     /**
-     * Bandingkan sekumpulan produk dan tentukan penyorotan nilai terbaik.
+     * Compare a set of products and determine which values to highlight.
      *
      * @param  Collection<int, InsuranceProduct>  $products
      * @return array{
@@ -75,7 +74,7 @@ class InsuranceComparisonService
     }
 
     /**
-     * Indeks produk dengan nilai ekstrem pada sebuah kolom (atau via callback).
+     * Index of the product with the extreme value in a column (or via callback).
      *
      * @param  Collection<int, InsuranceProduct>  $products
      * @param  callable(InsuranceProduct): (float|int)|null  $callback
@@ -88,7 +87,7 @@ class InsuranceComparisonService
 
         $value = fn (InsuranceProduct $p) => (float) ($callback ? $callback($p) : $p->{$column});
 
-        // Abaikan nilai nol/kosong agar tidak salah menyorot data yang belum diisi.
+        // Ignore zero/empty values so unfilled data is not highlighted by mistake.
         $candidates = $products->filter(fn (InsuranceProduct $p) => $value($p) > 0);
 
         if ($candidates->isEmpty()) {
@@ -101,7 +100,7 @@ class InsuranceComparisonService
     }
 
     /**
-     * Skor kesesuaian produk terhadap profil pengguna beserta alasan.
+     * Product-to-user-profile fit score and its reasoning.
      *
      * @return array{score: int, label: array{id: string, en: string}, reasons: array<int, array{id: string, en: string}>}
      */
@@ -114,7 +113,7 @@ class InsuranceComparisonService
         $premium = (float) $product->monthly_premium;
         $ratio = $product->valueRatio();
 
-        // ── Efisiensi nilai ─────────────────────────────────────────────
+        // ── Value efficiency ────────────────────────────────────────────
         if ($ratio >= 100) {
             $score += 18;
             $reasons[] = Bi::of(
@@ -157,7 +156,7 @@ class InsuranceComparisonService
     }
 
     /**
-     * Penyesuaian skor berdasarkan keterjangkauan premi dan kecocokan kebutuhan.
+     * Adjust score based on premium affordability and fit with the user's needs.
      *
      * @param  array<int, array{id: string, en: string}>  $reasons
      */
@@ -190,7 +189,7 @@ class InsuranceComparisonService
             );
         }
 
-        // ── Kecocokan kategori dengan kondisi profil ────────────────────
+        // ── Category match with profile conditions ──────────────────────
         $bonus += match ($product->category) {
             'health' => $profile->has_health_insurance ? -8 : 12,
             'life' => (! $profile->has_life_insurance && $dependents > 0) ? 15 : 5,
@@ -213,7 +212,7 @@ class InsuranceComparisonService
             );
         }
 
-        // ── Kecukupan uang pertanggungan jiwa ───────────────────────────
+        // ── Adequacy of life insurance coverage ────────────────────────
         if ($product->category === 'life' && $coverage > 0) {
             $need = (float) $profile->monthly_income * 12 * ($dependents > 0 ? 10 : 5);
 

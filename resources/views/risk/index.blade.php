@@ -112,7 +112,7 @@
         </div>
 
         @if ($assessment)
-            {{-- ── Alasan & saran ────────────────────────────── --}}
+            {{-- ── Reasons & suggestions ──────────────────────── --}}
             <div class="grid grid-2 reveal reveal-2" style="align-items:start;margin-top:16px">
                 <div class="card">
                     <div class="section-heading">
@@ -153,7 +153,7 @@
         @endif
 
         @if ($assessment)
-            {{-- ── Kebutuhan per kategori ────────────────────── --}}
+            {{-- ── Needs by category ─────────────────────────── --}}
             <div class="card reveal reveal-3" style="margin-top:16px">
                 <div class="section-heading">
                     <div>
@@ -180,7 +180,7 @@
             </div>
         @endif
 
-        {{-- ── Riwayat analisis tersimpan ────────────────────── --}}
+        {{-- ── Saved analysis history ────────────────────────── --}}
         <div class="card reveal reveal-3" style="margin-top:16px">
             <div class="section-heading">
                 <div>

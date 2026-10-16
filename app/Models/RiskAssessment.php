@@ -37,7 +37,7 @@ class RiskAssessment extends Model
     }
 
     /**
-     * Label warna untuk indikator tingkat kebutuhan.
+     * Color label for the needs-level indicator.
      */
     public function tone(): string
     {

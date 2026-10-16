@@ -6,10 +6,10 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 /**
- * Riwayat perubahan katalog produk.
+ * Product catalog change history.
  *
- * Dipakai oleh tab "Riwayat" pada detail produk dan, untuk perubahan
- * penting (premi, manfaat, status), juga dicatat ke Audit Log.
+ * Used by the "History" tab on product details; significant changes
+ * (premiums, benefits, status) are also recorded in the Audit Log.
  */
 class ProductHistory extends Model
 {

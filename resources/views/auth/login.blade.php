@@ -549,7 +549,7 @@
             *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
         }
 
-        /* ── Badge versi (kanan bawah) ───────────────────────── */
+        /* ── Version badge (bottom right) ───────────────────── */
         .version-badge {
             position: fixed;
             right: 14px;

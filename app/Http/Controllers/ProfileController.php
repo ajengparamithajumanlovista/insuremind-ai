@@ -10,7 +10,7 @@ use Illuminate\View\View;
 class ProfileController extends Controller
 {
     /**
-     * Formulir profil finansial pengguna.
+     * User financial profile form.
      */
     public function edit(Request $request): View
     {
@@ -20,7 +20,7 @@ class ProfileController extends Controller
     }
 
     /**
-     * Simpan profil finansial.
+     * Save the financial profile.
      */
     public function update(Request $request): RedirectResponse
     {

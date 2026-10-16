@@ -7,18 +7,18 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Support\Str;
 
 /**
- * Satu baris Audit Log.
+ * A single Audit Log row.
  *
- * Tabel ini append-only: tidak ada `updated_at`, tidak ada endpoint
- * update/hapus, dan setiap baris memiliki `event_id` (UUID) untuk ditelusuri.
- * Koreksi dilakukan dengan menulis baris baru via `corrects_log_id`.
+ * This table is append-only: it has no `updated_at` column or update/delete
+ * endpoint, and each row has an `event_id` (UUID) for traceability.
+ * Corrections are made by writing a new row via `corrects_log_id`.
  */
 class AuditLog extends Model
 {
     public const UPDATED_AT = null;
 
     /**
-     * Kategori aktivitas yang dipakai konsisten di seluruh halaman admin.
+     * Activity categories used consistently throughout the admin pages.
      */
     public const CATEGORIES = [
         'user_management',
@@ -33,8 +33,8 @@ class AuditLog extends Model
     ];
 
     /**
-     * Kolom yang DILARANG diisi ke `before`/`after`. AuditLogger menyaring
-     * kunci ini secara rekursif sebelum menulis.
+     * Fields that MUST NOT be included in `before`/`after`. AuditLogger
+     * recursively filters these keys before writing.
      *
      * @var list<string>
      */
@@ -110,7 +110,7 @@ class AuditLog extends Model
     }
 
     /**
-     * Label kategori yang dapat dibaca pengguna.
+     * Human-readable category labels.
      */
     public function categoryLabel(): array
     {

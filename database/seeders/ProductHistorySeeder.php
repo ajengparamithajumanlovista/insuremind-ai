@@ -8,10 +8,10 @@ use App\Models\User;
 use Illuminate\Database\Seeder;
 
 /**
- * Riwayat perubahan katalog produk contoh.
+ * Sample product catalog change history.
  *
- * Mengisi tab "Riwayat" pada detail produk dengan contoh perubahan premi,
- * manfaat, dan status aktif sehingga jejak perubahan katalog dapat dilihat.
+ * Populates the "History" tab on product details with sample changes to
+ * premiums, benefits, and active status so catalog changes can be reviewed.
  */
 class ProductHistorySeeder extends Seeder
 {

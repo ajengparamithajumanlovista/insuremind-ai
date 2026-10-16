@@ -101,7 +101,7 @@
         </div>
 
         @if ($result)
-            {{-- ── Hasil: tanpa vs dengan perlindungan ──────── --}}
+            {{-- ── Results: without vs. with coverage ───────── --}}
             <div class="grid grid-2 reveal reveal-2" style="align-items:start;margin-top:16px">
                 <div class="card" style="border-left:4px solid var(--rose)">
                     <div class="section-heading">
@@ -184,7 +184,7 @@
                 </div>
             </div>
 
-            {{-- ── Catatan asumsi ────────────────────────────── --}}
+            {{-- ── Assumption notes ──────────────────────────── --}}
             <div class="card reveal reveal-3" style="margin-top:16px">
                 <div class="section-heading">
                     <div>
@@ -201,7 +201,7 @@
             </div>
         @endif
 
-        {{-- ── Riwayat simulasi ─────────────────────────────── --}}
+        {{-- ── Simulation history ───────────────────────────── --}}
         <div class="card reveal reveal-3" style="margin-top:16px">
             <div class="section-heading">
                 <div>

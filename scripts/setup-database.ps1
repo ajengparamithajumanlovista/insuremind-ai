@@ -14,13 +14,13 @@
 
 .EXAMPLE
     # Windows PowerShell
-    php -S localhost:8000 -t public   # jalankan aplikasi
+    php -S localhost:8000 -t public # start the application
     ./scripts/setup-database.ps1
 #>
 
 $ErrorActionPreference = 'Stop'
 
-# Pindah ke root proyek (folder induk dari folder scripts ini).
+# Change to the project root (the parent directory of this scripts folder).
 $projectRoot = Split-Path -Parent $PSScriptRoot
 Set-Location $projectRoot
 

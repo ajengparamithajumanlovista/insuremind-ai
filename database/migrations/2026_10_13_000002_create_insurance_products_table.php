@@ -33,7 +33,7 @@ return new class extends Migration
             $table->string('coverage_period')->nullable();
             $table->text('claim_process')->nullable();
 
-            // Transparansi data: tandai jelas bila produk masih data simulasi.
+            // Data transparency: clearly mark when a product is simulated data.
             $table->boolean('is_sample')->default(true);
             $table->string('data_source')->nullable();
             $table->text('notes')->nullable();

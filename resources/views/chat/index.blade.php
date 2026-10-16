@@ -30,7 +30,7 @@
             @endforeach
         </div>
 
-        {{-- ── Daftar pesan ───────────────────────────────── --}}
+        {{-- ── Message list ───────────────────────────────── --}}
         <div id="chatLog" style="display:grid;gap:11px;max-height:460px;overflow-y:auto;padding:4px 2px">
             @forelse ($messages->reverse() as $message)
                 <div class="chat-row" style="display:flex;justify-content:{{ $message->role === 'user' ? 'flex-end' : 'flex-start' }}">
@@ -132,7 +132,7 @@
                 const fail = (notice) => {
                     typingBubble.classList.remove('chat-typing');
                     typingBubble.textContent = notice;
-                    // Kembalikan pesan ke kotak input agar mudah dikirim ulang.
+                    // Restore the message to the input box so it can be resent easily.
                     if (! input.value) input.value = text;
                 };
 

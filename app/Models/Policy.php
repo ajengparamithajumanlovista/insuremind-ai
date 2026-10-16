@@ -43,7 +43,7 @@ class Policy extends Model
     }
 
     /**
-     * Selisih hari menuju tanggal jatuh tempo (negatif = sudah lewat).
+     * Days until the due date (negative means it has passed).
      */
     public function daysUntilDue(): ?int
     {
@@ -55,7 +55,7 @@ class Policy extends Model
     }
 
     /**
-     * Status pengingat: overdue | due_soon | upcoming | none.
+     * Reminder status: overdue | due_soon | upcoming | none.
      */
     public function reminderStatus(): string
     {
@@ -77,7 +77,7 @@ class Policy extends Model
     }
 
     /**
-     * Nominal premi per bulan (dinormalisasi dari periode pembayaran).
+     * Monthly premium amount (normalized from the payment period).
      */
     public function monthlyPremium(): float
     {

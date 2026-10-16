@@ -17,7 +17,7 @@
        data-id="Pantau skor risiko, anggaran premi, dan langkah berikutnya dalam satu tempat."
        data-en="Track your risk score, premium budget, and next steps in one place.">Pantau skor risiko, anggaran premi, dan langkah berikutnya dalam satu tempat.</p>
 
-    {{-- ── Onboarding: profil belum lengkap ─────────────────── --}}
+    {{-- ── Onboarding: incomplete profile ───────────────────── --}}
     @unless ($profile->isReady())
         <div class="card reveal reveal-1" style="margin-bottom:16px;border-left:4px solid var(--blue)">
             <div class="section-heading" style="margin-bottom:8px">
@@ -68,7 +68,7 @@
     </div>
 
     <div class="grid grid-2" style="margin-bottom:16px">
-        {{-- ── Skor risiko detail ────────────────────────────── --}}
+        {{-- ── Detailed risk score ───────────────────────────── --}}
         <div class="card reveal reveal-2">
             <div class="section-heading">
                 <div>
@@ -100,7 +100,7 @@
             @endif
         </div>
 
-        {{-- ── Pengingat jatuh tempo ─────────────────────────── --}}
+        {{-- ── Due-date reminders ────────────────────────────── --}}
         <div class="card reveal reveal-2">
             <div class="section-heading">
                 <div>
@@ -139,7 +139,7 @@
         </div>
     </div>
 
-    {{-- ── Riwayat & akses cepat ─────────────────────────────── --}}
+    {{-- ── History & quick access ───────────────────────────── --}}
     <div class="grid grid-2">
         <div class="card reveal reveal-3">
             <div class="section-heading">

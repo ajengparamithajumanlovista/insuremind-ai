@@ -70,7 +70,7 @@
             </form>
         </div>
 
-        {{-- ── Ringkasan & riwayat ─────────────────────────────── --}}
+        {{-- ── Summary & history ───────────────────────────────── --}}
         <div class="grid">
             <div class="card">
                 <div class="section-heading">
@@ -136,7 +136,7 @@
                 </div>
             </div>
 
-            {{-- ── Zona berbahaya: hapus akun permanen ─────────── --}}
+            {{-- ── Danger zone: permanently delete account ─────── --}}
             @if (! $user->is(auth()->user()))
                 <div class="card" style="border-color:#f3cdd7">
                     <div class="section-heading">

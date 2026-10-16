@@ -7,11 +7,11 @@ use App\Models\UserProfile;
 use Illuminate\Database\Seeder;
 
 /**
- * Profil finansial contoh agar analisis risiko dan simulator risiko hidup
- * langsung menghasilkan keluaran yang bermakna (tidak kosong).
+ * Sample financial profiles so risk analysis and the life risk simulator
+ * immediately produce meaningful (non-empty) results.
  *
- * Setiap profil sengaja dibuat dengan skenario berbeda sehingga halaman
- * "Analisis Risiko" menampilkan variasi tingkat kebutuhan (low/medium/high).
+ * Each profile uses a different scenario so the "Risk Analysis" page displays
+ * a range of need levels (low/medium/high).
  */
 class UserProfileSeeder extends Seeder
 {
@@ -37,7 +37,7 @@ class UserProfileSeeder extends Seeder
     private function profiles(): array
     {
         return [
-            // Kebutuhan tinggi: usia matang, banyak tanggungan, dana darurat minim.
+            // High needs: older age, many dependents, and a limited emergency fund.
             'user@insuremind.ai' => [
                 'age' => 42,
                 'occupation' => 'Manajer Operasional',
@@ -56,7 +56,7 @@ class UserProfileSeeder extends Seeder
                 'notes' => 'Contoh profil dengan kebutuhan perlindungan tinggi untuk demo analisis risiko.',
             ],
 
-            // Kebutuhan sedang: sudah punya asuransi kesehatan, tanggungan sedikit.
+            // Moderate needs: already has health insurance, with few dependents.
             'budi@insuremind.ai' => [
                 'age' => 34,
                 'occupation' => 'Software Engineer',
@@ -75,7 +75,7 @@ class UserProfileSeeder extends Seeder
                 'notes' => 'Sudah memiliki asuransi kesehatan dari kantor.',
             ],
 
-            // Kebutuhan rendah: tanpa tanggungan, dana darurat sehat.
+            // Low needs: no dependents and a healthy emergency fund.
             'siti@insuremind.ai' => [
                 'age' => 28,
                 'occupation' => 'Desainer Grafis',
@@ -94,7 +94,7 @@ class UserProfileSeeder extends Seeder
                 'notes' => 'Belum berkeluarga dan dana darurat sudah memadai.',
             ],
 
-            // Kebutuhan tinggi: penghasilan kecil, tanggungan banyak.
+            // High needs: low income and many dependents.
             'andi@insuremind.ai' => [
                 'age' => 50,
                 'occupation' => 'Wirausaha',

@@ -20,20 +20,20 @@ return new class extends Migration
             $table->string('occupation')->nullable();
             $table->string('city')->nullable();
 
-            // Kondisi finansial (disimpan dalam Rupiah)
+            // Financial details (stored in Rupiah)
             $table->decimal('monthly_income', 15, 2)->default(0);
             $table->decimal('monthly_expense', 15, 2)->default(0);
             $table->decimal('monthly_debt', 15, 2)->default(0);
             $table->decimal('savings', 15, 2)->default(0);
             $table->unsignedTinyInteger('dependents')->default(0);
 
-            // Perlindungan yang sudah dimiliki
+            // Existing coverage
             $table->boolean('has_health_insurance')->default(false);
             $table->boolean('has_life_insurance')->default(false);
             $table->boolean('has_work_insurance')->default(false);
             $table->decimal('existing_coverage', 15, 2)->default(0);
 
-            // Rencana pendidikan anak
+            // Child education plan
             $table->unsignedTinyInteger('education_years')->default(0);
             $table->decimal('education_cost', 15, 2)->default(0);
 

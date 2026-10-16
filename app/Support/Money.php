@@ -3,12 +3,12 @@
 namespace App\Support;
 
 /**
- * Pemformat angka Rupiah yang konsisten di seluruh halaman.
+ * Consistent Rupiah number formatting throughout the application.
  */
 class Money
 {
     /**
-     * Format penuh: 1500000 => "Rp 1.500.000".
+     * Full format: 1500000 => "Rp 1.500.000".
      */
     public static function idr(float|int|null $value): string
     {
@@ -19,7 +19,7 @@ class Money
     }
 
     /**
-     * Format ringkas untuk kartu statistik: 1500000 => "Rp 1,5 jt".
+     * Compact format for statistic cards; the output depends on the selected language.
      */
     public static function compact(float|int|null $value, string $lang = 'id'): string
     {
@@ -45,16 +45,16 @@ class Money
     }
 
     /**
-     * Bentuk masukan angka menjadi float yang aman.
+     * Convert numeric input to a safe float.
      *
-     * Mendukung format Indonesia ("1.500.000", "1.500,50") maupun
-     * format Inggris/global ("1,500,000", "1,500.50") serta angka polos.
+     * Supports Indonesian formats ("1.500.000", "1.500,50"), English/global
+     * formats ("1,500,000", "1,500.50"), and plain numbers.
      */
     public static function parse(mixed $value): float
     {
-        // Nilai numerik asli (int/float) sudah pasti bentuknya, gunakan langsung.
-        // String tunggal tidak dianggap final karena "450.000" secara PHP numeric
-        // tetapi dalam format Indonesia berarti 450000, bukan 450.
+        // Native numeric values (int/float) are unambiguous, so use them directly.
+        // A single-separator string is not treated as final because "450.000" is
+        // numeric in PHP but means 450000, not 450, in Indonesian formatting.
         if (is_int($value) || is_float($value)) {
             return (float) $value;
         }
@@ -73,7 +73,7 @@ class Money
     }
 
     /**
-     * Ubah pemisah ribuan menjadi hilang dan hanya sisakan satu titik desimal.
+     * Remove thousands separators and leave only one decimal point.
      */
     private static function normalizeSeparators(string $number): string
     {
@@ -83,7 +83,7 @@ class Money
         $hasComma = $lastComma !== false;
 
         if ($hasDot && $hasComma) {
-            // Simbol yang muncul paling akhir adalah pemisah desimal.
+            // The last-occurring symbol is the decimal separator.
             [$decimal, $grouping] = $lastDot > $lastComma ? ['.', ','] : [',', '.'];
             $number = str_replace($grouping, '', $number);
             $number = str_replace($decimal, '.', $number);
@@ -100,8 +100,8 @@ class Money
         $count = substr_count($number, $separator);
         $positionFromEnd = strlen($number) - 1 - strrpos($number, $separator);
 
-        // Lebih dari satu kemunculan => pemisah ribuan, bukan desimal.
-        // Satu kemunculan dengan digit setelahnya bukan 1-2 => pemisah ribuan.
+        // More than one occurrence means a thousands separator, not a decimal.
+        // One occurrence followed by other than 1–2 digits means a thousands separator.
         if ($count > 1 || $positionFromEnd > 2) {
             return str_replace($separator, '', $number);
         }
@@ -110,7 +110,7 @@ class Money
     }
 
     /**
-     * Pastikan hanya menyisakan satu pemisah desimal paling kanan.
+     * Ensure only the rightmost decimal separator remains.
      */
     private static function keepTrailingDecimals(string $number): string
     {

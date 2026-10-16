@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    {{-- ── Tambah polis ──────────────────────────────────────── --}}
+    {{-- ── Add a policy ─────────────────────────────────────── --}}
     <div class="card reveal reveal-2" style="margin-top:16px">
         <div class="section-heading">
             <div>
@@ -147,7 +147,7 @@
         </form>
     </div>
 
-    {{-- ── Daftar polis ──────────────────────────────────────── --}}
+    {{-- ── Policy list ───────────────────────────────────────── --}}
     <div class="card reveal reveal-3" style="margin-top:16px">
         <div class="section-heading">
             <div>

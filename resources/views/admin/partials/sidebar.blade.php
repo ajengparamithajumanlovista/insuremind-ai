@@ -1,6 +1,6 @@
 @php
-    // Menu area admin. `gate` menentukan apakah item tampil untuk peran saat
-    // ini; pemeriksaan izin sebenarnya tetap dilakukan di backend (middleware).
+    // Admin area menu. `gate` determines whether an item is shown for the
+    // current role; actual permission checks are still handled by the backend (middleware).
     $adminNav = [
         [
             'route' => 'admin.dashboard',

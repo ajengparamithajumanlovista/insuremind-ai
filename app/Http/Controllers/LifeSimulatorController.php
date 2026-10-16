@@ -15,9 +15,9 @@ class LifeSimulatorController extends Controller
     ) {}
 
     /**
-     * Halaman simulator risiko hidup.
+     * Life risk simulator page.
      *
-     * Mendukung GET (parameter pada URL) dan menampilkan hasil secara langsung.
+     * Supports GET (parameters in the URL) and displays results immediately.
      */
     public function index(Request $request): View
     {
@@ -43,7 +43,7 @@ class LifeSimulatorController extends Controller
     }
 
     /**
-     * Simpan hasil simulasi sebagai riwayat.
+     * Save the simulation result to history.
      */
     public function store(Request $request): RedirectResponse
     {

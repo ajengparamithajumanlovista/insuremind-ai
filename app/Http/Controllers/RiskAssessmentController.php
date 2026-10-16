@@ -14,7 +14,7 @@ class RiskAssessmentController extends Controller
     ) {}
 
     /**
-     * Tampilkan analisis risiko terbaru dari profil saat ini.
+     * Display the latest risk analysis for the current profile.
      */
     public function index(Request $request): View
     {
@@ -31,7 +31,7 @@ class RiskAssessmentController extends Controller
     }
 
     /**
-     * Jalankan (ulang) analisis dan simpan hasilnya sebagai riwayat.
+     * Run (or rerun) the analysis and save the result to history.
      */
     public function store(Request $request): RedirectResponse
     {

@@ -21,25 +21,25 @@ Laravel is a web application framework with expressive, elegant syntax. We belie
 
 Laravel is accessible, powerful, and provides tools required for large, robust applications.
 
-## InsureMind AI — Menjalankan Tanpa Laragon
+## InsureMind AI — Running Without Laragon
 
-Proyek ini menggunakan **SQLite** sebagai database default sehingga **tidak
-memerlukan Laragon, MySQL, atau server database eksternal apa pun**. Cukup
-tersedia PHP 8.2+ dengan ekstensi `pdo_sqlite` (aktif secara bawaan).
+This project uses **SQLite** as its default database, so it **does not require
+Laragon, MySQL, or any external database server**. You only need PHP 8.2+ with
+the `pdo_sqlite` extension (enabled by default).
 
-### Cara cepat (otomatis)
+### Quick setup (automatic)
 
-Jalankan skrip penyiapan sesuai sistem operasi Anda. Skrip ini akan membuat
-`.env`, membuat file `database/database.sqlite`, lalu menjalankan migrasi
-sekaligus mengisi seluruh data demo (akun, produk, polis, chat, dokumen,
-kasus tinjauan AI, dan audit log).
+Run the setup script for your operating system. The script creates `.env` and
+`database/database.sqlite`, then runs the migrations and seeds all demo data
+(accounts, products, policies, chats, documents, AI review cases, and audit
+logs).
 
 **Windows (PowerShell):**
 ```powershell
 ./scripts/setup-database.ps1
 ```
 
-**Windows (klik dua kali / CMD):**
+**Windows (double-click / Command Prompt):**
 ```bat
 scripts\setup-database.bat
 ```
@@ -50,72 +50,73 @@ chmod +x scripts/setup-database.sh
 ./scripts/setup-database.sh
 ```
 
-Setelah selesai, jalankan aplikasi:
+When setup is complete, start the application:
 ```bash
 php artisan serve
 ```
 
-### Cara manual
+### Manual setup
 
-Bila ingin melakukan langkah-langkahnya sendiri:
+To perform the setup steps yourself:
 
 ```bash
-# 1. Salin konfigurasi lingkungan
+# 1. Copy the environment configuration
 cp .env.example .env        # Windows: copy .env.example .env
 
-# 2. Buat file database SQLite
+# 2. Create the SQLite database file
 #    Windows:  type nul > database\database.sqlite
 touch database/database.sqlite
 
-# 3. Buat aplikasi key
+# 3. Generate the application key
 php artisan key:generate
 
-# 4. Migrasi + isi data demo
+# 4. Run migrations and seed demo data
 php artisan migrate:fresh --seed
 ```
 
-> Catatan: `.env` bawaan proyek sudah disetel `DB_CONNECTION=sqlite`. Bila Anda
-> ingin memakai MySQL kelas produksi, ubah `DB_CONNECTION=mysql` beserta
-> kredensialnya pada `.env` — seeder tetap bekerja apa adanya karena seluruh
-> seeder memakai Eloquent (bukan SQL khusus MySQL).
+> Note: The project's default `.env` is configured with `DB_CONNECTION=sqlite`.
+> To use MySQL in production, set `DB_CONNECTION=mysql` and update the
+> credentials in `.env`. The seeders will continue to work as-is because they
+> all use Eloquent (not MySQL-specific SQL).
 
-### Akun demo
+### Demo accounts
 
-Semua akun memakai kata sandi `password`.
+All accounts use the password `password`.
 
-| Peran    | Email                     |
+| Role     | Email                     |
 |----------|---------------------------|
 | Admin    | `admin@insuremind.ai`     |
 | Reviewer | `reviewer@insuremind.ai`  |
 | User     | `user@insuremind.ai`      |
 
-Bila akun admin hilang atau kata sandinya perlu diatur ulang, jalankan:
+If the admin account is missing or you need to reset its password, run:
 
 ```bash
 php artisan insuremind:admin
-# atau dengan kredensial sendiri:
+# or with your own credentials:
 php artisan insuremind:admin --email=email@anda.com --password=rahasia123
 ```
 
-### Tidak bisa masuk ke area admin? Cek hal berikut
+### Can't access the admin area? Check the following
 
-1. **Pastikan memakai akun admin** — login dengan `admin@insuremind.ai` /
-   `password`. Akun biasa (`user@insuremind.ai`) memang **tidak** boleh membuka
-   `/admin` (akan mendapat 403) dan akan diarahkan ke dashboard pribadi.
-2. **Pastikan mengakses URL yang benar** — jalankan `php artisan serve` lalu buka
-   `http://127.0.0.1:8000`. Jangan mencampur domain (mis. `<nama>.test` dari
-   Laragon) dengan server yang berbeda karena cookie sesi tidak akan cocok.
-3. **Hapus cookie / sesi lama** — setelah database diganti (`migrate:fresh`),
-   cookie sesi lama menjadi tidak valid. Lakukan logout, bersihkan cookie untuk
-   host tersebut, lalu login ulang.
-4. **Bersihkan cache konfigurasi** — jalankan:
+1. **Make sure you are using an admin account** — sign in with
+   `admin@insuremind.ai` / `password`. Regular accounts
+   (`user@insuremind.ai`) **cannot** access `/admin` (they will receive a 403)
+   and are redirected to their personal dashboard.
+2. **Make sure you are using the correct URL** — run `php artisan serve`, then
+   open `http://127.0.0.1:8000`. Do not mix domains (e.g. `<name>.test` from
+   Laragon) with a different server, as the session cookies will not match.
+3. **Clear old cookies / sessions** — after replacing the database
+   (`migrate:fresh`), old session cookies become invalid. Sign out, clear the
+   cookies for that host, then sign in again.
+4. **Clear the configuration cache** — run:
    ```bash
    php artisan config:clear
    php artisan cache:clear
    php artisan view:clear
    ```
-5. **Pulihkan akun admin** — jalankan `php artisan insuremind:admin` lalu login
-   ulang dengan `admin@insuremind.ai` / `password`.
+5. **Restore the admin account** — run `php artisan insuremind:admin`, then sign
+   in again with `admin@insuremind.ai` / `password`.
 
 ## Learning Laravel
 

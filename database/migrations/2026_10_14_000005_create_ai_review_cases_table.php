@@ -7,14 +7,14 @@ use Illuminate\Support\Facades\Schema;
 /**
  * Kasus AI Quality Review.
  *
- * Satu kasus mewakili SATU jawaban asisten yang perlu diperiksa manusia.
- * Satu jawaban dapat memicu beberapa alasan (tanpa referensi, feedback
- * negatif, referensi meragukan) sehingga statistik dihitung berdasarkan
- * KASUS UNIK, bukan jumlah kejadian.
+ * One case represents ONE assistant answer that needs human review.
+ * One answer can trigger multiple reasons (missing references, negative
+ * feedback, questionable references), so statistics are based on UNIQUE
+ * CASES, not the number of events.
  *
- * Kasus juga bisa berasal dari proses yang bukan jawaban chat (mis. analisis
- * dokumen gagal) sehingga `chat_message_id` dan `policy_document_id`
- * keduanya nullable dan hanya salah satu yang terisi.
+ * Cases can also originate from processes other than chat answers (e.g. failed
+ * document analysis), so `chat_message_id` and `policy_document_id` are both
+ * nullable, with only one populated.
  */
 return new class extends Migration
 {
@@ -27,12 +27,12 @@ return new class extends Migration
             $table->foreignId('policy_document_id')->nullable()->constrained('policy_documents')->cascadeOnDelete();
 
             $table->string('category', 20)->nullable()->index();
-            // Alasan tunggal utama + daftar lengkap agar tidak duplikat kasus.
+            // Primary issue type and full list to prevent duplicate cases.
             $table->string('issue_type', 40)->index();
             $table->json('issues')->nullable();
 
-            // Snapshot pertanyaan & jawaban agar riwayat tetap utuh walau
-            // percakapan asal dihapus pengguna.
+            // Snapshot the question and answer so history remains intact even
+            // if the user deletes the original conversation.
             $table->text('question')->nullable();
             $table->text('answer')->nullable();
             $table->json('references')->nullable();
@@ -51,8 +51,8 @@ return new class extends Migration
             $table->index(['status', 'created_at']);
         });
 
-        // Riwayat pemeriksaan: setiap keputusan reviewer dicatat, bukan
-        // hanya status akhir, sehingga jejak audit tetap utuh.
+        // Review history: record every reviewer decision, not just the final
+        // status, so the audit trail remains intact.
         Schema::create('ai_review_actions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('ai_review_case_id')->constrained('ai_review_cases')->cascadeOnDelete();

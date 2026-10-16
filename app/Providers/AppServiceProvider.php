@@ -19,9 +19,9 @@ class AppServiceProvider extends ServiceProvider
     /**
      * Bootstrap any application services.
      *
-     * Gate di bawah menerapkan prinsip least privilege: reviewer hanya
-     * memperoleh hak yang dibutuhkan untuk memeriksa kasus AI, sedangkan
-     * hak pengelolaan katalog, akun, dan audit log hanya dimiliki admin.
+     * The gates below follow the principle of least privilege: reviewers
+     * receive only the permissions needed to review AI cases, while catalog,
+     * account, and audit log management permissions are reserved for admins.
      */
     public function boot(): void
     {
@@ -37,9 +37,8 @@ class AppServiceProvider extends ServiceProvider
 
         Gate::define('export-audit-log', fn (User $user) => $user->isAdmin());
 
-        // Reviewer tidak melihat percakapan atau dokumen milik pengguna lain
-        // secara bebas; hanya kasus yang benar-benar ditugaskan kepadanya
-        // atau yang masih terbuka.
+        // Reviewers cannot freely view other users' conversations or documents;
+        // they can only access cases assigned to them or cases that remain open.
         Gate::define('review-case', function (User $user, ?User $owner = null) {
             if ($user->isAdmin()) {
                 return true;
