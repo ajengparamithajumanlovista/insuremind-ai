@@ -5,7 +5,7 @@
         [
             'route' => 'admin.dashboard',
             'pattern' => 'admin.dashboard',
-            'icon' => '▦',
+            'icon' => 'overview',
             'id' => 'Ringkasan',
             'en' => 'Overview',
             'gate' => 'access-admin-dashboard',
@@ -13,7 +13,7 @@
         [
             'route' => 'admin.users.index',
             'pattern' => 'admin.users.*',
-            'icon' => '☺',
+            'icon' => 'users',
             'id' => 'Manajemen Pengguna',
             'en' => 'User Management',
             'gate' => 'manage-users',
@@ -21,7 +21,7 @@
         [
             'route' => 'admin.products.index',
             'pattern' => 'admin.products.*',
-            'icon' => '◫',
+            'icon' => 'products',
             'id' => 'Katalog Produk',
             'en' => 'Product Catalog',
             'gate' => 'manage-products',
@@ -29,7 +29,7 @@
         [
             'route' => 'admin.documents.index',
             'pattern' => 'admin.documents.*',
-            'icon' => '⎙',
+            'icon' => 'documents',
             'id' => 'Dokumen Polis',
             'en' => 'Policy Documents',
             'gate' => 'manage-products',
@@ -37,7 +37,7 @@
         [
             'route' => 'admin.review.index',
             'pattern' => 'admin.review.*',
-            'icon' => '✦',
+            'icon' => 'quality',
             'id' => 'AI Quality Review',
             'en' => 'AI Quality Review',
             'gate' => 'access-ai-review',
@@ -45,7 +45,7 @@
         [
             'route' => 'admin.audit.index',
             'pattern' => 'admin.audit.*',
-            'icon' => '▤',
+            'icon' => 'audit',
             'id' => 'Audit Log',
             'en' => 'Audit Log',
             'gate' => 'view-audit-log',
@@ -75,7 +75,7 @@
             @can($item['gate'])
                 <a href="{{ route($item['route']) }}"
                    class="{{ request()->routeIs($item['pattern']) ? 'active' : '' }}">
-                    <span class="nav-icon">{{ $item['icon'] }}</span>
+                    <span class="nav-icon">@include('partials.nav-icon', ['icon' => $item['icon']])</span>
                     <span data-id="{{ $item['id'] }}" data-en="{{ $item['en'] }}">{{ $item['id'] }}</span>
                     @if ($item['route'] === 'admin.review.index' && $openReviewCount > 0)
                         <span class="nav-count">{{ $openReviewCount }}</span>
@@ -89,7 +89,7 @@
 
     <nav class="nav">
         <a href="{{ route('dashboard') }}">
-            <span class="nav-icon">◧</span>
+            <span class="nav-icon">@include('partials.nav-icon', ['icon' => 'user-dashboard'])</span>
             <span data-id="Dashboard Pengguna" data-en="User Dashboard">Dashboard Pengguna</span>
         </a>
     </nav>

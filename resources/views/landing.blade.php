@@ -331,14 +331,16 @@
         }
 
         /* ── Hero ────────────────────────────────────────────── */
-        .hero { padding: 60px 0 40px; }
+        .hero { padding: 68px 0 52px; }
 
         .hero-grid {
             display: grid;
-            grid-template-columns: 1.05fr .95fr;
-            gap: 46px;
+            grid-template-columns: minmax(0, 1fr) minmax(0, 1.08fr);
+            gap: 42px;
             align-items: center;
         }
+
+        .hero-copy { max-width: 570px; }
 
         .pill {
             display: inline-flex;
@@ -362,70 +364,80 @@
 
         .hero h1 {
             margin: 18px 0 0;
-            font-size: 46px;
+            font-size: clamp(40px, 4vw, 54px);
             line-height: 1.12;
-            letter-spacing: -1.6px;
+            letter-spacing: -2px;
         }
 
         .hero h1 em { font-style: normal; color: var(--blue); }
 
-        .hero p { margin: 16px 0 0; color: var(--muted); font-size: 15.5px; max-width: 520px; }
+        .hero p { margin: 16px 0 0; color: var(--muted); font-size: 15.5px; line-height: 1.7; max-width: 500px; }
 
         .hero-cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
 
         .hero-stats {
             display: grid;
             grid-template-columns: repeat(3, 1fr);
-            gap: 12px;
-            margin-top: 30px;
+            gap: 9px;
+            margin-top: 25px;
         }
 
         .hero-stat {
             position: relative;
-            background: #fff;
-            border: 1px solid var(--line);
-            border-radius: 14px;
-            padding: 14px 15px 15px;
-            box-shadow: 0 12px 26px #172e530d;
+            display: flex;
+            align-items: center;
+            gap: 9px;
+            min-width: 0;
+            background: #ffffffd9;
+            border: 1px solid #e5eaf3;
+            border-radius: 12px;
+            padding: 10px;
+            box-shadow: 0 6px 18px #172e5309;
             overflow: hidden;
-            transition: transform .32s cubic-bezier(.2,.7,.25,1), box-shadow .32s ease, border-color .32s ease;
+            transition: transform .24s ease, box-shadow .24s ease, border-color .24s ease;
         }
 
         .hero-stat::before {
             content: "";
             position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 3px;
+            left: auto;
+            right: 10px;
+            top: 10px;
+            width: 5px;
+            height: 5px;
+            border-radius: 50%;
             background: linear-gradient(180deg, var(--blue), #7fa2ff);
         }
 
         .hero-stat:hover {
             transform: translateY(-2px);
-            box-shadow: 0 18px 34px #172e5317;
+            box-shadow: 0 10px 22px #172e5312;
             border-color: #c9d8f5;
         }
 
         .hero-stat .stat-ico {
-            width: 26px;
-            height: 26px;
-            border-radius: 8px;
+            flex: none;
+            width: 30px;
+            height: 30px;
+            border-radius: 9px;
             display: grid;
             place-items: center;
             background: #eef3ff;
             color: #4568dc;
-            margin-bottom: 9px;
+            margin: 0;
         }
+
+        .hero-stat-copy { min-width: 0; }
 
         .hero-stats b {
             display: block;
-            font-size: 23px;
-            letter-spacing: -.8px;
+            font-size: 13px;
+            letter-spacing: -.15px;
             color: #16233a;
+            line-height: 1.3;
         }
 
-        .hero-stats small { display: block; margin-top: 2px; color: var(--soft); font-size: 10.5px; line-height: 1.35; }
+        .hero-stats small { display: block; margin-top: 2px; color: var(--soft); font-size: 10px; line-height: 1.4; }
 
         /* ── Mock card ───────────────────────────────────────── */
         .mock {
@@ -438,6 +450,22 @@
                 0 26px 60px #172e531a;
             overflow: hidden;
         }
+
+        .mock-image {
+            display: block;
+            width: 100%;
+            height: auto;
+        }
+
+        .mock-image-only {
+            background: transparent;
+            border: 0;
+            border-radius: 0;
+            box-shadow: none;
+            overflow: visible;
+        }
+
+        .mock-image-only::before { display: none; }
 
         .mock::before {
             content: "";
@@ -534,25 +562,26 @@
             display: flex;
             align-items: center;
             gap: 11px;
-            padding: 11px 12px;
-            border: 1px solid var(--line);
-            border-radius: 12px;
-            background: #fff;
-            transition: border-color .32s ease, box-shadow .32s ease, transform .32s cubic-bezier(.2,.7,.25,1);
+            padding: 12px;
+            border: 1px solid #e7ecf5;
+            border-radius: 14px;
+            background: linear-gradient(145deg, #fff, #fbfcff);
+            box-shadow: 0 5px 14px #26395b08, inset 0 1px #fff;
+            transition: border-color .28s ease, box-shadow .28s ease, transform .28s cubic-bezier(.2,.7,.25,1);
         }
 
         .svc-tile:hover {
-            border-color: #c9d8f5;
-            box-shadow: 0 6px 16px #172e5310;
-            transform: translateY(-2px);
+            border-color: #cbd8f3;
+            box-shadow: 0 10px 22px #172e5312;
+            transform: translateY(-3px);
         }
 
         .svc-glyph {
             position: relative;
-            width: 38px;
-            height: 38px;
+            width: 40px;
+            height: 40px;
             flex: none;
-            border-radius: 12px;
+            border-radius: 13px;
             display: grid;
             place-items: center;
             color: #3d61de;
@@ -750,45 +779,37 @@
         /* ── Score panel ─────────────────────────────────────── */
         .score-panel {
             display: grid;
-            grid-template-columns: .9fr 1.1fr;
+            grid-template-columns: minmax(0, .95fr) minmax(0, 1.05fr);
             gap: 34px;
             align-items: center;
             background: #fff;
-            border: 1px solid var(--line);
+            border: 1px solid #e7ebf3;
             border-radius: 18px;
             padding: 30px;
-            box-shadow: 0 24px 48px #172e530f;
+            box-shadow: 0 18px 42px #172e530d;
         }
 
         /* ── Services showcase (sistem InsureMind) ──────────── */
         .svc-panel {
             position: relative;
-            overflow: hidden;
-            background: linear-gradient(160deg, #f7faff 0%, #eef3fd 100%);
-            border: 1px solid #e3eafa;
-            border-radius: 16px;
-            padding: 20px;
+            overflow: visible;
+            background: #f7f9fd;
+            border: 1px solid #e8edf5;
+            border-radius: 15px;
+            padding: 18px;
         }
 
-        .svc-panel::after {
-            content: "";
-            position: absolute;
-            right: -60px;
-            top: -60px;
-            width: 180px;
-            height: 180px;
-            border-radius: 50%;
-            background: radial-gradient(circle, #315ee81f, transparent 70%);
-            pointer-events: none;
-        }
+        .svc-panel::after { display: none; }
 
         .svc-head {
             display: flex;
             align-items: center;
             justify-content: space-between;
             gap: 12px;
-            margin-bottom: 16px;
+            margin-bottom: 14px;
         }
+
+        .svc-head .mock-label { color: #6f7d94; }
 
         .svc-live {
             display: inline-flex;
@@ -815,17 +836,17 @@
         .svc-steps {
             position: relative;
             display: grid;
-            gap: 10px;
+            gap: 8px;
         }
 
         .svc-steps::before {
             content: "";
             position: absolute;
-            left: 21px;
-            top: 22px;
-            bottom: 22px;
+            left: 19px;
+            top: 24px;
+            bottom: 24px;
             width: 2px;
-            background: linear-gradient(180deg, #c9d8fb, #dfe7fa);
+            background: #dbe4f4;
             border-radius: 2px;
         }
 
@@ -833,53 +854,60 @@
             position: relative;
             display: flex;
             align-items: center;
-            gap: 12px;
+            gap: 10px;
+            min-width: 0;
             background: #fff;
-            border: 1px solid #e6ecf9;
-            border-radius: 12px;
-            padding: 11px 13px;
-            box-shadow: 0 6px 16px #172e530b;
-            transition: transform .32s cubic-bezier(.2,.7,.25,1), box-shadow .32s ease, border-color .32s ease;
+            border: 1px solid #e8edf5;
+            border-radius: 11px;
+            padding: 9px 10px;
+            transition: border-color .2s ease, box-shadow .2s ease;
         }
 
         .svc-step:hover {
-            transform: translateY(-2px);
-            border-color: #ccdaf6;
-            box-shadow: 0 10px 22px #172e5312;
+            border-color: #cbd8f3;
+            box-shadow: 0 5px 12px #172e530b;
+        }
+
+        .svc-step.is-key {
+            border-color: #cbd7f4;
+            box-shadow: inset 3px 0 #6879e6;
         }
 
         .svc-icon {
             position: relative;
             z-index: 1;
             flex: none;
-            width: 42px;
-            height: 42px;
-            border-radius: 11px;
+            width: 36px;
+            height: 36px;
+            border-radius: 10px;
             display: grid;
             place-items: center;
             background: linear-gradient(150deg, #e8efff, #d9e4fd);
             color: #3157c8;
+            box-shadow: none;
         }
 
         .svc-step.is-key .svc-icon {
-            background: linear-gradient(150deg, #4778f5, #244bd4);
+            background: linear-gradient(145deg, #657df5, #7553d8 68%, #25a9ad);
             color: #fff;
-            box-shadow: 0 8px 18px #315ee83d;
+            box-shadow: none;
         }
 
-        .svc-copy { min-width: 0; }
+        .svc-copy { flex: 1; min-width: 0; }
 
         .svc-copy b {
             display: block;
-            font-size: 12.5px;
-            letter-spacing: -.1px;
+            font-size: 11.5px;
+            letter-spacing: 0;
             color: #1d2b45;
+            line-height: 1.35;
+            overflow-wrap: anywhere;
         }
 
         .svc-copy small {
             display: block;
             margin-top: 2px;
-            font-size: 10.5px;
+            font-size: 9.5px;
             color: var(--muted);
             line-height: 1.4;
         }
@@ -890,12 +918,13 @@
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            font-size: 9px;
+            white-space: nowrap;
+            font-size: 8.5px;
             font-weight: 700;
             letter-spacing: .2px;
             border-radius: 999px;
-            padding: 4px 10px;
-            background: #eef3ff;
+            padding: 4px 8px;
+            background: #eff3ff;
             color: #3f5fc4;
             box-shadow: inset 0 0 0 1px #ffffffb3;
         }
@@ -920,18 +949,35 @@
             align-items: center;
             justify-content: space-between;
             gap: 10px;
-            margin-top: 16px;
-            padding-top: 14px;
-            border-top: 1px dashed #dbe3f3;
-            font-size: 10.5px;
+            margin-top: 13px;
+            padding-top: 12px;
+            border-top: 1px solid #e2e8f1;
+            font-size: 10px;
             color: var(--soft);
+        }
+
+        .svc-foot > span {
+            display: inline-flex;
+            align-items: center;
+            flex-wrap: nowrap;
+            white-space: nowrap;
+            gap: 7px;
+            min-width: 0;
         }
 
         .svc-foot b { color: #2d55c8; }
 
-        .score-copy h2 { margin: 10px 0 0; font-size: 30px; letter-spacing: -.9px; line-height: 1.2; }
+        .score-copy { position: relative; z-index: 1; }
 
-        .score-copy > p { margin: 12px 0 0; color: var(--muted); font-size: 13.5px; }
+        .score-copy h2 {
+            margin: 10px 0 0;
+            font-size: clamp(26px, 2.5vw, 32px);
+            letter-spacing: -.7px;
+            line-height: 1.2;
+            color: #1b2b47;
+        }
+
+        .score-copy > p { margin: 12px 0 0; color: #71809a; font-size: 13px; line-height: 1.65; }
 
         /* ── Citations ───────────────────────────────────────── */
         .citation-card {
@@ -1073,10 +1119,32 @@
             flex: none;
         }
 
-        /* ── 4-step process ──────────────────────────────────── */
-        .process-card { padding: 20px; }
+        /* ── Three-step process ─────────────────────────────── */
+        .process-grid { align-items: stretch; }
 
-        .process-num { font-size: 11px; font-weight: 800; color: #315ee8; letter-spacing: 1px; }
+        .process-card {
+            display: flex;
+            flex-direction: column;
+            min-height: 250px;
+            padding: 22px;
+        }
+
+        .process-num {
+            position: absolute;
+            top: 21px;
+            right: 22px;
+            display: grid;
+            place-items: center;
+            width: 34px;
+            height: 34px;
+            border: 1px solid #e6ebf4;
+            border-radius: 10px;
+            background: #f8faff;
+            color: #7585a1;
+            font-size: 10px;
+            font-weight: 800;
+            letter-spacing: .5px;
+        }
 
         .process-icon {
             width: 38px;
@@ -1086,18 +1154,19 @@
             color: #4568dc;
             display: grid;
             place-items: center;
-            margin: 10px 0 14px;
+            margin: 0 0 16px;
         }
 
-        .process-card h3 { margin: 0; font-size: 15px; }
+        .process-card h3 { margin: 0; font-size: 16px; letter-spacing: -.2px; }
 
-        .process-card p { margin: 7px 0 0; font-size: 12px; color: var(--muted); }
+        .process-card p { margin: 8px 0 0; font-size: 12.5px; line-height: 1.65; color: var(--muted); }
 
         .process-tag {
             display: inline-flex;
             align-items: center;
             gap: 6px;
-            margin-top: 13px;
+            margin-top: auto;
+            padding-top: 16px;
             font-size: 10.5px;
             color: #5b6a83;
             background: #f5f7fb;
@@ -1138,20 +1207,44 @@
             position: relative;
             overflow: hidden;
             border-radius: 22px;
-            background: linear-gradient(120deg, #172e53, #24477d 60%, #3561a3);
+            display: grid;
+            grid-template-columns: minmax(0, 1.2fr) minmax(280px, .8fr);
+            align-items: center;
+            gap: 34px;
+            background:
+                radial-gradient(ellipse at 92% 8%, #37c4bd55, transparent 34%),
+                radial-gradient(ellipse at 68% 100%, #8b68f655, transparent 38%),
+                linear-gradient(120deg, #172e53, #24477d 60%, #176f79);
             color: #fff;
-            padding: 46px;
+            padding: 52px;
+            isolation: isolate;
+        }
+
+        .cta-content { position: relative; z-index: 1; }
+
+        .cta::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            z-index: 0;
+            opacity: .12;
+            background-image: radial-gradient(#fff 1px, transparent 1px);
+            background-size: 22px 22px;
+            mask-image: linear-gradient(90deg, transparent 25%, #000);
+            pointer-events: none;
         }
 
         .cta::after {
             content: "";
             position: absolute;
-            right: -80px;
-            top: -80px;
-            width: 320px;
-            height: 320px;
+            right: 16%;
+            top: -155px;
+            width: 300px;
+            height: 300px;
             border-radius: 50%;
-            background: #ffffff0f;
+            border: 1px solid #ffffff1c;
+            box-shadow: 0 0 0 34px #ffffff08, 0 0 0 70px #ffffff06;
+            pointer-events: none;
         }
 
         .cta-tag {
@@ -1170,15 +1263,18 @@
             position: relative;
             z-index: 1;
             margin: 18px 0 0;
-            font-size: 34px;
+            font-size: clamp(30px, 3vw, 40px);
             letter-spacing: -1.1px;
             line-height: 1.16;
-            max-width: 620px;
+            max-width: 660px;
         }
 
-        .cta p { position: relative; z-index: 1; margin: 14px 0 0; color: #d0dcf2; font-size: 14px; max-width: 520px; }
+        .cta p { position: relative; z-index: 1; margin: 14px 0 0; color: #d0dcf2; font-size: 14px; max-width: 520px; line-height: 1.7; }
 
         .cta-actions { position: relative; z-index: 1; display: flex; flex-wrap: wrap; gap: 12px; margin-top: 26px; }
+        .cta-actions .btn { min-height: 48px; }
+        .cta-actions .btn-light { box-shadow: 0 8px 22px #101d3d35; }
+        .cta-actions .btn-light:hover { transform: translateY(-2px); box-shadow: 0 12px 26px #101d3d45; }
 
         .cta-foot {
             position: relative;
@@ -1193,14 +1289,42 @@
 
         .cta-foot span { display: inline-flex; align-items: center; gap: 7px; }
 
+        .cta-art {
+            position: relative;
+            z-index: 1;
+            display: grid;
+            place-items: center;
+            min-height: 170px;
+            border: 1px solid #ffffff26;
+            border-radius: 20px;
+            background: linear-gradient(145deg, #ffffff1b, #ffffff08);
+            box-shadow: inset 0 1px #ffffff24, 0 20px 46px #10244824;
+            backdrop-filter: blur(5px);
+        }
+
+        .cta-art::before,
+        .cta-art::after {
+            content: "";
+            position: absolute;
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            background: #aaf4e9;
+            box-shadow: 0 0 18px #8ef3dc;
+            animation: pulseSoft 2.4s ease-in-out infinite;
+        }
+
+        .cta-art::before { top: 24px; right: 30px; }
+        .cta-art::after { bottom: 24px; left: 28px; width: 5px; height: 5px; animation-delay: .8s; }
+
         .cta-visual {
             position: relative;
             z-index: 1;
             display: block;
-            width: 100%;
-            max-width: 360px;
+            width: min(100%, 420px);
             height: auto;
-            margin-top: 30px;
+            margin: 0;
+            padding: 18px;
             overflow: visible;
         }
 
@@ -1377,13 +1501,6 @@
             transform: scaleX(1);
         }
 
-        .svc-panel {
-            background:
-                radial-gradient(circle at 100% 0%, #e9e2ff 0, transparent 15rem),
-                linear-gradient(145deg, #f2f9fb, #f7f6ff 62%, #fff8ef);
-            border-color: #e5e8f2;
-        }
-
         .svc-step:nth-child(3n + 1) .svc-icon {
             background: linear-gradient(145deg, #e8edff, #dfe6ff);
             color: var(--blue-dark);
@@ -1441,8 +1558,6 @@
             background: linear-gradient(100deg, #edf1ff, #f3edff 52%, #eaf8f5);
             border-color: #e2e7f3;
         }
-
-        .cta { background: linear-gradient(115deg, #253d74, #504b91 48%, #177f83); }
 
         .cta::after {
             background: radial-gradient(circle, #ffffff24 0, #ffffff0d 50%, transparent 72%);
@@ -1505,10 +1620,12 @@
         @media (max-width: 1050px) {
             .hamburger { display: grid; }
             .header-right { display: none; }
+            .nav { display: none; }
             .hero-grid { grid-template-columns: 1fr; gap: 34px; }
             .hero h1 { font-size: 40px; }
             .grid-4 { grid-template-columns: repeat(2, 1fr); }
             .loop { grid-template-columns: repeat(3, 1fr); }
+            .score-panel { grid-template-columns: 1fr; padding: 26px; gap: 28px; }
 
             .nav.open {
                 display: flex;
@@ -1537,10 +1654,10 @@
             .hero-stats { grid-template-columns: 1fr; gap: 10px; }
             .grid-4, .grid-3 { grid-template-columns: 1fr; }
             .journey-head { flex-direction: column; align-items: flex-start; }
-            .score-panel { grid-template-columns: 1fr; padding: 22px; gap: 24px; }
             .factor-grid { grid-template-columns: 1fr; }
             .loop { grid-template-columns: repeat(2, 1fr); }
-            .cta { padding: 30px; }
+            .cta { grid-template-columns: 1fr; gap: 26px; padding: 34px; }
+            .cta-art { min-height: 145px; }
             .cta h2 { font-size: 26px; }
             .footer-inner { flex-direction: column; align-items: flex-start; }
             .svc-viz { gap: 8px; }
@@ -1551,8 +1668,17 @@
             .wrap { padding: 0 16px; }
             .loop { grid-template-columns: 1fr; }
             .svc-panel { padding: 15px; }
+            .svc-viz { grid-template-columns: 1fr; }
+            .svc-step { gap: 9px; padding: 10px; }
+            .svc-icon { width: 34px; height: 34px; }
+            .svc-state { padding: 4px 7px; font-size: 8px; }
             .svc-copy small { display: none; }
             .svc-foot { flex-direction: column; align-items: flex-start; }
+            .svc-foot > span { flex-wrap: wrap; white-space: normal; }
+            .cta { padding: 25px 21px; border-radius: 18px; }
+            .cta-art { min-height: 120px; }
+            .cta-visual { padding: 10px; }
+            .cta-foot { gap: 12px; }
         }
 
         /* ── Badge versi (kanan bawah) ───────────────────────── */
@@ -1624,13 +1750,13 @@
         <section class="hero">
             <div class="wrap hero-grid">
                 <div class="hero-copy">
-                    <span class="pill"><i></i> <span data-id="Ketepatan Algoritmik untuk Pemegang Polis &amp; Adjuster" data-en="Algorithmic Precision for Policyholders &amp; Adjusters">Ketepatan Algoritmik untuk Pemegang Polis &amp; Adjuster</span></span>
+                    <span class="pill"><i></i> <span data-id="Kopilot AI untuk memahami polis dan menyiapkan klaim" data-en="An AI copilot to understand policies and prepare claims">Kopilot AI untuk memahami polis dan menyiapkan klaim</span></span>
                     <h1><span data-id="Pahami Polis Anda." data-en="Understand Your Policy.">Pahami Polis Anda.</span><br><em><span data-id="Siapkan Klaim Anda." data-en="Prepare Your Claim.">Siapkan Klaim Anda.</span></em></h1>
-                    <p data-id="Kopilot asuransi berbasis AI yang membantu Anda memahami cakupan, menilai kesiapan klaim, dan membuat keputusan yang lebih baik." data-en="AI-powered insurance copilot that helps you understand coverage, assess your claim readiness, and make better-informed decisions.">
-                        Kopilot asuransi berbasis AI yang membantu Anda memahami cakupan, menilai kesiapan klaim, dan membuat keputusan yang lebih baik.
+                    <p data-id="Unggah polis Anda untuk memahami cakupan dan pengecualian, menilai kesiapan dokumen, serta melihat rujukan ke pasal terkait—sebelum menghubungi penanggung." data-en="Upload your policy to understand coverage and exclusions, check document readiness, and review references to relevant clauses—before contacting your insurer.">
+                        Unggah polis Anda untuk memahami cakupan dan pengecualian, menilai kesiapan dokumen, serta melihat rujukan ke pasal terkait—sebelum menghubungi penanggung.
                     </p>
                     <div class="hero-cta">
-                        <a href="{{ route('login') }}" class="btn btn-primary" data-id="Mulai Sekarang" data-en="Get Started">Mulai Sekarang</a>
+                        <a href="{{ route('login') }}" class="btn btn-primary" data-id="Coba InsureMind" data-en="Try InsureMind">Coba InsureMind</a>
                         <a href="#how" class="btn btn-ghost">
                             <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                                 <path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/>
@@ -1646,8 +1772,10 @@
                                           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </span>
-                            <b>82%</b>
-                            <small data-id="Rata-rata Kesiapan Klaim" data-en="Avg. Claim Readiness">Rata-rata Kesiapan Klaim</small>
+                            <div class="hero-stat-copy">
+                                <b data-id="Rujukan Pasal" data-en="Clause References">Rujukan Pasal</b>
+                                <small data-id="Jawaban terhubung ke isi polis" data-en="Answers tied to policy text">Jawaban terhubung ke isi polis</small>
+                            </div>
                         </div>
                         <div class="hero-stat">
                             <span class="stat-ico grad-teal">
@@ -1657,8 +1785,10 @@
                                           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </span>
-                            <b>&lt; 3 Min</b>
-                            <small data-id="Ekstraksi Pasal Polis" data-en="Policy Clause Extraction">Ekstraksi Pasal Polis</small>
+                            <div class="hero-stat-copy">
+                                <b data-id="Cek Kesiapan" data-en="Readiness Check">Cek Kesiapan</b>
+                                <small data-id="Skor dan dokumen pendukung" data-en="Score and supporting documents">Skor dan dokumen pendukung</small>
+                            </div>
                         </div>
                         <div class="hero-stat">
                             <span class="stat-ico grad-purple">
@@ -1669,188 +1799,16 @@
                                           stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"/>
                                 </svg>
                             </span>
-                            <b>100%</b>
-                            <small data-id="Bukti Tertraceable" data-en="Traceable Evidence">Bukti Tertraceable</small>
+                            <div class="hero-stat-copy">
+                                <b data-id="Tinjauan Manusia" data-en="Human Review">Tinjauan Manusia</b>
+                                <small data-id="AI membantu, manusia memutuskan" data-en="AI assists; people decide">AI membantu, manusia memutuskan</small>
+                            </div>
                         </div>
                     </div>
                 </div>
 
-                <div class="mock" aria-hidden="true">
-                    <div class="mock-head">
-                        <span class="mock-avatar">
-                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 2.6 20 6v6.4c0 5.3-3.4 8.5-8 9.6-4.6-1.1-8-4.3-8-9.6V6l8-3.4Z"
-                                      stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                                <path d="M9.2 12.2l2.1 2.1 4.4-4.7" stroke="currentColor" stroke-width="1.9"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </span>
-                        <div>
-                            <b data-id="Suite Layanan InsureMind" data-en="InsureMind Service Suite">InsureMind Service Suite</b>
-                            <small data-id="Pipeline klaim end&#8209;to&#8209;end" data-en="End&#8209;to&#8209;end claim pipeline">Pipeline klaim end&#8209;to&#8209;end</small>
-                        </div>
-                        <span class="tag"><i class="tag-dot"></i> <span data-id="6 Layanan" data-en="6 Services">6 Layanan</span></span>
-                    </div>
-
-                    <div class="mock-body">
-                        <div class="mock-label" data-id="Layanan Inti InsureMind" data-en="InsureMind Core Services">Layanan Inti InsureMind</div>
-
-                        <svg class="suite-viz" viewBox="0 0 240 104" role="img"
-                             aria-label="Alur pipeline suite layanan InsureMind"
-                             data-id-aria="Alur pipeline suite layanan InsureMind"
-                             data-en-aria="InsureMind service suite pipeline flow">
-                            <defs>
-                                <linearGradient id="imSuiteA" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0" stop-color="#5f8bfb"/>
-                                    <stop offset="1" stop-color="#2d54d8"/>
-                                </linearGradient>
-                                <linearGradient id="imSuiteB" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0" stop-color="#4fd0c3"/>
-                                    <stop offset="1" stop-color="#16a29a"/>
-                                </linearGradient>
-                                <linearGradient id="imSuiteC" x1="0" y1="0" x2="1" y2="1">
-                                    <stop offset="0" stop-color="#a98bf6"/>
-                                    <stop offset="1" stop-color="#7a52e4"/>
-                                </linearGradient>
-                                <linearGradient id="imFlowLine" x1="0" y1="0" x2="1" y2="0">
-                                    <stop offset="0" stop-color="#4f7ef8"/>
-                                    <stop offset=".5" stop-color="#16a29a"/>
-                                    <stop offset="1" stop-color="#7a52e4"/>
-                                </linearGradient>
-                            </defs>
-
-                            <ellipse cx="120" cy="97" rx="104" ry="7" fill="#16233a" opacity=".07"/>
-                            <path d="M34 54h172" stroke="url(#imFlowLine)" stroke-width="2" stroke-dasharray="5 6"
-                                  stroke-linecap="round" opacity=".65"/>
-
-                            <g class="sv-g sv-g1">
-                                <rect x="18" y="35" width="32" height="38" rx="7" fill="url(#imSuiteA)"/>
-                                <path d="M28 45h12M28 52h9M28 59h11" stroke="#fff" stroke-width="1.9"
-                                      stroke-linecap="round" opacity=".92"/>
-                            </g>
-
-                            <g class="sv-g sv-g2">
-                                <circle cx="76" cy="54" r="19" fill="#fff" stroke="#e6ecfa" stroke-width="1.4"/>
-                                <circle cx="76" cy="54" r="13.6" fill="none" stroke="#e4eaf8" stroke-width="4"/>
-                                <circle cx="76" cy="54" r="13.6" fill="none" stroke="url(#imSuiteB)" stroke-width="4"
-                                        stroke-linecap="round" stroke-dasharray="60 86" transform="rotate(-90 76 54)"/>
-                                <text x="76" y="58" text-anchor="middle" font-size="10" font-weight="700" fill="#12405c">82</text>
-                            </g>
-
-                            <g class="sv-g sv-g3">
-                                <circle cx="120" cy="54" r="19" fill="#fff" stroke="#e6ecfa" stroke-width="1.4"/>
-                                <path d="M110 44h13l6 6v14a2 2 0 0 1-2 2h-17a2 2 0 0 1-2-2V46a2 2 0 0 1 2-2Z"
-                                      fill="none" stroke="#5a54cf" stroke-width="1.7" stroke-linejoin="round"/>
-                                <path d="M123 44v6h6" fill="none" stroke="#5a54cf" stroke-width="1.7" stroke-linejoin="round"/>
-                                <path d="m113 56 3 3 5.5-6.5" fill="none" stroke="#16a29a" stroke-width="2.1"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
-
-                            <g class="sv-g sv-g4">
-                                <circle cx="164" cy="54" r="19" fill="#fff" stroke="#e6ecfa" stroke-width="1.4"/>
-                                <path d="M157 48.5c2.6-2 6.4-3.1 10.4-3.1s7.8 1.1 10.4 3.1" fill="none"
-                                      stroke="#4f7ef8" stroke-width="1.8" stroke-linecap="round"/>
-                                <path d="M157 48.5v1.6M180.8 48.5v1.6M157 50.1h23.8" fill="none"
-                                      stroke="#4f7ef8" stroke-width="1.8" stroke-linecap="round"/>
-                                <rect x="162" y="53" width="5" height="12" rx="1.6" fill="#4f7ef8"/>
-                                <rect x="170" y="55.5" width="5" height="9.5" rx="1.6" fill="#8aa7fb"/>
-                            </g>
-
-                            <g class="sv-g sv-g5">
-                                <rect x="192" y="37" width="30" height="36" rx="7" fill="url(#imSuiteA)" opacity=".14"/>
-                                <path d="M199 47h16M199 54h11M199 61h13" stroke="#2d54d8" stroke-width="1.9"
-                                      stroke-linecap="round"/>
-                                <path d="M215 65.5V77M215 77l-4-4.2M215 77l4-4.2" stroke="#2d54d8" stroke-width="1.8"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                                <path d="M207 84.5h16" stroke="#2d54d8" stroke-width="1.9" stroke-linecap="round"/>
-                            </g>
-
-                            <g class="sv-g sv-g6">
-                                <circle cx="120" cy="86" r="17" fill="#fff" stroke="#e6ecfa" stroke-width="1.4"/>
-                                <circle cx="120" cy="81.5" r="4.4" fill="url(#imSuiteC)"/>
-                                <path d="M111.5 95c.6-4 4-6.2 8.5-6.2s7.9 2.2 8.5 6.2" fill="url(#imSuiteC)" opacity=".9"/>
-                                <path d="M133 76.5 135.5 74l2.5 2.5M138.5 82l2.5 2.5-2.5 2.5" fill="none"
-                                      stroke="#7a52e4" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/>
-                            </g>
-                        </svg>
-
-                        <div class="mock-metas">
-                            <span class="meta-chip"><i></i> <span data-id="6 Modul Terhubung" data-en="6 Connected Modules">6 Modul Terhubung</span></span>
-                            <span class="meta-chip teal"><i></i> <span data-id="Tertraceable ke Pasal" data-en="Traceable to Clauses">Tertraceable ke Pasal</span></span>
-                            <span class="meta-chip purple"><i></i> <span data-id="Human&#8209;in&#8209;the&#8209;Loop" data-en="Human&#8209;in&#8209;the&#8209;Loop">Human&#8209;in&#8209;the&#8209;Loop</span></span>
-                        </div>
-
-                        <div class="svc-viz">
-                            <div class="svc-tile">
-                                <span class="svc-glyph g-teal">
-                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
-                                        <path d="M4 6h11l4 4v8a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V7a1 1 0 0 1 1-1Z"
-                                              stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                                        <path d="M14 6v5h5" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                <div><b data-id="Penguraian Polis" data-en="Policy Parsing">Policy Parsing</b><small data-id="Pasal terstruktur" data-en="Structured clauses">Pasal terstruktur</small></div>
-                            </div>
-                            <div class="svc-tile">
-                                <span class="svc-glyph g-purple-soft">
-                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 3v7l3-2" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
-                                        <path d="M12 19a7 7 0 1 0-7-7" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                                        <path d="M3.5 12h1.9M18.6 12h1.9" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"/>
-                                    </svg>
-                                </span>
-                                <div><b data-id="Skor Kesiapan" data-en="Readiness Score">Readiness Score</b><small data-id="Skor 0&ndash;100" data-en="Score 0&ndash;100">Skor 0&ndash;100</small></div>
-                            </div>
-                            <div class="svc-tile">
-                                <span class="svc-glyph g-ok">
-                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
-                                        <path d="M4 6h11l4 4v8H4z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                                        <path d="M7.5 13.5 10 16l4.2-5" stroke="currentColor" stroke-width="1.7"
-                                              stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                <div><b data-id="Pemeriksaan Dokumen" data-en="Document Check">Document Check</b><small data-id="Verifikasi berkas" data-en="File verification">Verifikasi berkas</small></div>
-                            </div>
-                            <div class="svc-tile">
-                                <span class="svc-glyph g-ink">
-                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
-                                        <path d="M12 3.5 20 7v4.5c0 5-3.3 8-8 9.5-4.7-1.5-8-4.5-8-9.5V7l8-3.5Z"
-                                              stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                                        <path d="M9 12l2.2 2.2L15.5 10" stroke="currentColor" stroke-width="1.7"
-                                              stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                <div><b data-id="Kutipan Pasal" data-en="Clause Citation">Clause Citation</b><small data-id="Kutipan pasal" data-en="Clause reference">Kutipan pasal</small></div>
-                            </div>
-                            <div class="svc-tile">
-                                <span class="svc-glyph g-purple-soft">
-                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
-                                        <path d="M7 3h7l4 4v14H7z" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                                        <path d="M14 3v4h4M9.5 13h5M9.5 16.5h5" stroke="currentColor" stroke-width="1.6"
-                                              stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                <div><b data-id="Ekspor Dossier" data-en="Dossier Export">Dossier Export</b><small data-id="Berkas siap kirim" data-en="Submission-ready file">Berkas siap kirim</small></div>
-                            </div>
-                            <div class="svc-tile">
-                                <span class="svc-glyph g-purple">
-                                    <svg width="19" height="19" viewBox="0 0 24 24" fill="none">
-                                        <circle cx="12" cy="8" r="3.2" stroke="currentColor" stroke-width="1.7"/>
-                                        <path d="M5 20c0-3.6 3.1-5.6 7-5.6s7 2 7 5.6" stroke="currentColor" stroke-width="1.7"
-                                              stroke-linecap="round"/>
-                                        <path d="M17 6.5l1.2 1.2L20.5 5.4" stroke="currentColor" stroke-width="1.7"
-                                              stroke-linecap="round" stroke-linejoin="round"/>
-                                    </svg>
-                                </span>
-                                <div><b data-id="Tinjauan Manusia" data-en="Human Review">Human Review</b><small data-id="Keputusan akhir" data-en="Final decision">Keputusan akhir</small></div>
-                            </div>
-                        </div>
-
-                        <div class="mock-foot">
-                            <span data-id="Enam layanan, satu pipeline terintegrasi" data-en="Six services, one integrated pipeline"><i class="tag-dot"></i> <span data-id="Enam layanan, satu pipeline terintegrasi" data-en="Six services, one integrated pipeline">Enam layanan, satu pipeline terintegrasi</span></span>
-                            <a href="{{ route('login') }}" class="btn btn-primary btn-sm" data-id="Coba Sekarang" data-en="Try Now">Coba Sekarang</a>
-                        </div>
-                    </div>
+                <div class="mock mock-image-only" aria-hidden="true">
+                    <img class="mock-image animate-float" src="{{ asset('images/Friendly AI Insurance Consultation.png') }}" alt="">
                 </div>
             </div>
         </section>
@@ -2318,12 +2276,12 @@
         <section class="section" id="how">
             <div class="wrap">
                 <div class="section-head">
-                    <div class="eyebrow" data-id="Proses 4 Langkah yang Mudah" data-en="Seamless 4-Step Process">Proses 4 Langkah yang Mudah</div>
+                    <div class="eyebrow" data-id="Tiga Langkah Sederhana" data-en="Three Simple Steps">Tiga Langkah Sederhana</div>
                     <h2 data-id="Cara Kerja InsureMind" data-en="How InsureMind Works">Cara Kerja InsureMind</h2>
-                    <p data-id="Mulai dari dokumen asuransi yang ambigu hingga paket klaim yang terverifikasi dan lengkap dalam empat langkah mudah." data-en="Go from an ambiguous insurance paper to a verified, complete claim pack in four straightforward steps.">Mulai dari dokumen asuransi yang ambigu hingga paket klaim yang terverifikasi dan lengkap dalam empat langkah mudah.</p>
+                    <p data-id="Dari unggah polis hingga memahami apa yang perlu disiapkan, dengan rujukan yang bisa Anda periksa kembali." data-en="From uploading your policy to understanding what to prepare, with references you can check for yourself.">Dari unggah polis hingga memahami apa yang perlu disiapkan, dengan rujukan yang bisa Anda periksa kembali.</p>
                 </div>
 
-                <div class="grid-4">
+                <div class="grid-3 process-grid">
                     <article class="card process-card">
                         <div class="process-num">01</div>
                         <div class="process-icon">
@@ -2335,8 +2293,8 @@
                             </svg>
                         </div>
                         <h3 data-id="Unggah" data-en="Upload">Unggah</h3>
-                        <p data-id="Unggah dokumen asuransi Anda. InsureMind memproses PDF, mengekstrak data penting, dan menyusun semua informasi kritis untuk analisis." data-en="Upload your insurance document. InsureMind parses PDFs, extracts key data, and structures all critical information for analysis.">Unggah dokumen asuransi Anda. InsureMind memproses PDF, mengekstrak data penting, dan menyusun semua informasi kritis untuk analisis.</p>
-                        <span class="process-tag" data-id="Disanitasi sisi klien" data-en="Client-side sanitized"><i class="tag-dot"></i> <span data-id="Disanitasi sisi klien" data-en="Client-side sanitized">Disanitasi sisi klien</span></span>
+                        <p data-id="Unggah dokumen polis Anda. InsureMind mengekstrak informasi penting sebagai dasar untuk memahami perlindungan Anda." data-en="Upload your policy document. InsureMind extracts key information to help you understand your coverage.">Unggah dokumen polis Anda. InsureMind mengekstrak informasi penting sebagai dasar untuk memahami perlindungan Anda.</p>
+                        <span class="process-tag"><i class="tag-dot"></i> <span data-id="Mulai dari dokumen polis" data-en="Start with your policy">Mulai dari dokumen polis</span></span>
                     </article>
 
                     <article class="card process-card">
@@ -2347,9 +2305,9 @@
                                 <path d="M13 3v5h5" stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
                             </svg>
                         </div>
-                        <h3 data-id="Pahami" data-en="Understand">Pahami</h3>
-                        <p data-id="Dapatkan gambaran terstruktur secara instan. Pelajari cakupan, deductible, batas, dan pengecualian eksplisit secara langsung." data-en="Get an instant structured overview. Learn about your coverage, deductibles, limits, and explicit exclusions instantly.">Dapatkan gambaran terstruktur secara instan. Pelajari cakupan, deductible, batas, dan pengecualian eksplisit secara langsung.</p>
-                        <span class="process-tag" data-id="Indeks pasal dibuat" data-en="Clause index generated"><i class="tag-dot"></i> <span data-id="Indeks pasal dibuat" data-en="Clause index generated">Indeks pasal dibuat</span></span>
+                        <h3 data-id="Periksa Cakupan" data-en="Check Coverage">Periksa Cakupan</h3>
+                        <p data-id="Tinjau cakupan, pengecualian, dan dokumen pendukung. Lihat skor kesiapan klaim beserta faktor yang memengaruhinya." data-en="Review coverage, exclusions, and supporting documents. See your claim readiness score and the factors behind it.">Tinjau cakupan, pengecualian, dan dokumen pendukung. Lihat skor kesiapan klaim beserta faktor yang memengaruhinya.</p>
+                        <span class="process-tag"><i class="tag-dot"></i> <span data-id="Cakupan dan kesiapan dokumen" data-en="Coverage and document readiness">Cakupan dan kesiapan dokumen</span></span>
                     </article>
 
                     <article class="card process-card">
@@ -2360,24 +2318,9 @@
                                       stroke-linecap="round" stroke-linejoin="round"/>
                             </svg>
                         </div>
-                        <h3 data-id="Periksa" data-en="Check">Periksa</h3>
-                        <p data-id="Nilai keabsahan klaim dengan Skor Kesiapan Klaim, kesiapan dokumen, dan indikasi kepercayaan hingga pra-adjudikasi." data-en="Assess claim validity with our Claim Readiness Score, document readiness, and confidence indications up to pre-adjudication.">Nilai keabsahan klaim dengan Skor Kesiapan Klaim, kesiapan dokumen, dan indikasi kepercayaan hingga pra-adjudikasi.</p>
-                        <span class="process-tag" data-id="Skor 0-100% instan" data-en="Instant 0-100% score"><i class="tag-dot"></i> <span data-id="Skor 0-100% instan" data-en="Instant 0-100% score">Skor 0-100% instan</span></span>
-                    </article>
-
-                    <article class="card process-card">
-                        <div class="process-num">04</div>
-                        <div class="process-icon">
-                            <svg width="18" height="18" viewBox="0 0 24 24" fill="none">
-                                <path d="M12 3 20 6.5v5c0 5-3.4 8.2-8 9.5-4.6-1.3-8-4.5-8-9.5v-5L12 3Z"
-                                      stroke="currentColor" stroke-width="1.7" stroke-linejoin="round"/>
-                                <path d="m8.5 12 2.3 2.3 4.7-5" stroke="currentColor" stroke-width="1.7"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                        </div>
-                        <h3 data-id="Siapkan" data-en="Prepare">Siapkan</h3>
-                        <p data-id="Kompilasi dan unduh dossier klaim yang lengkap dan siap kirim sesuai standar verifikasi adjudicator." data-en="Compile and download a complete, submission-ready claim dossier aligned to adjudicator verification standards.">Kompilasi dan unduh dossier klaim yang lengkap dan siap kirim sesuai standar verifikasi adjudicator.</p>
-                        <span class="process-tag" data-id="&#x2193; Ekspor Dossier PDF" data-en="&#x2193; PDF Dossier Export">&#x2193; Ekspor Dossier PDF</span>
+                        <h3 data-id="Siapkan Langkah Berikutnya" data-en="Prepare Your Next Steps">Siapkan Langkah Berikutnya</h3>
+                        <p data-id="Gunakan kutipan pasal dan daftar dokumen untuk menyiapkan percakapan dengan penanggung. Keputusan klaim tetap berada pada peninjau manusia." data-en="Use clause references and a document checklist to prepare for a conversation with your insurer. Claim decisions remain with human reviewers.">Gunakan kutipan pasal dan daftar dokumen untuk menyiapkan percakapan dengan penanggung. Keputusan klaim tetap berada pada peninjau manusia.</p>
+                        <span class="process-tag"><i class="tag-dot"></i> <span data-id="Rujukan pasal dan daftar dokumen" data-en="Clause references and document checklist">Rujukan pasal dan daftar dokumen</span></span>
                     </article>
                 </div>
             </div>
@@ -2440,46 +2383,48 @@
         <section class="section" id="architecture">
             <div class="wrap">
                 <div class="cta">
-                    <span class="cta-tag" data-id="Perlindungan Data Industri" data-en="Industry Data Protection"><i class="tag-dot"></i> <span data-id="Perlindungan Data Industri" data-en="Industry Data Protection">Perlindungan Data Industri</span></span>
-                    <h2 data-id="Kendalikan Cakupan Asuransi Anda Hari Ini" data-en="Take Control of Your Insurance Coverage Today">Kendalikan Cakupan Asuransi Anda Hari Ini</h2>
-                    <p data-id="Unggah polis Anda dalam kurang dari 60 detik dan rasakan kejelasan panduan AI berbasis bukti." data-en="Upload your policy in less than 60 seconds and experience the clarity of evidence-grounded AI guidance.">Unggah polis Anda dalam kurang dari 60 detik dan rasakan kejelasan panduan AI berbasis bukti.</p>
-                    <div class="cta-actions">
-                        <a href="{{ route('login') }}" class="btn btn-light" data-id="Mulai Sekarang" data-en="Get Started Now">
-                            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M12 19V5M12 5l-5.2 5.2M12 5l5.2 5.2" stroke="currentColor" stroke-width="2.1"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span data-id="Mulai Sekarang" data-en="Get Started Now">Mulai Sekarang</span>
-                        </a>
-                        <a href="#how" class="btn btn-outline-light">
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/>
-                            </svg>
-                            <span data-id="Jelajahi Dokumentasi" data-en="Explore Documentation">Jelajahi Dokumentasi</span>
-                        </a>
+                    <div class="cta-content">
+                        <span class="cta-tag" data-id="Perlindungan Data Industri" data-en="Industry Data Protection"><i class="tag-dot"></i> <span data-id="Perlindungan Data Industri" data-en="Industry Data Protection">Perlindungan Data Industri</span></span>
+                        <h2 data-id="Kendalikan Cakupan Asuransi Anda Hari Ini" data-en="Take Control of Your Insurance Coverage Today">Kendalikan Cakupan Asuransi Anda Hari Ini</h2>
+                        <p data-id="Unggah polis Anda dalam kurang dari 60 detik dan rasakan kejelasan panduan AI berbasis bukti." data-en="Upload your policy in less than 60 seconds and experience the clarity of evidence-grounded AI guidance.">Unggah polis Anda dalam kurang dari 60 detik dan rasakan kejelasan panduan AI berbasis bukti.</p>
+                        <div class="cta-actions">
+                            <a href="{{ route('login') }}" class="btn btn-light" data-id="Mulai Sekarang" data-en="Get Started Now">
+                                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M12 19V5M12 5l-5.2 5.2M12 5l5.2 5.2" stroke="currentColor" stroke-width="2.1"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span data-id="Mulai Sekarang" data-en="Get Started Now">Mulai Sekarang</span>
+                            </a>
+                            <a href="#how" class="btn btn-outline-light">
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M8 5.5v13l11-6.5-11-6.5Z" fill="currentColor"/>
+                                </svg>
+                                <span data-id="Jelajahi Dokumentasi" data-en="Explore Documentation">Jelajahi Dokumentasi</span>
+                            </a>
+                        </div>
+                        <div class="cta-foot">
+                            <span>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <rect x="2.5" y="6" width="19" height="12" rx="2.5" stroke="currentColor"
+                                          stroke-width="1.9"/>
+                                    <path d="M2.5 10h19" stroke="currentColor" stroke-width="1.9"/>
+                                </svg>
+                                <span data-id="Tidak perlu kartu kredit" data-en="No credit card required">Tidak perlu kartu kredit</span>
+                            </span>
+                            <span>
+                                <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                                    <path d="M4 7V4.8h15.2V7M12 4.8V19M9 19h6" stroke="currentColor" stroke-width="1.9"
+                                          stroke-linecap="round" stroke-linejoin="round"/>
+                                </svg>
+                                <span data-id="Ekstraksi OCR Instan" data-en="Instant OCR Extraction">Ekstraksi OCR Instan</span>
+                            </span>
+                        </div>
                     </div>
-                    <div class="cta-foot">
-                        <span>
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <rect x="2.5" y="6" width="19" height="12" rx="2.5" stroke="currentColor"
-                                      stroke-width="1.9"/>
-                                <path d="M2.5 10h19" stroke="currentColor" stroke-width="1.9"/>
-                            </svg>
-                            <span data-id="Tidak perlu kartu kredit" data-en="No credit card required">Tidak perlu kartu kredit</span>
-                        </span>
-                        <span>
-                            <svg width="13" height="13" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                                <path d="M4 7V4.8h15.2V7M12 4.8V19M9 19h6" stroke="currentColor" stroke-width="1.9"
-                                      stroke-linecap="round" stroke-linejoin="round"/>
-                            </svg>
-                            <span data-id="Ekstraksi OCR Instan" data-en="Instant OCR Extraction">Ekstraksi OCR Instan</span>
-                        </span>
-                    </div>
-
-                    <svg class="cta-visual" viewBox="0 0 320 74" role="img"
-                         aria-label="Pipeline layanan InsureMind"
-                         data-id-aria="Pipeline layanan InsureMind"
-                         data-en-aria="InsureMind service pipeline">
+                    <div class="cta-art">
+                        <svg class="cta-visual" viewBox="0 0 320 74" role="img"
+                             aria-label="Pipeline layanan InsureMind"
+                             data-id-aria="Pipeline layanan InsureMind"
+                             data-en-aria="InsureMind service pipeline">
                         <path d="M40 37h240" stroke="#ffffff" stroke-width="2" stroke-dasharray="4 7"
                               stroke-linecap="round" opacity=".45"/>
 
@@ -2520,7 +2465,8 @@
                             <circle cx="300" cy="34" r="3.6" fill="#7a52e4"/>
                             <path d="M293.5 45c.5-3.4 3.3-5.2 6.5-5.2s6 1.8 6.5 5.2" fill="#7a52e4" opacity=".85"/>
                         </g>
-                    </svg>
+                        </svg>
+                    </div>
                 </div>
             </div>
         </section>
@@ -2643,7 +2589,7 @@
         })();
     </script>
 
-    <span class="version-badge" aria-hidden="true">Beta v1.1</span>
+    <span class="version-badge" aria-hidden="true">Beta v1.7</span>
 </body>
 
 </html>

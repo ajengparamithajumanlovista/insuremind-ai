@@ -46,7 +46,7 @@
         @yield('content')
     </main>
 
-    <span class="version-badge" aria-hidden="true">Beta v1.1</span>
+    <span class="version-badge" aria-hidden="true">Beta v1.7</span>
 
     <script>
         // ── Sidebar (mobile) ──────────────────────────────────────

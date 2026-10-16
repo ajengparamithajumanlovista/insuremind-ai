@@ -114,7 +114,21 @@ a { color: inherit; text-decoration: none; }
 
 .nav a:hover, .nav a.active { background: #eef3ff; color: #2855dd; }
 
-.nav-icon { width: 18px; text-align: center; font-size: 15px; }
+.nav-icon {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 10px;
+    color: #63789d;
+    background: #f3f6fb;
+    transition: color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
+}
+
+.nav-icon svg { width: 17px; height: 17px; }
+.nav a:hover .nav-icon { color: #315ee8; background: #fff; transform: translateY(-1px); }
+.nav a.active .nav-icon { color: #315ee8; background: #fff; box-shadow: 0 2px 7px #315ee81a; }
 
 .nav-count {
     margin-left: auto;
@@ -501,4 +515,3 @@ table.data .row-actions { display: flex; gap: 6px; flex-wrap: wrap; }
     .kv-row { grid-template-columns: minmax(0, 1fr); }
     .kv-row-split { grid-template-columns: minmax(0, 1fr) auto; }
 }
-

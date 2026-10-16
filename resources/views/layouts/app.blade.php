@@ -112,7 +112,21 @@
 
         .nav a:hover, .nav a.active { background: #eef3ff; color: #2855dd; }
 
-        .nav-icon { width: 18px; text-align: center; font-size: 16px; }
+        .nav-icon {
+            display: grid;
+            place-items: center;
+            flex: none;
+            width: 32px;
+            height: 32px;
+            border-radius: 10px;
+            color: #63789d;
+            background: #f3f6fb;
+            transition: color .18s ease, background .18s ease, box-shadow .18s ease, transform .18s ease;
+        }
+
+        .nav-icon svg { width: 17px; height: 17px; }
+        .nav a:hover .nav-icon { color: #315ee8; background: #fff; transform: translateY(-1px); }
+        .nav a.active .nav-icon { color: #315ee8; background: #fff; box-shadow: 0 2px 7px #315ee81a; }
 
         .side-note {
             margin-top: auto;
@@ -424,14 +438,14 @@
 <body>
     @php
         $navItems = [
-            ['route' => 'dashboard', 'pattern' => 'dashboard', 'icon' => '▦', 'id' => 'Dashboard', 'en' => 'Dashboard'],
-            ['route' => 'profile.edit', 'pattern' => 'profile.*', 'icon' => '◎', 'id' => 'Profil Keuangan', 'en' => 'Financial Profile'],
-            ['route' => 'risk.index', 'pattern' => 'risk.*', 'icon' => '⚠', 'id' => 'Analisis Risiko', 'en' => 'Risk Assessment'],
-            ['route' => 'simulator.index', 'pattern' => 'simulator.*', 'icon' => '◔', 'id' => 'Simulator Risiko', 'en' => 'Risk Simulator'],
-            ['route' => 'comparison.index', 'pattern' => 'comparison.*', 'icon' => '⇄', 'id' => 'Perbandingan', 'en' => 'Comparison'],
-            ['route' => 'categories.show', 'pattern' => 'categories.*', 'icon' => '◫', 'id' => 'Kategori Produk', 'en' => 'Categories', 'params' => ['category' => 'health']],
-            ['route' => 'policies.index', 'pattern' => 'policies.*', 'icon' => '⌸', 'id' => 'Polis & Pengingat', 'en' => 'Policies & Reminders'],
-            ['route' => 'chat.index', 'pattern' => 'chat.*', 'icon' => '✆', 'id' => 'Asisten AI', 'en' => 'AI Assistant'],
+            ['route' => 'dashboard', 'pattern' => 'dashboard', 'icon' => 'dashboard', 'id' => 'Dashboard', 'en' => 'Dashboard'],
+            ['route' => 'profile.edit', 'pattern' => 'profile.*', 'icon' => 'profile', 'id' => 'Profil Keuangan', 'en' => 'Financial Profile'],
+            ['route' => 'risk.index', 'pattern' => 'risk.*', 'icon' => 'risk', 'id' => 'Analisis Risiko', 'en' => 'Risk Assessment'],
+            ['route' => 'simulator.index', 'pattern' => 'simulator.*', 'icon' => 'simulator', 'id' => 'Simulator Risiko', 'en' => 'Risk Simulator'],
+            ['route' => 'comparison.index', 'pattern' => 'comparison.*', 'icon' => 'comparison', 'id' => 'Perbandingan', 'en' => 'Comparison'],
+            ['route' => 'categories.show', 'pattern' => 'categories.*', 'icon' => 'categories', 'id' => 'Kategori Produk', 'en' => 'Categories', 'params' => ['category' => 'health']],
+            ['route' => 'policies.index', 'pattern' => 'policies.*', 'icon' => 'policies', 'id' => 'Polis & Pengingat', 'en' => 'Policies & Reminders'],
+            ['route' => 'chat.index', 'pattern' => 'chat.*', 'icon' => 'chat', 'id' => 'Asisten AI', 'en' => 'AI Assistant'],
         ];
     @endphp
 
@@ -454,7 +468,7 @@
             @foreach ($navItems as $item)
                 <a href="{{ route($item['route'], $item['params'] ?? []) }}"
                    class="{{ request()->routeIs($item['pattern']) ? 'active' : '' }}">
-                    <span class="nav-icon">{{ $item['icon'] }}</span>
+                    <span class="nav-icon">@include('partials.nav-icon', ['icon' => $item['icon']])</span>
                     <span data-id="{{ $item['id'] }}" data-en="{{ $item['en'] }}">{{ $item['id'] }}</span>
                 </a>
             @endforeach
@@ -520,7 +534,7 @@
         @yield('content')
     </main>
 
-    <span class="version-badge" aria-hidden="true">Beta v1.1</span>
+    <span class="version-badge" aria-hidden="true">Beta v1.7</span>
 
     <script>
         // ── Sidebar (mobile) ──────────────────────────────────────

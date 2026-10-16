@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="id">
+<html lang="id" id="htmlRoot">
 
 <head>
     <meta charset="utf-8">
@@ -65,10 +65,24 @@
             overflow: hidden;
             padding: 56px 60px;
             color: #fff;
-            background: linear-gradient(160deg, var(--navy-1) 0%, var(--navy-2) 52%, var(--navy-3) 100%);
+            background:
+                radial-gradient(circle at 15% 85%, #37c5bd28, transparent 32%),
+                radial-gradient(circle at 92% 12%, #8e79ff38, transparent 34%),
+                linear-gradient(145deg, #172e53 0%, #293f7e 54%, #176f79 120%);
             display: flex;
             flex-direction: column;
             justify-content: space-between;
+        }
+
+        .brand-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            opacity: .12;
+            background-image: radial-gradient(#fff 1px, transparent 1px);
+            background-size: 24px 24px;
+            mask-image: linear-gradient(135deg, #000, transparent 68%);
+            pointer-events: none;
         }
 
         .brand-panel::after {
@@ -79,8 +93,17 @@
             right: -260px;
             top: -180px;
             border-radius: 50%;
-            background: radial-gradient(circle at center, rgba(72, 120, 245, .38), transparent 62%);
+            background: radial-gradient(circle at center, rgba(72, 120, 245, .3), transparent 62%);
             pointer-events: none;
+        }
+
+        .brand-top {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            gap: 20px;
         }
 
         .brand-mark {
@@ -108,6 +131,7 @@
             position: relative;
             z-index: 1;
             max-width: 460px;
+            padding: 38px 0;
         }
 
         .brand-copy .eyebrow {
@@ -120,21 +144,25 @@
             font-weight: 600;
             background: rgba(255, 255, 255, .12);
             border: 1px solid rgba(255, 255, 255, .22);
-            margin-bottom: 26px;
+            margin-bottom: 22px;
+            backdrop-filter: blur(8px);
         }
 
         .brand-copy h1 {
-            font-size: 40px;
+            font-size: clamp(34px, 4vw, 50px);
             line-height: 1.16;
-            letter-spacing: -.02em;
-            margin: 0 0 18px;
+            letter-spacing: -.04em;
+            margin: 0 0 20px;
             font-weight: 700;
+            text-wrap: balance;
         }
 
         .brand-copy p {
             margin: 0;
             font-size: 16px;
             color: rgba(255, 255, 255, .78);
+            line-height: 1.75;
+            max-width: 430px;
         }
 
         .brand-points {
@@ -155,6 +183,8 @@
             color: rgba(255, 255, 255, .9);
         }
 
+        .brand-points li span:last-child { line-height: 1.55; }
+
         .brand-points .tick {
             flex: none;
             width: 22px;
@@ -170,20 +200,59 @@
 
         /* ── Form panel ───────────────────────────────────────── */
         .form-panel {
+            position: relative;
             display: flex;
             align-items: center;
             justify-content: center;
-            padding: 48px 40px;
+            padding: 82px 40px 48px;
+            background:
+                radial-gradient(ellipse at 100% 0%, #e9edff 0, transparent 32%),
+                radial-gradient(ellipse at 0% 100%, #eaf8f6 0, transparent 30%),
+                #f7f9fc;
         }
+
+        .lang {
+            display: inline-flex;
+            gap: 3px;
+            padding: 4px;
+            border: 1px solid #e4e9f2;
+            border-radius: 12px;
+            background: #ffffffd9;
+            box-shadow: 0 5px 18px #172e530b;
+        }
+
+        .lang button {
+            min-width: 38px;
+            border: 0;
+            border-radius: 8px;
+            padding: 7px 9px;
+            background: transparent;
+            color: #748198;
+            font: inherit;
+            font-size: 11px;
+            font-weight: 750;
+            cursor: pointer;
+            transition: color .18s ease, background .18s ease, box-shadow .18s ease;
+        }
+
+        .lang button.active {
+            color: #315ee8;
+            background: #eef3ff;
+            box-shadow: inset 0 0 0 1px #dfe7fb;
+        }
+
+        .lang button:focus-visible { outline: 3px solid #8b63d966; outline-offset: 2px; }
+
+        .form-lang { position: absolute; top: 26px; right: 32px; }
 
         .card {
             width: 100%;
             max-width: 430px;
             background: var(--white);
-            border: 1px solid var(--line);
-            border-radius: var(--radius);
-            box-shadow: var(--shadow-md);
-            padding: 34px 34px 30px;
+            border: 1px solid #e6ebf3;
+            border-radius: 20px;
+            box-shadow: 0 24px 65px rgba(23, 46, 83, .12), 0 3px 12px rgba(23, 46, 83, .04);
+            padding: 32px 34px 30px;
         }
 
         .card h2 {
@@ -217,7 +286,7 @@
         .tabs {
             display: grid;
             grid-template-columns: 1fr 1fr;
-            background: #f1f4fa;
+            background: #f3f5fa;
             border-radius: 12px;
             padding: 4px;
             margin-bottom: 24px;
@@ -312,13 +381,13 @@
 
         .field input {
             width: 100%;
-            padding: 12px 14px;
+            padding: 13px 14px;
             border: 1px solid var(--line);
             border-radius: 11px;
             font: inherit;
             font-size: 14.5px;
             color: var(--ink);
-            background: #fbfcfe;
+            background: #f9fafd;
             transition: all .18s ease;
         }
 
@@ -374,7 +443,7 @@
             font-weight: 600;
             color: #fff;
             cursor: pointer;
-            background: linear-gradient(145deg, #4b7bf7, var(--blue-dark));
+            background: linear-gradient(110deg, #416ff0, #6255d8 62%, #248e9a);
             box-shadow: 0 12px 26px rgba(36, 75, 212, .32);
             transition: transform .18s ease, box-shadow .18s ease;
         }
@@ -414,37 +483,70 @@
             display: none !important;
         }
 
+        .brand-points .tick {
+            flex: none;
+            width: 24px;
+            height: 24px;
+            color: #c8fff0;
+            background: #ffffff18;
+            border-color: #ffffff35;
+        }
+
         @media (max-width: 980px) {
             .wrap {
                 grid-template-columns: 1fr;
             }
 
             .brand-panel {
-                padding: 40px 32px;
-                gap: 28px;
+                min-height: 360px;
+                padding: 32px;
+                gap: 12px;
+            }
+
+            .brand-copy {
+                padding: 30px 0 22px;
             }
 
             .brand-copy h1 {
-                font-size: 30px;
+                font-size: 36px;
             }
 
             .brand-points {
-                display: none;
+                grid-template-columns: repeat(3, minmax(0, 1fr));
+                gap: 12px;
             }
+
+            .brand-points li { font-size: 12px; }
+            .form-panel { padding-top: 82px; }
         }
 
         @media (max-width: 520px) {
+            .brand-panel { min-height: 0; padding: 24px 20px 28px; }
+            .brand-copy { padding: 30px 0 6px; }
+            .brand-copy .eyebrow { margin-bottom: 15px; font-size: 11px; }
+            .brand-copy h1 { font-size: 31px; }
+            .brand-copy p { font-size: 14px; }
+            .brand-points { display: none; }
             .form-panel {
-                padding: 28px 18px;
+                align-items: flex-start;
+                padding: 70px 16px 32px;
             }
 
             .card {
-                padding: 26px 22px;
+                padding: 24px 20px;
+                border-radius: 17px;
             }
 
             .socials {
                 grid-template-columns: 1fr;
             }
+
+            .form-lang { top: 18px; right: 16px; }
+            .back-link { margin-bottom: 16px; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            *, *::before, *::after { scroll-behavior: auto !important; transition-duration: .01ms !important; }
         }
 
         /* ── Badge versi (kanan bawah) ───────────────────────── */
@@ -472,45 +574,58 @@
     <div class="wrap">
         {{-- ── Left: brand panel ──────────────────────────────── --}}
         <aside class="brand-panel">
-            <a href="{{ route('landing') }}" class="brand-mark">
-                <span class="brand-logo">
-                    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                        <path d="M12 2.5 4.5 5.6v6.1c0 4.6 3.1 8.5 7.5 9.8 4.4-1.3 7.5-5.2 7.5-9.8V5.6L12 2.5Z"
-                            stroke="#fff" stroke-width="1.6" fill="rgba(255,255,255,.14)" />
-                        <path d="m8.8 11.8 2.2 2.2 4.2-4.4" stroke="#fff" stroke-width="1.8"
-                            stroke-linecap="round" stroke-linejoin="round" />
-                    </svg>
-                </span>
-                InsureMind AI
-            </a>
+            <div class="brand-top">
+                <a href="{{ route('landing') }}" class="brand-mark" data-id-aria="Beranda InsureMind AI" data-en-aria="InsureMind AI home">
+                    <span class="brand-logo">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                            <path d="M12 2.5 4.5 5.6v6.1c0 4.6 3.1 8.5 7.5 9.8 4.4-1.3 7.5-5.2 7.5-9.8V5.6L12 2.5Z"
+                                stroke="#fff" stroke-width="1.6" fill="rgba(255,255,255,.14)" />
+                            <path d="m8.8 11.8 2.2 2.2 4.2-4.4" stroke="#fff" stroke-width="1.8"
+                                stroke-linecap="round" stroke-linejoin="round" />
+                        </svg>
+                    </span>
+                    InsureMind AI
+                </a>
+            </div>
 
             <div class="brand-copy">
-                <span class="eyebrow">AI-Powered Insurance Copilot</span>
-                <h1>Understand Your Policy.<br>Prepare Your Claim.</h1>
-                <p>Masuk untuk menganalisis polis, menilai kesiapan klaim, dan mengambil keputusan yang lebih
-                    terinformasi.</p>
+                <span class="eyebrow" data-id="Kopilot Asuransi Berbasis AI" data-en="AI-Powered Insurance Copilot">Kopilot Asuransi Berbasis AI</span>
+                <h1 data-id="Pahami Polis Anda.<br>Siapkan Klaim Anda." data-en="Understand Your Policy.<br>Prepare Your Claim.">Pahami Polis Anda.<br>Siapkan Klaim Anda.</h1>
+                <p data-id="Masuk untuk menganalisis polis, menilai kesiapan klaim, dan mengambil keputusan yang lebih terinformasi."
+                   data-en="Sign in to analyze your policy, assess claim readiness, and make better-informed decisions.">Masuk untuk menganalisis polis, menilai kesiapan klaim, dan mengambil keputusan yang lebih terinformasi.</p>
             </div>
 
             <ul class="brand-points">
-                <li><span class="tick">✓</span> Penjelasan polis yang dapat ditelusuri &amp; transparan.</li>
-                <li><span class="tick">✓</span> Skor kesiapan klaim dengan faktor yang jelas.</li>
-                <li><span class="tick">✓</span> Selalu dalam pengawasan manusia (Human-in-the-Loop).</li>
+                <li><span class="tick">✓</span><span data-id="Penjelasan polis yang dapat ditelusuri dan transparan." data-en="Traceable, transparent policy explanations.">Penjelasan polis yang dapat ditelusuri dan transparan.</span></li>
+                <li><span class="tick">✓</span><span data-id="Skor kesiapan klaim dengan faktor yang jelas." data-en="Claim readiness scores with clear factors.">Skor kesiapan klaim dengan faktor yang jelas.</span></li>
+                <li><span class="tick">✓</span><span data-id="Selalu dalam pengawasan manusia." data-en="Always under human supervision.">Selalu dalam pengawasan manusia.</span></li>
             </ul>
         </aside>
 
         {{-- ── Right: auth form ───────────────────────────────── --}}
         <main class="form-panel">
+            <div class="lang form-lang" role="group" aria-label="Pilih bahasa"
+                 data-id-aria="Pilih bahasa" data-en-aria="Choose language">
+                <button type="button" id="btnLangID" class="active" aria-pressed="true"
+                        data-id-title="Bahasa Indonesia" data-en-title="Indonesian">ID</button>
+                <button type="button" id="btnLangEN" aria-pressed="false"
+                        data-id-title="Bahasa Inggris" data-en-title="English">EN</button>
+            </div>
             <div class="card">
-                <a href="{{ route('landing') }}" class="back-link">
+                <a href="{{ route('landing') }}" class="back-link" data-id-aria="Kembali ke beranda" data-en-aria="Back to home">
                     <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="M15 18l-6-6 6-6" stroke="currentColor" stroke-width="2"
                             stroke-linecap="round" stroke-linejoin="round" />
                     </svg>
-                    Kembali ke beranda
+                    <span data-id="Kembali ke beranda" data-en="Back to home">Kembali ke beranda</span>
                 </a>
 
-                <h2 id="cardTitle">Selamat datang kembali</h2>
-                <p class="sub" id="cardSub">Masuk ke akun InsureMind Anda.</p>
+                <h2 id="cardTitle" data-id-login="Selamat datang kembali" data-en-login="Welcome back"
+                    data-id-signup="Buat akun Anda" data-en-signup="Create your account">Selamat datang kembali</h2>
+                <p class="sub" id="cardSub" data-id-login="Masuk ke akun InsureMind Anda."
+                   data-en-login="Sign in to your InsureMind account."
+                   data-id-signup="Daftar untuk mulai menggunakan InsureMind AI."
+                   data-en-signup="Sign up to get started with InsureMind AI.">Masuk ke akun InsureMind Anda.</p>
 
                 @if ($errors->any())
                     <div class="alert alert-error">{{ $errors->first() }}</div>
@@ -521,14 +636,17 @@
                 @endif
 
                 {{-- Tabs --}}
-                <div class="tabs" role="tablist">
-                    <button type="button" class="tab active" id="tabLogin" onclick="showTab('login')">Login</button>
-                    <button type="button" class="tab" id="tabSignup" onclick="showTab('signup')">Sign Up</button>
+                <div class="tabs" role="tablist" aria-label="Jenis akses" data-id-aria="Jenis akses" data-en-aria="Account access">
+                    <button type="button" role="tab" aria-selected="true" class="tab active" id="tabLogin" onclick="showTab('login')"
+                            data-id="Masuk" data-en="Sign in">Masuk</button>
+                    <button type="button" role="tab" aria-selected="false" class="tab" id="tabSignup" onclick="showTab('signup')"
+                            data-id="Daftar" data-en="Sign up">Daftar</button>
                 </div>
 
                 {{-- Social auth --}}
                 <div class="socials">
-                    <button type="button" class="social-btn" onclick="socialNotice('Google')">
+                    <button type="button" class="social-btn" onclick="socialNotice('Google')"
+                            data-id-aria="Lanjutkan dengan Google" data-en-aria="Continue with Google">
                         <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path fill="#4285F4"
                                 d="M23.5 12.3c0-.8-.1-1.6-.2-2.3H12v4.5h6.5a5.6 5.6 0 0 1-2.4 3.6v3h3.9c2.3-2.1 3.5-5.2 3.5-8.8Z" />
@@ -538,18 +656,19 @@
                             <path fill="#EA4335"
                                 d="M12 4.8c1.8 0 3.3.6 4.6 1.8l3.4-3.4A12 12 0 0 0 1.4 6.6l4 3.1C6.3 6.9 8.9 4.8 12 4.8Z" />
                         </svg>
-                        Google
+                        <span data-id="Google" data-en="Google">Google</span>
                     </button>
-                    <button type="button" class="social-btn" onclick="socialNotice('Apple')">
+                    <button type="button" class="social-btn" onclick="socialNotice('Apple')"
+                            data-id-aria="Lanjutkan dengan Apple" data-en-aria="Continue with Apple">
                         <svg viewBox="0 0 24 24" aria-hidden="true">
                             <path fill="#000"
                                 d="M16.4 12.7c0-2.4 1.9-3.5 2-3.6-1.1-1.6-2.8-1.8-3.4-1.9-1.5-.1-2.8.9-3.5.9-.7 0-1.9-.9-3.1-.8-1.6 0-3 .9-3.8 2.4-1.6 2.8-.4 6.9 1.2 9.2.8 1.1 1.7 2.3 3 2.3 1.2 0 1.6-.8 3.1-.8 1.4 0 1.8.8 3.1.8 1.3 0 2.1-1.1 2.9-2.3.9-1.3 1.3-2.6 1.3-2.7-.1 0-2.5-1-2.5-3.7Zm-2.2-7.1c.6-.8 1.1-1.9 1-3-.9 0-2 .6-2.6 1.4-.6.7-1.1 1.8-1 2.9 1 .1 2-.5 2.6-1.3Z" />
                         </svg>
-                        Apple
+                        <span data-id="Apple" data-en="Apple">Apple</span>
                     </button>
                 </div>
 
-                <div class="divider">atau lanjutkan dengan email</div>
+                <div class="divider" data-id="atau lanjutkan dengan email" data-en="or continue with email">atau lanjutkan dengan email</div>
 
                 {{-- Login form --}}
                 <form method="POST" action="{{ route('login') }}" id="loginForm">
@@ -557,17 +676,19 @@
                     <input type="hidden" name="form" value="login">
 
                     <div class="field">
-                        <label for="login_email">Email</label>
+                        <label for="login_email" data-id="Email" data-en="Email">Email</label>
                         <input id="login_email" type="email" name="email" value="{{ old('email') }}"
-                            placeholder="nama@email.com" autocomplete="email" required autofocus>
+                            placeholder="nama@email.com" data-id-placeholder="nama@email.com" data-en-placeholder="name@email.com"
+                            autocomplete="email" required autofocus>
                         @error('email')
                             <div class="err">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="field">
-                        <label for="login_password">Kata Sandi</label>
+                        <label for="login_password" data-id="Kata Sandi" data-en="Password">Kata Sandi</label>
                         <input id="login_password" type="password" name="password" placeholder="••••••••"
+                            data-id-placeholder="Masukkan kata sandi" data-en-placeholder="Enter your password"
                             autocomplete="current-password" required>
                         @error('password')
                             <div class="err">{{ $message }}</div>
@@ -576,12 +697,14 @@
 
                     <div class="row-between">
                         <label class="check">
-                            <input type="checkbox" name="remember" value="1"> Ingat saya
+                            <input type="checkbox" name="remember" value="1">
+                            <span data-id="Ingat saya" data-en="Remember me">Ingat saya</span>
                         </label>
-                        <a href="#" class="link" onclick="socialNotice('Reset kata sandi'); return false;">Lupa kata sandi?</a>
+                        <a href="#" class="link" onclick="socialNotice('password reset'); return false;"
+                           data-id="Lupa kata sandi?" data-en="Forgot password?">Lupa kata sandi?</a>
                     </div>
 
-                    <button type="submit" class="btn-primary">Masuk</button>
+                    <button type="submit" class="btn-primary" data-id="Masuk" data-en="Sign in">Masuk</button>
                 </form>
 
                 {{-- Sign up form --}}
@@ -590,26 +713,29 @@
                     <input type="hidden" name="form" value="signup">
 
                     <div class="field">
-                        <label for="signup_name">Nama Lengkap</label>
+                        <label for="signup_name" data-id="Nama Lengkap" data-en="Full name">Nama Lengkap</label>
                         <input id="signup_name" type="text" name="name" value="{{ old('name') }}"
-                            placeholder="Nama Anda" autocomplete="name" required>
+                            placeholder="Nama Anda" data-id-placeholder="Nama Anda" data-en-placeholder="Your name"
+                            autocomplete="name" required>
                         @error('name')
                             <div class="err">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="field">
-                        <label for="signup_email">Email</label>
+                        <label for="signup_email" data-id="Email" data-en="Email">Email</label>
                         <input id="signup_email" type="email" name="email" value="{{ old('email') }}"
-                            placeholder="nama@email.com" autocomplete="email" required>
+                            placeholder="nama@email.com" data-id-placeholder="nama@email.com" data-en-placeholder="name@email.com"
+                            autocomplete="email" required>
                         @error('email')
                             <div class="err">{{ $message }}</div>
                         @enderror
                     </div>
 
                     <div class="field">
-                        <label for="signup_password">Kata Sandi</label>
+                        <label for="signup_password" data-id="Kata Sandi" data-en="Password">Kata Sandi</label>
                         <input id="signup_password" type="password" name="password" placeholder="Minimal 8 karakter"
+                            data-id-placeholder="Minimal 8 karakter" data-en-placeholder="At least 8 characters"
                             autocomplete="new-password" required>
                         @error('password')
                             <div class="err">{{ $message }}</div>
@@ -617,53 +743,126 @@
                     </div>
 
                     <div class="field">
-                        <label for="signup_password_confirmation">Konfirmasi Kata Sandi</label>
+                        <label for="signup_password_confirmation" data-id="Konfirmasi Kata Sandi" data-en="Confirm password">Konfirmasi Kata Sandi</label>
                         <input id="signup_password_confirmation" type="password" name="password_confirmation"
-                            placeholder="Ulangi kata sandi" autocomplete="new-password" required>
+                            placeholder="Ulangi kata sandi" data-id-placeholder="Ulangi kata sandi" data-en-placeholder="Repeat your password"
+                            autocomplete="new-password" required>
                     </div>
 
                     <div class="row-between">
                         <label class="check">
-                            <input type="checkbox" name="terms" value="1" required> Saya setuju dengan syarat &amp; ketentuan
+                            <input type="checkbox" name="terms" value="1" required>
+                            <span data-id="Saya setuju dengan syarat &amp; ketentuan" data-en="I agree to the terms and conditions">Saya setuju dengan syarat &amp; ketentuan</span>
                         </label>
                     </div>
 
-                    <button type="submit" class="btn-primary">Buat Akun</button>
+                    <button type="submit" class="btn-primary" data-id="Buat Akun" data-en="Create account">Buat Akun</button>
                 </form>
 
                 <p class="foot-note" id="footNote">
-                    Belum punya akun? <a href="#" class="link" onclick="showTab('signup'); return false;">Daftar sekarang</a>
+                    <span data-id="Belum punya akun?" data-en="Don't have an account?">Belum punya akun?</span>
+                    <a href="#" class="link" onclick="showTab('signup'); return false;"
+                       data-id="Daftar sekarang" data-en="Sign up">Daftar sekarang</a>
                 </p>
             </div>
         </main>
     </div>
 
     <script>
+        let currentLang = localStorage.getItem('im_lang') || 'id';
+
+        function applyLang(lang) {
+            currentLang = lang === 'en' ? 'en' : 'id';
+
+            document.querySelectorAll('[data-id], [data-en]').forEach(el => {
+                const text = el.getAttribute(`data-${currentLang}`);
+                if (text !== null && text !== '') {
+                    el.innerHTML = text;
+                }
+            });
+
+            document.querySelectorAll('[data-id-placeholder], [data-en-placeholder]').forEach(el => {
+                const placeholder = el.getAttribute(`data-${currentLang}-placeholder`);
+                if (placeholder !== null) el.setAttribute('placeholder', placeholder);
+            });
+
+            document.querySelectorAll('[data-id-title], [data-en-title]').forEach(el => {
+                const title = el.getAttribute(`data-${currentLang}-title`);
+                if (title !== null) el.setAttribute('title', title);
+            });
+
+            document.querySelectorAll('[data-id-aria], [data-en-aria]').forEach(el => {
+                const label = el.getAttribute(`data-${currentLang}-aria`);
+                if (label !== null) el.setAttribute('aria-label', label);
+            });
+
+            document.getElementById('htmlRoot').setAttribute('lang', currentLang);
+            document.title = currentLang === 'id' ? 'Masuk | InsureMind AI' : 'Sign in | InsureMind AI';
+            document.querySelector('meta[name="description"]').setAttribute(
+                'content',
+                currentLang === 'id'
+                    ? 'Masuk atau daftar ke InsureMind AI — copilot asuransi berbasis AI untuk memahami polis dan mempersiapkan klaim.'
+                    : 'Sign in or register for InsureMind AI — an AI-powered insurance copilot to understand policies and prepare claims.'
+            );
+            document.getElementById('btnLangID').classList.toggle('active', currentLang === 'id');
+            document.getElementById('btnLangEN').classList.toggle('active', currentLang === 'en');
+            document.getElementById('btnLangID').setAttribute('aria-pressed', String(currentLang === 'id'));
+            document.getElementById('btnLangEN').setAttribute('aria-pressed', String(currentLang === 'en'));
+
+            const activeTab = document.getElementById('loginForm').classList.contains('hidden') ? 'signup' : 'login';
+            updateAuthCopy(activeTab);
+            localStorage.setItem('im_lang', currentLang);
+        }
+
+        function updateAuthCopy(tab) {
+            const suffix = tab === 'login' ? 'login' : 'signup';
+            const title = document.getElementById('cardTitle');
+            const subtitle = document.getElementById('cardSub');
+            title.textContent = title.getAttribute(`data-${currentLang}-${suffix}`);
+            subtitle.textContent = subtitle.getAttribute(`data-${currentLang}-${suffix}`);
+            document.getElementById('footNote').innerHTML = tab === 'login'
+                ? (currentLang === 'id'
+                    ? 'Belum punya akun? <a href="#" class="link" onclick="showTab(\'signup\'); return false;">Daftar sekarang</a>'
+                    : 'Don\'t have an account? <a href="#" class="link" onclick="showTab(\'signup\'); return false;">Sign up</a>')
+                : (currentLang === 'id'
+                    ? 'Sudah punya akun? <a href="#" class="link" onclick="showTab(\'login\'); return false;">Masuk di sini</a>'
+                    : 'Already have an account? <a href="#" class="link" onclick="showTab(\'login\'); return false;">Sign in</a>');
+        }
+
         function showTab(tab) {
             const isLogin = tab === 'login';
             document.getElementById('tabLogin').classList.toggle('active', isLogin);
             document.getElementById('tabSignup').classList.toggle('active', !isLogin);
+            document.getElementById('tabLogin').setAttribute('aria-selected', String(isLogin));
+            document.getElementById('tabSignup').setAttribute('aria-selected', String(!isLogin));
             document.getElementById('loginForm').classList.toggle('hidden', !isLogin);
             document.getElementById('signupForm').classList.toggle('hidden', isLogin);
-            document.getElementById('cardTitle').textContent = isLogin ? 'Selamat datang kembali' : 'Buat akun Anda';
-            document.getElementById('cardSub').textContent = isLogin ?
-                'Masuk ke akun InsureMind Anda.' :
-                'Daftar untuk mulai menggunakan InsureMind AI.';
-            document.getElementById('footNote').innerHTML = isLogin ?
-                'Belum punya akun? <a href="#" class="link" onclick="showTab(\'signup\'); return false;">Daftar sekarang</a>' :
-                'Sudah punya akun? <a href="#" class="link" onclick="showTab(\'login\'); return false;">Masuk di sini</a>';
+            updateAuthCopy(tab);
         }
 
         function socialNotice(provider) {
-            alert('Login dengan ' + provider + ' belum dikonfigurasi. Silakan gunakan email & kata sandi.');
+            if (provider === 'password reset') {
+                alert(currentLang === 'id'
+                    ? 'Reset kata sandi belum dikonfigurasi. Silakan hubungi administrator.'
+                    : 'Password reset is not configured yet. Please contact the administrator.');
+                return;
+            }
+
+            alert(currentLang === 'id'
+                ? 'Login dengan ' + provider + ' belum dikonfigurasi. Silakan gunakan email dan kata sandi.'
+                : 'Sign in with ' + provider + ' is not configured yet. Please use your email and password.');
         }
+
+        document.getElementById('btnLangID').addEventListener('click', () => applyLang('id'));
+        document.getElementById('btnLangEN').addEventListener('click', () => applyLang('en'));
+        applyLang(currentLang);
 
         @if ($errors->any() && old('form') === 'signup')
             showTab('signup');
         @endif
     </script>
 
-    <span class="version-badge" aria-hidden="true">Beta v1.1</span>
+    <span class="version-badge" aria-hidden="true">Beta v1.7</span>
 </body>
 
 </html>
