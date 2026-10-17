@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', $meta['title']['id'])
+@push('head')
+    <meta data-id-page-title data-title-id="{{ $meta['title']['id'] }}" data-title-en="{{ $meta['title']['en'] }}">
+@endpush
 
 @section('content')
     @php

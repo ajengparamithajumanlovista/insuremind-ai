@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Asisten AI')
+@push('head')
+    <meta data-id-page-title data-title-id="Asisten AI" data-title-en="AI Assistant">
+@endpush
 
 @section('content')
     <h1 class="page-title reveal" data-id="Asisten AI" data-en="AI Assistant">Asisten AI</h1>

@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Dashboard')
+@push('head')
+    <meta data-id-page-title data-title-id="Dashboard" data-title-en="Dashboard">
+@endpush
 
 @section('content')
     @php
@@ -39,9 +42,9 @@
             <div class="stat-value">{{ $assessment ? $assessment['score'] . '/100' : '—' }}</div>
             @if ($assessment)
                 <div class="stat-note">
-                    <span class="pill pill-{{ $toneClass($assessment['level']) }}">
-                        {{ $assessment['level'] === 'high' ? 'Prioritas tinggi' : ($assessment['level'] === 'medium' ? 'Perlu perhatian' : 'Terjaga') }}
-                    </span>
+                    <span class="pill pill-{{ $toneClass($assessment['level']) }}"
+                          data-id="{{ $assessment['level'] === 'high' ? 'Prioritas tinggi' : ($assessment['level'] === 'medium' ? 'Perlu perhatian' : 'Terjaga') }}"
+                          data-en="{{ $assessment['level'] === 'high' ? 'High priority' : ($assessment['level'] === 'medium' ? 'Needs attention' : 'Well protected') }}">{{ $assessment['level'] === 'high' ? 'Prioritas tinggi' : ($assessment['level'] === 'medium' ? 'Perlu perhatian' : 'Terjaga') }}</span>
                 </div>
             @else
                 <div class="stat-note" data-id="Lengkapi profil" data-en="Profile required">Lengkapi profil</div>
@@ -50,20 +53,24 @@
 
         <div class="stat">
             <div class="stat-label" data-id="Premi Bulanan" data-en="Monthly Premium">Premi Bulanan</div>
-            <div class="stat-value">{{ \App\Support\Money::compact($stats['monthly_premium']) }}</div>
+            <div class="stat-value" data-id="{{ \App\Support\Money::compact($stats['monthly_premium'], 'id') }}"
+                 data-en="{{ \App\Support\Money::compact($stats['monthly_premium'], 'en') }}">{{ \App\Support\Money::compact($stats['monthly_premium']) }}</div>
             <div class="stat-note">{{ $stats['active_policies'] }} <span data-id="polis aktif" data-en="active policies">polis aktif</span></div>
         </div>
 
         <div class="stat">
             <div class="stat-label" data-id="Total Perlindungan" data-en="Total Coverage">Total Perlindungan</div>
-            <div class="stat-value">{{ \App\Support\Money::compact($stats['total_coverage']) }}</div>
+            <div class="stat-value" data-id="{{ \App\Support\Money::compact($stats['total_coverage'], 'id') }}"
+                 data-en="{{ \App\Support\Money::compact($stats['total_coverage'], 'en') }}">{{ \App\Support\Money::compact($stats['total_coverage']) }}</div>
             <div class="stat-note" data-id="Akumulasi uang pertanggungan" data-en="Accumulated coverage">Akumulasi uang pertanggungan</div>
         </div>
 
         <div class="stat">
             <div class="stat-label" data-id="Dana Darurat" data-en="Emergency Fund">Dana Darurat</div>
-            <div class="stat-value">{{ number_format($stats['emergency_months'], 1) }}<span style="font-size:13px"> bulan</span></div>
-            <div class="stat-note">{{ $stats['emergency_months'] >= 6 ? 'Aman (≥ 6 bulan)' : 'Target 6 bulan' }}</div>
+            <div class="stat-value">{{ number_format($stats['emergency_months'], 1) }}<span style="font-size:13px" data-id=" bulan" data-en=" months"> bulan</span></div>
+            <div class="stat-note"
+                 data-id="{{ $stats['emergency_months'] >= 6 ? 'Aman (≥ 6 bulan)' : 'Target 6 bulan' }}"
+                 data-en="{{ $stats['emergency_months'] >= 6 ? 'Safe (≥ 6 months)' : '6-month target' }}">{{ $stats['emergency_months'] >= 6 ? 'Aman (≥ 6 bulan)' : 'Target 6 bulan' }}</div>
         </div>
     </div>
 
@@ -85,7 +92,7 @@
 
                 <ul style="margin:0 0 14px;padding-left:18px;font-size:12.5px;color:#4f5c72">
                     @foreach (array_slice($assessment['reasons'], 0, 3) as $reason)
-                        <li style="margin-bottom:6px">{{ $reason['id'] }}</li>
+                        <li style="margin-bottom:6px" data-id="{{ $reason['id'] }}" data-en="{{ $reason['en'] }}">{{ $reason['id'] }}</li>
                     @endforeach
                 </ul>
 
@@ -111,6 +118,11 @@
             </div>
 
             @forelse ($upcoming as $policy)
+                @php
+                    $isOverdue = $policy->reminderStatus() === 'overdue';
+                    $statusId = $isOverdue ? 'Terlambat ' . abs($policy->daysUntilDue()) . ' hari' : 'H-' . $policy->daysUntilDue();
+                    $statusEn = $isOverdue ? abs($policy->daysUntilDue()) . ' days late' : 'D-' . $policy->daysUntilDue();
+                @endphp
                 <div style="display:flex;justify-content:space-between;gap:10px;padding:11px 0;border-bottom:1px solid var(--line)">
                     <div>
                         <div style="font-weight:650;font-size:13px">{{ $policy->policy_name ?: $policy->provider_name }}</div>
@@ -119,11 +131,8 @@
                         </div>
                     </div>
                     <div style="text-align:right">
-                        <span class="pill pill-{{ $policy->reminderStatus() === 'overdue' ? 'rose' : 'amber' }}">
-                            {{ $policy->reminderStatus() === 'overdue'
-                                ? 'Terlambat ' . abs($policy->daysUntilDue()) . ' hari'
-                                : 'H-' . $policy->daysUntilDue() }}
-                        </span>
+                        <span class="pill pill-{{ $isOverdue ? 'rose' : 'amber' }}"
+                              data-id="{{ $statusId }}" data-en="{{ $statusEn }}">{{ $statusId }}</span>
                         <div style="font-size:11px;color:var(--muted);margin-top:4px">
                             {{ \App\Support\Money::idr($policy->premium_amount) }}
                         </div>
@@ -167,7 +176,8 @@
                         </div>
                     </div>
                     <div style="font-variant-numeric:tabular-nums;color:#4f5c72;text-align:right">
-                        <div>{{ \App\Support\Money::compact(data_get($simulation->result, 'without.deficit', 0)) }}</div>
+                        <div data-id="{{ \App\Support\Money::compact(data_get($simulation->result, 'without.deficit', 0), 'id') }}"
+                             data-en="{{ \App\Support\Money::compact(data_get($simulation->result, 'without.deficit', 0), 'en') }}">{{ \App\Support\Money::compact(data_get($simulation->result, 'without.deficit', 0)) }}</div>
                         <div style="font-size:10.5px;color:var(--muted)" data-id="kekurangan tanpa proteksi" data-en="shortfall without cover">kekurangan tanpa proteksi</div>
                     </div>
                 </div>

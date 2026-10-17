@@ -7,6 +7,7 @@
     <meta name="theme-color" content="#f6f8fc">
     <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>InsureMind AI | @yield('title', 'Dashboard')</title>
+    @stack('head')
 
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 
@@ -498,7 +499,7 @@
         <header class="topbar">
             <div class="crumb">
                 <span data-id="InsureMind" data-en="InsureMind">InsureMind</span> /
-                <b>@yield('title', 'Dashboard')</b>
+                <b data-id-page-title>@yield('title', 'Dashboard')</b>
             </div>
 
             <div class="top-actions">
@@ -566,7 +567,11 @@
         function applyLang(lang) {
             currentLang = lang;
 
+            // Only translate leaf nodes: translating a parent would wipe out any
+            // nested bilingual elements (e.g. money values or combined pills).
             document.querySelectorAll('[data-id], [data-en]').forEach(el => {
+                if (el.querySelector('[data-id], [data-en]')) return;
+
                 const text = lang === 'id' ? el.getAttribute('data-id') : el.getAttribute('data-en');
                 if (text !== null && text !== '') {
                     el.innerHTML = text;
@@ -591,6 +596,20 @@
             document.getElementById('htmlRoot').setAttribute('lang', lang);
             document.getElementById('btnLangID')?.classList.toggle('active', lang === 'id');
             document.getElementById('btnLangEN')?.classList.toggle('active', lang === 'en');
+
+            // Browser tab title and breadcrumb follow the page title.
+            const pageTitle = document.querySelector('[data-id-page-title]');
+            const pageTitleText = pageTitle
+                ? (lang === 'id' ? pageTitle.getAttribute('data-title-id') : pageTitle.getAttribute('data-title-en'))
+                : null;
+
+            if (pageTitle && pageTitle.textContent.trim() !== '' && pageTitleText) {
+                pageTitle.textContent = pageTitleText;
+            }
+
+            if (pageTitleText) {
+                document.title = 'InsureMind AI | ' + pageTitleText;
+            }
 
             document.dispatchEvent(new CustomEvent('im:lang', { detail: { lang } }));
             localStorage.setItem('im_lang', lang);

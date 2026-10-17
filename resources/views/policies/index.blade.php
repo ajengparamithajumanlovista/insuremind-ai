@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Polis & Pengingat')
+@push('head')
+    <meta data-id-page-title data-title-id="Polis &amp; Pengingat" data-title-en="Policies &amp; Reminders">
+@endpush
 
 @section('content')
     @php

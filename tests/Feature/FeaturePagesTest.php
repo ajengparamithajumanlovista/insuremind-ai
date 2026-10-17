@@ -81,7 +81,22 @@ class FeaturePagesTest extends TestCase
 
     public function test_risk_page_renders_and_can_be_saved(): void
     {
-        $this->actingAs($this->user)->get(route('risk.index'))->assertOk()->assertSee('Skor Risiko Proteksi');
+        $this->actingAs($this->user)
+            ->get(route('risk.index'))
+            ->assertOk()
+            ->assertSee('Skor Risiko Proteksi')
+            ->assertSee('data-id="Kesehatan"', false)
+            ->assertSee('data-en="Health"', false)
+            ->assertSee('data-id="Jiwa"', false)
+            ->assertSee('data-en="Life"', false)
+            ->assertSee('data-id="Risiko Kerja"', false)
+            ->assertSee('data-en="Work Risk"', false)
+            ->assertSee('data-id="Pendidikan"', false)
+            ->assertSee('data-en="Education"', false)
+            ->assertSee('data-id="Prioritas tinggi"', false)
+            ->assertSee('data-en="High priority"', false)
+            ->assertSee('data-id="Terjaga"', false)
+            ->assertSee('data-en="Well protected"', false);
 
         $this->actingAs($this->user)->post(route('risk.store'))->assertRedirect(route('risk.index'));
 

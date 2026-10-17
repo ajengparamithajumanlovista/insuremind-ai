@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Profil Keuangan')
+@push('head')
+    <meta data-id-page-title data-title-id="Profil Keuangan" data-title-en="Financial Profile">
+@endpush
 
 @section('content')
     <h1 class="page-title reveal" data-id="Profil Keuangan" data-en="Financial Profile">Profil Keuangan</h1>

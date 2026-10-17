@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Analisis Risiko')
+@push('head')
+    <meta data-id-page-title data-title-id="Analisis Risiko" data-title-en="Risk Assessment">
+@endpush
 
 @section('content')
     @php
@@ -67,7 +70,9 @@
                         <p data-id="Semakin tinggi skor, semakin besar kebutuhan perlindungan."
                            data-en="The higher the score, the greater the protection need.">Semakin tinggi skor, semakin besar kebutuhan perlindungan.</p>
                     </div>
-                    <span class="pill {{ $pillClass($assessment['level']) }}">
+                    <span class="pill {{ $pillClass($assessment['level']) }}"
+                          data-id="{{ $levelLabel[$assessment['level']]['id'] ?? $assessment['level'] }}"
+                          data-en="{{ $levelLabel[$assessment['level']]['en'] ?? $assessment['level'] }}">
                         {{ $levelLabel[$assessment['level']]['id'] ?? $assessment['level'] }}
                     </span>
                 </div>
@@ -166,9 +171,13 @@
                 <div class="grid grid-4">
                     @foreach ($assessment['categories'] as $key => $category)
                         <div class="stat">
-                            <div class="stat-label">{{ $categoryNames[$key]['id'] ?? $key }}</div>
+                            <div class="stat-label"
+                                 data-id="{{ $categoryNames[$key]['id'] ?? $key }}"
+                                 data-en="{{ $categoryNames[$key]['en'] ?? $key }}">{{ $categoryNames[$key]['id'] ?? $key }}</div>
                             <div class="stat-note" style="margin-top:8px">
-                                <span class="pill {{ $pillClass($category['level']) }}">
+                                <span class="pill {{ $pillClass($category['level']) }}"
+                                      data-id="{{ $levelLabel[$category['level']]['id'] ?? $category['level'] }}"
+                                      data-en="{{ $levelLabel[$category['level']]['en'] ?? $category['level'] }}">
                                     {{ $levelLabel[$category['level']]['id'] ?? $category['level'] }}
                                 </span>
                             </div>
@@ -211,7 +220,9 @@
                                 <tr>
                                     <td>{{ $row->created_at?->format('d M Y H:i') }}</td>
                                     <td>{{ $row->score }}/100</td>
-                                    <td><span class="pill {{ $pillClass($row->level) }}">{{ $levelLabel[$row->level]['id'] ?? $row->level }}</span></td>
+                                    <td><span class="pill {{ $pillClass($row->level) }}"
+                                              data-id="{{ $levelLabel[$row->level]['id'] ?? $row->level }}"
+                                              data-en="{{ $levelLabel[$row->level]['en'] ?? $row->level }}">{{ $levelLabel[$row->level]['id'] ?? $row->level }}</span></td>
                                     <td>{{ data_get($row->snapshot, 'dependents', '—') }}</td>
                                     <td class="num">{{ number_format((float) data_get($row->metrics, 'emergency_months', 0), 1) }}</td>
                                 </tr>

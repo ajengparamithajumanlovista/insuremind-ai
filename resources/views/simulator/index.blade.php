@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Simulator Risiko')
+@push('head')
+    <meta data-id-page-title data-title-id="Simulator Risiko" data-title-en="Risk Simulator">
+@endpush
 
 @section('content')
     @php

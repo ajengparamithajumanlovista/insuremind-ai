@@ -1,6 +1,9 @@
 @extends('layouts.app')
 
 @section('title', 'Perbandingan Produk')
+@push('head')
+    <meta data-id-page-title data-title-id="Perbandingan Produk" data-title-en="Product Comparison">
+@endpush
 
 @section('content')
     @php
