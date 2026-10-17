@@ -70,14 +70,69 @@ touch database/database.sqlite
 # 3. Generate the application key
 php artisan key:generate
 
-# 4. Run migrations and seed demo data
-php artisan migrate:fresh --seed
+# 4. Run migrations, then seed demo data on a fresh database
+php artisan migrate
+php artisan db:seed          # only needed on an empty database
 ```
+
+> Note: `migrate:fresh` deletes **all** data. Use `php artisan migrate` when you
+> want to keep existing accounts, and the seeders are idempotent
+> (`firstOrCreate` / `updateOrCreate`) so re-running them never duplicates or
+> overwrites real accounts.
 
 > Note: The project's default `.env` is configured with `DB_CONNECTION=sqlite`.
 > To use MySQL in production, set `DB_CONNECTION=mysql` and update the
 > credentials in `.env`. The seeders will continue to work as-is because they
 > all use Eloquent (not MySQL-specific SQL).
+
+### Deploying to Railway (persistent SQLite + uploads)
+
+Railway containers get a **fresh filesystem on every deploy**, so a SQLite file
+inside the project folder (`database/database.sqlite`) is lost each time. Keep
+the data on a **Railway Volume** mounted at `/data`:
+
+1. **Add a Volume** in the Railway service → *Settings → Volumes*, mount path
+   `/data`.
+2. **Set the variables** below (*Variables* tab).
+3. Deploy. `railway.json` (and the `Procfile`) run
+   `bash scripts/railway-start.sh` as the start command.
+
+The start script **never destroys data**:
+
+| Step | Behaviour |
+|------|-----------|
+| SQLite file | created with `touch` only when it does not exist (an existing file is never truncated) |
+| Migrations | `php artisan migrate --force` — incremental only, **no** `migrate:fresh` / `db:wipe` |
+| Seeder | runs **only** when the `users` table is empty |
+| Uploads | written to `DOCUMENTS_DISK_ROOT` (`/data/storage/documents`) |
+| Storage/logs/cache | `LARAVEL_STORAGE_PATH=/data/storage`, so compiled views, logs, and sessions also persist |
+| Server | `php artisan serve --host=0.0.0.0 --port=$PORT` |
+
+**Railway variables to set**
+
+| Variable | Value | Why |
+|----------|-------|-----|
+| `APP_KEY` | output of `php artisan key:generate --show` | must stay stable, otherwise old sessions/cookies break |
+| `APP_ENV` | `production` | production mode |
+| `APP_DEBUG` | `false` | never expose stack traces |
+| `APP_URL` | `https://<your-app>.up.railway.app` | correct links and asset URLs |
+| `LOG_CHANNEL` | `stderr` | logs visible in Railway's log viewer |
+| `DB_CONNECTION` | `sqlite` | SQLite driver |
+| `DB_DATABASE` | `/data/database.sqlite` | database file **on the volume** |
+| `DOCUMENTS_DISK` | `documents` | private persistent disk for uploads |
+| `DOCUMENTS_DISK_ROOT` | `/data/storage/documents` | upload folder **on the volume** |
+| `LARAVEL_STORAGE_PATH` | `/data/storage` | storage on the volume (set automatically by the script, pin it for safety) |
+| `SESSION_DRIVER` | `database` | sessions in SQLite (survive redeploys) |
+| `QUEUE_CONNECTION` | `database` | queue in SQLite |
+| `CACHE_STORE` | `database` | cache in SQLite |
+| `SESSION_SECURE_COOKIE` | `true` | cookies over HTTPS |
+| `RUN_SEEDER` | `true` | demo accounts on first boot only; set `false` for a clean production database |
+
+`DATA_ROOT` (default `/data`) can be used to point the script at a different
+volume path; it is optional.
+
+> Windows/local development is unchanged: without these variables the app keeps
+> using `database/database.sqlite` and `storage/app/private/documents`.
 
 ### Demo accounts
 

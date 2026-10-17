@@ -8,6 +8,9 @@
 # Pemakaian:
 #   chmod +x scripts/setup-database.sh
 #   ./scripts/setup-database.sh
+#
+# Catatan: skrip ini TIDAK menghapus data yang sudah ada. Migrasi dijalankan
+# secara inkremental dan seeder hanya berjalan bila tabel users masih kosong.
 
 set -euo pipefail
 
@@ -45,8 +48,23 @@ fi
 echo "==> Membuat APP_KEY (bila belum ada)..."
 php artisan key:generate --force
 
-echo "==> Menjalankan migrasi + seeding data demo..."
-php artisan migrate:fresh --seed --force
+echo "==> Menjalankan migrasi (tanpa menghapus data yang sudah ada)..."
+php artisan migrate --force
+
+# Seeder hanya dijalankan bila tabel users masih kosong, supaya akun yang sudah
+# terdaftar tidak pernah tertimpa atau terduplikasi.
+if php -r '
+    require "vendor/autoload.php";
+    $app = require "bootstrap/app.php";
+    $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap();
+    $db = $app->make("db")->connection();
+    exit($db->getSchemaBuilder()->hasTable("users") && $db->table("users")->exists() ? 0 : 1);
+' >/dev/null 2>&1; then
+    echo "    Akun sudah ada, seeding dilewati."
+else
+    echo "    Tabel users masih kosong, menjalankan DatabaseSeeder..."
+    php artisan db:seed --force
+fi
 
 echo ""
 echo "Selesai. Database SQLite siap dipakai tanpa Laragon."

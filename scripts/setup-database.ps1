@@ -7,7 +7,8 @@
     database eksternal. Skrip akan:
       1. Menyalin .env.example menjadi .env bila belum ada.
       2. Membuat file database/database.sqlite bila belum ada.
-      3. Menjalankan migrate:fresh --seed sehingga seluruh data demo terisi.
+      3. Menjalankan migrasi (`php artisan migrate --force`) TANPA menghapus
+         data, lalu menjalankan seeder hanya bila tabel users masih kosong.
 
     Dapat dijalankan di Windows (PowerShell), macOS, dan Linux selama PHP 8.2+
     dan ekstensi pdo_sqlite tersedia.
@@ -53,8 +54,18 @@ if (-not (Test-Path 'database/database.sqlite')) {
 Write-Host '==> Membuat APP_KEY (bila belum ada)...' -ForegroundColor Cyan
 php artisan key:generate --force
 
-Write-Host '==> Menjalankan migrasi + seeding data demo...' -ForegroundColor Cyan
-php artisan migrate:fresh --seed --force
+Write-Host '==> Menjalankan migrasi (tanpa menghapus data yang sudah ada)...' -ForegroundColor Cyan
+php artisan migrate --force
+
+# Seeder hanya dijalankan bila tabel users masih kosong, supaya akun yang sudah
+# terdaftar tidak pernah tertimpa atau terduplikasi.
+php -r 'require "vendor/autoload.php"; $app = require "bootstrap/app.php"; $app->make(Illuminate\Contracts\Console\Kernel::class)->bootstrap(); $db = $app->make("db")->connection(); exit($db->getSchemaBuilder()->hasTable("users") && $db->table("users")->exists() ? 0 : 1);'
+if ($LASTEXITCODE -eq 0) {
+    Write-Host '    Akun sudah ada, seeding dilewati.'
+} else {
+    Write-Host '    Tabel users masih kosong, menjalankan DatabaseSeeder...'
+    php artisan db:seed --force
+}
 
 Write-Host ''
 Write-Host 'Selesai. Database SQLite siap dipakai tanpa Laragon.' -ForegroundColor Green

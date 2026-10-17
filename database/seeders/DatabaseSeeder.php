@@ -13,11 +13,16 @@ class DatabaseSeeder extends Seeder
 
     /**
      * Seed the application's database.
+     *
+     * Every account is created with `firstOrCreate` (keyed by email) so an
+     * account that already exists is never overwritten: running the seeder
+     * again — for example on every deploy — must not reset the password, role,
+     * or status of a real user.
      */
     public function run(): void
     {
         // Default administrator (dashboard access).
-        User::updateOrCreate(
+        User::firstOrCreate(
             ['email' => 'admin@insuremind.ai'],
             [
                 'name' => 'Admin InsureMind',
@@ -28,7 +33,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // Default reviewer for the AI Quality Review queue.
-        User::updateOrCreate(
+        User::firstOrCreate(
             ['email' => 'reviewer@insuremind.ai'],
             [
                 'name' => 'Reviewer InsureMind',
@@ -39,7 +44,7 @@ class DatabaseSeeder extends Seeder
         );
 
         // Default regular user.
-        User::updateOrCreate(
+        User::firstOrCreate(
             ['email' => 'user@insuremind.ai'],
             [
                 'name' => 'User InsureMind',

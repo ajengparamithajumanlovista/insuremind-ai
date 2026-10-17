@@ -26,34 +26,41 @@ class ChatSeeder extends Seeder
                 continue;
             }
 
-            // Avoid duplicates when the seeder is run again.
+            // Idempotent: skip the whole thread when this account already has
+            // chat history, so running the seeder again never duplicates it.
             if ($user->chatMessages()->exists()) {
                 continue;
             }
 
             foreach ($thread as $turn) {
-                $user->chatMessages()->create([
-                    'role' => 'user',
-                    'body_id' => $turn['q_id'],
-                    'body_en' => $turn['q_en'],
-                    'meta' => ['engine' => 'user'],
-                ]);
+                $user->chatMessages()->firstOrCreate(
+                    ['role' => 'user', 'body_id' => $turn['q_id']],
+                    [
+                        'body_en' => $turn['q_en'],
+                        'meta' => ['engine' => 'user'],
+                    ],
+                );
 
-                $assistantMessage = $user->chatMessages()->create([
-                    'role' => 'assistant',
-                    'body_id' => $turn['a_id'],
-                    'body_en' => $turn['a_en'],
-                    'meta' => $turn['meta'],
-                ]);
+                $assistantMessage = $user->chatMessages()->firstOrCreate(
+                    ['role' => 'assistant', 'body_id' => $turn['a_id']],
+                    [
+                        'body_en' => $turn['a_en'],
+                        'meta' => $turn['meta'],
+                    ],
+                );
 
-                if (! empty($turn['feedback'])) {
-                    ChatFeedback::create([
-                        'chat_message_id' => $assistantMessage->getKey(),
-                        'user_id' => $user->getKey(),
-                        'sentiment' => $turn['feedback']['sentiment'],
-                        'reason' => $turn['feedback']['reason'] ?? null,
-                        'comment' => $turn['feedback']['comment'] ?? null,
-                    ]);
+                if (! empty($turn['feedback']) && $assistantMessage->wasRecentlyCreated) {
+                    ChatFeedback::firstOrCreate(
+                        [
+                            'chat_message_id' => $assistantMessage->getKey(),
+                            'user_id' => $user->getKey(),
+                        ],
+                        [
+                            'sentiment' => $turn['feedback']['sentiment'],
+                            'reason' => $turn['feedback']['reason'] ?? null,
+                            'comment' => $turn['feedback']['comment'] ?? null,
+                        ],
+                    );
                 }
             }
         }

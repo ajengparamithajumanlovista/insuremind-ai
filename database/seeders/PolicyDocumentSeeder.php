@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\PolicyDocument;
 use App\Models\User;
+use App\Support\DocumentDisk;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Carbon;
 
@@ -25,29 +26,32 @@ class PolicyDocumentSeeder extends Seeder
                 continue;
             }
 
-            // Avoid duplicates when the seeder is run again.
-            if ($user->policyDocuments()->where('original_name', $document['original_name'])->exists()) {
+            // Idempotent: `firstOrCreate` keeps the existing row (and its
+            // processing trail) untouched when the seeder is run again.
+            $model = $user->policyDocuments()->firstOrCreate(
+                ['original_name' => $document['original_name']],
+                [
+                    'disk' => DocumentDisk::name(),
+                    'path' => 'demo/'.$document['original_name'],
+                    'mime_type' => $document['mime_type'],
+                    'size_bytes' => $document['size_bytes'],
+                    'category' => $document['category'],
+                    'status' => $document['status'],
+                    'extraction_status' => $document['extraction_status'],
+                    'analysis_status' => $document['analysis_status'],
+                    'summary' => $document['summary'] ?? null,
+                    'references' => $document['references'] ?? null,
+                    'failure_reason' => $document['failure_reason'] ?? null,
+                    'processed_at' => $document['processed_at'] ?? null,
+                    'review_requested_at' => $document['review_requested_at'] ?? null,
+                    'created_at' => $document['created_at'],
+                    'updated_at' => $document['created_at'],
+                ],
+            );
+
+            if (! $model->wasRecentlyCreated) {
                 continue;
             }
-
-            $model = $user->policyDocuments()->create([
-                'original_name' => $document['original_name'],
-                'disk' => 'local',
-                'path' => 'demo/'.$document['original_name'],
-                'mime_type' => $document['mime_type'],
-                'size_bytes' => $document['size_bytes'],
-                'category' => $document['category'],
-                'status' => $document['status'],
-                'extraction_status' => $document['extraction_status'],
-                'analysis_status' => $document['analysis_status'],
-                'summary' => $document['summary'] ?? null,
-                'references' => $document['references'] ?? null,
-                'failure_reason' => $document['failure_reason'] ?? null,
-                'processed_at' => $document['processed_at'] ?? null,
-                'review_requested_at' => $document['review_requested_at'] ?? null,
-                'created_at' => $document['created_at'],
-                'updated_at' => $document['created_at'],
-            ]);
 
             foreach ($document['events'] as $index => $event) {
                 $at = Carbon::parse($document['created_at'])->addMinutes($index * 2);

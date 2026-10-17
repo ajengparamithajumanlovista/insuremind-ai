@@ -17,6 +17,20 @@ return [
 
     /*
     |--------------------------------------------------------------------------
+    | Document Upload Disk
+    |--------------------------------------------------------------------------
+    |
+    | Disk name for user-uploaded policy documents. Defaults to the dedicated
+    | `documents` disk below (private, persistent when DOCUMENTS_DISK_ROOT is
+    | set). Rows already stored on the `local` disk keep working because the
+    | disk name is saved per document in `policy_documents.disk`.
+    |
+    */
+
+    'document_disk' => env('DOCUMENTS_DISK', 'documents'),
+
+    /*
+    |--------------------------------------------------------------------------
     | Filesystem Disks
     |--------------------------------------------------------------------------
     |
@@ -43,6 +57,27 @@ return [
             'root' => storage_path('app/public'),
             'url' => rtrim(env('APP_URL', 'http://localhost'), '/').'/storage',
             'visibility' => 'public',
+            'throw' => false,
+            'report' => false,
+        ],
+
+        /*
+         * Persistent storage for user-uploaded policy documents.
+         *
+         * On a platform with an ephemeral filesystem (e.g. Railway) the default
+         * `storage/app/private` folder is wiped on every deploy. Point
+         * DOCUMENTS_DISK_ROOT at the mounted volume instead, for example:
+         *
+         *   DOCUMENTS_DISK=documents
+         *   DOCUMENTS_DISK_ROOT=/data/storage/documents
+         *
+         * The default value keeps local development working unchanged.
+         */
+        'documents' => [
+            'driver' => 'local',
+            'root' => env('DOCUMENTS_DISK_ROOT', storage_path('app/private/documents')),
+            'serve' => false,
+            'visibility' => 'private',
             'throw' => false,
             'report' => false,
         ],

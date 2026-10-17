@@ -8,4 +8,5 @@
 
 /.github export-ignore
 CHANGELOG.md export-ignore
+scripts/*.sh text eol=lf
 .styleci.yml export-ignore

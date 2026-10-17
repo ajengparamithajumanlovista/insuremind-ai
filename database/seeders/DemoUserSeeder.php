@@ -11,15 +11,15 @@ use Illuminate\Support\Facades\Hash;
  *
  * This seeder supplements the core accounts in DatabaseSeeder with several
  * regular users representing different account statuses (active, inactive,
- * suspended). Data is created idempotently (`updateOrCreate` by email)
- * so it is safe to run repeatedly.
+ * suspended). Data is created idempotently (`firstOrCreate` by email) so it is
+ * safe to run repeatedly and existing accounts are never overwritten.
  */
 class DemoUserSeeder extends Seeder
 {
     public function run(): void
     {
         foreach ($this->users() as $user) {
-            User::updateOrCreate(
+            User::firstOrCreate(
                 ['email' => $user['email']],
                 [
                     'name' => $user['name'],

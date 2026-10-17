@@ -35,7 +35,13 @@ return [
         'sqlite' => [
             'driver' => 'sqlite',
             'url' => env('DB_URL'),
-            'database' => env('DB_DATABASE', database_path('database.sqlite')),
+            // The database file path always comes from DB_DATABASE so it can be
+            // pointed at persistent storage (e.g. `/data/database.sqlite` on a
+            // Railway Volume). When the variable is empty or missing we fall
+            // back to the default location inside the project.
+            'database' => filled(env('DB_DATABASE'))
+                ? (string) env('DB_DATABASE')
+                : database_path('database.sqlite'),
             'prefix' => '',
             'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,
