@@ -1,0 +1,25 @@
+=== npm ci (production env) ===
+added 87 packages, and audited 88 packages in 12s
+
+21 packages are looking for funding
+  run `npm fund` for details
+
+found 0 vulnerabilities
+npm ci (production env) EXIT=0
+=== vite build (production env) ===
+> build
+> vite build
+
+[36mvite v7.3.7 [32mbuilding client environment for production...[36m[39m
+transforming...
+[32m✓[39m 58 modules transformed.
+rendering chunks...
+computing gzip size...
+[2mpublic/build/[22m[32mmanifest.json            [39m[1m[2m 0.33 kB[22m[1m[22m[2m │ gzip:  0.17 kB[22m
+[2mpublic/build/[22m[35massets/app-BUFDucZ1.css  [39m[1m[2m53.39 kB[22m[1m[22m[2m │ gzip: 11.15 kB[22m
+[2mpublic/build/[22m[36massets/app-DMsN-rLE.js   [39m[1m[2m51.52 kB[22m[1m[22m[2m │ gzip: 19.51 kB[22m
+[32m✓ built in 1.15s[39m
+vite build (production env) EXIT=0
+=== show config ===
+root=C:/laragon/www/insuremind-ai plugins=vite:build-metadata,vite:watch-package-data,alias,@tailwindcss/vite:scan,@tailwindcss/vite:generate:build,vite:modulepreload-polyfill,vite:resolve,vite:html-inline-proxy,vite:css,vite:esbuild,vite:json,vite:wasm-helper,vite:worker,vite:asset,vite:wasm-fallback,vite:define,vite:css-post,vite:build-html,vite:worker-import-meta-url,vite:asset-import-meta-url,vite:force-amd-wrap-require,vite:force-systemjs-wrap-complete,vite:prepare-out-dir,commonjs,vite:data-uri,vite:rollup-options-plugins,vite:dynamic-import-vars,vite:import-glob,laravel,vite:build-import-analysis,vite:esbuild-transpile,vite:terser,vite:license,vite:manifest,vite:ssr-manifest,vite:reporter,vite:load-fallback
+show config EXIT=0

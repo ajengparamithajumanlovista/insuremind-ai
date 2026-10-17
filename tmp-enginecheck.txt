@@ -1,0 +1,5 @@
+package.json engines: {"node":">=20.19.0"}
+lock root engines  : {"node":">=20.19.0"}
+ENGINES SYNCED: true
+lock root keys: name, devDependencies, engines
+lock devDependencies match: true

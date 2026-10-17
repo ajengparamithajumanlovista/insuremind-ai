@@ -1,0 +1,20 @@
+npm warn Unknown env config "platform". This will stop working in the next major version of npm. See `npm help npmrc` for supported config options.
+add lightningcss-linux-x64-gnu 1.32.0
+add @tailwindcss/oxide-linux-x64-gnu 4.3.3
+add @rollup/rollup-linux-x64-gnu 4.64.5
+add @napi-rs/lzma-linux-x64-gnu 1.5.1
+add @esbuild/linux-x64 0.28.2
+remove @tailwindcss/oxide-win32-x64-msvc 4.3.3
+remove @rollup/rollup-win32-x64-msvc 4.64.5
+remove @rollup/rollup-win32-x64-gnu 4.64.5
+remove @esbuild/win32-x64 0.28.2
+remove lightningcss-win32-x64-msvc 1.32.0
+
+added 5 packages, and removed 5 packages in 2s
+
+21 packages are looking for funding
+  run `npm fund` for details
+npm warn install-scripts 1 package has install scripts not yet covered by allowScripts:
+npm warn install-scripts   esbuild@0.28.2 (postinstall: node install.js)
+npm warn install-scripts
+npm warn install-scripts Run `npm install-scripts ls` to review, or `npm install-scripts approve <pkg>` to allow.

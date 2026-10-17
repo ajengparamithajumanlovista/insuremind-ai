@@ -1,0 +1,1 @@
+rollup files referencing lzma: C:\laragon\www\insuremind-ai\node_modules\rollup\dist\es\shared\watch.js, C:\laragon\www\insuremind-ai\node_modules\rollup\dist\shared\index.js

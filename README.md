@@ -97,6 +97,19 @@ the data on a **Railway Volume** mounted at `/data`:
 3. Deploy. `railway.json` (and the `Procfile`) run
    `bash scripts/railway-start.sh` as the start command.
 
+**Build**: `railway.json` uses the **Railpack** builder with no custom build
+command. Railpack detects Laravel and runs `composer install` plus
+`npm ci && npm run build` (Vite) itself, using the Node version from
+`engines.node` in `package.json`. Do **not** add a custom
+`buildCommand: composer install ... && npm ci && npm run build` on top of the
+detected commands: Nixpacks' PHP provider already runs an npm install and build,
+so the application would build its assets twice and the second pass could fail
+with `failed to load config from vite.config.js`.
+
+If you deploy with the older Nixpacks builder instead, pin Node (Nixpacks only
+understands a *major* version) with the variable `NIXPACKS_NODE_VERSION=22`.
+
+
 The start script **never destroys data**:
 
 | Step | Behaviour |

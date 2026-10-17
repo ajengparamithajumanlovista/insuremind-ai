@@ -3,6 +3,9 @@
     "name": "insuremind-inspection",
     "private": true,
     "type": "module",
+    "engines": {
+        "node": ">=20.19.0"
+    },
     "scripts": {
         "build": "vite build",
         "dev": "vite"
