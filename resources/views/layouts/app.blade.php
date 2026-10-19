@@ -549,6 +549,7 @@
                 thinking: 'Asisten sedang menyusun jawaban…',
                 error: 'Maaf, terjadi kendala teknis. Silakan coba lagi.',
                 sending: 'Mengirim…',
+                quotaSpent: 'Kuota harian asisten AI hari ini sudah habis. Coba lagi setelah kuota direset.',
                 sessionExpired: 'Sesi Anda berakhir. Muat ulang halaman lalu masuk kembali.',
                 copied: 'Tersalin',
             },
@@ -556,6 +557,7 @@
                 thinking: 'The assistant is preparing a reply…',
                 error: 'Sorry, a technical issue occurred. Please try again.',
                 sending: 'Sending…',
+                quotaSpent: 'Today\'s daily quota for the AI assistant is used up. Please try again once the quota resets.',
                 sessionExpired: 'Your session expired. Reload the page and sign in again.',
                 copied: 'Copied',
             },
@@ -574,7 +576,9 @@
 
                 const text = lang === 'id' ? el.getAttribute('data-id') : el.getAttribute('data-en');
                 if (text !== null && text !== '') {
-                    el.innerHTML = text;
+                    // Plain text only: these attributes can carry user or AI text
+                    // (chat bubbles), so they must never be parsed as HTML.
+                    el.textContent = text;
                 }
             });
 

@@ -7,6 +7,7 @@ use App\Models\User;
 use App\Models\UserProfile;
 use Database\Seeders\InsuranceProductSeeder;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Http;
 use Tests\TestCase;
 
 /**
@@ -22,6 +23,13 @@ class FeaturePagesTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
+        config([
+            'services.ai.default' => 'gemini',
+            'services.ai.fallback' => 'none',
+            'services.groq.key' => null,
+            'services.gemini.key' => null,
+        ]);
 
         $this->seed(InsuranceProductSeeder::class);
 
@@ -206,12 +214,24 @@ class FeaturePagesTest extends TestCase
 
     public function test_chat_store_returns_json_reply(): void
     {
+        config(['services.gemini.key' => 'feature-pages-key']);
+
+        Http::fake([
+            'generativelanguage.googleapis.com/*' => Http::response([
+                'candidates' => [[
+                    'content' => ['role' => 'model', 'parts' => [['text' => 'Skor risiko Anda sedang.']]],
+                    'finishReason' => 'STOP',
+                ]],
+            ]),
+        ]);
+
         $response = $this->actingAs($this->user)
             ->postJson(route('chat.store'), ['message' => 'Bagaimana skor risiko saya?'])
             ->assertOk()
             ->assertJsonStructure(['user' => ['body_id'], 'assistant' => ['body_id', 'body_en', 'engine']]);
 
         $this->assertNotEmpty($response->json('assistant.body_id'));
+        $this->assertSame('Skor risiko Anda sedang.', $response->json('assistant.body_id'));
         $this->assertDatabaseCount('chat_messages', 2);
     }
 
