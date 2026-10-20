@@ -239,6 +239,26 @@ class ChatAssistantGroqTest extends TestCase
         $this->assertSame(52, $this->user->chatMessages()->count());
     }
 
+    public function test_chat_send_button_keeps_its_label_and_posts_to_the_chat_route(): void
+    {
+        $this->fakeGroq();
+
+        $response = $this->actingAs($this->user)
+            ->get(route('chat.index'))
+            ->assertOk()
+            ->assertSee('<form id="chatForm" class="chat-composer-form" method="POST" action="'.route('chat.store').'">', false)
+            ->assertSee('<button type="submit" id="chatSubmit" class="btn btn-primary chat-composer-submit">', false)
+            ->assertSee('<span data-id="Kirim" data-en="Send">Kirim</span>', false)
+            ->assertSee('name="_token"', false)
+            ->assertSee('placeholder="Type your question..."', false)
+            ->assertSee('data-en="Ask anything about your insurance needs."', false);
+
+        $html = $response->getContent();
+        $this->assertStringContainsString('<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">', $html);
+        $this->assertStringContainsString('flex: 0 0 96px;', $html);
+        $this->assertStringContainsString('height: 52px;', $html);
+    }
+
     public function test_ai_history_uses_created_at_then_id_for_equal_timestamp_turns(): void
     {
         $timestamp = now()->startOfSecond();

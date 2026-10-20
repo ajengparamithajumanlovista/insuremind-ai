@@ -106,18 +106,17 @@
 
         {{-- â”€â”€ Formulir kirim â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ --}}
         <div class="chat-composer">
-            <form id="chatForm" class="chat-composer-form">
+            <form id="chatForm" class="chat-composer-form" method="POST" action="{{ route('chat.store') }}">
                 @csrf
                 <input type="text" id="chatInput" name="message" autocomplete="off" class="chat-composer-input"
                        data-id-placeholder="Tulis pertanyaan Anda..." data-en-placeholder="Type your question..."
                        placeholder="Type your question...">
-                <button type="submit" id="chatSubmit" class="btn btn-primary chat-composer-submit"
-                        data-id="Kirim" data-en="Send">
+                <button type="submit" id="chatSubmit" class="btn btn-primary chat-composer-submit">
                     <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                         <path d="m21 3-7.2 18-3.9-7.9L2 9.2 21 3Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                         <path d="M10 13.1 21 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
                     </svg>
-                    <span>Kirim</span>
+                    <span data-id="Kirim" data-en="Send">Kirim</span>
                 </button>
             </form>
             <p class="chat-composer-hint"
@@ -157,9 +156,15 @@
             border-color: var(--blue);
             box-shadow: 0 0 0 3px #315ee81a;
         }
-        .chat-composer-submit {
+        .chat-composer-form > .chat-composer-submit {
+            box-sizing: border-box;
+            flex: 0 0 96px;
             width: 96px;
+            min-width: 96px;
+            max-width: 96px;
             height: 52px;
+            min-height: 52px;
+            max-height: 52px;
             padding: 0 12px;
             border: 0;
             border-radius: 12px;
@@ -168,6 +173,7 @@
             color: #fff;
             font-size: 15px;
             font-weight: 700;
+            line-height: 1;
         }
         .chat-composer-submit:hover {
             background: #2854dc;
@@ -184,7 +190,12 @@
             .chat-composer { padding: 12px; }
             .chat-composer-form { grid-template-columns: minmax(0, 1fr); gap: 9px; }
             .chat-composer-input { height: 52px; font-size: 15px; }
-            .chat-composer-submit { width: 100%; height: 52px; }
+            .chat-composer-form > .chat-composer-submit {
+                flex-basis: auto;
+                width: 100%;
+                min-width: 0;
+                max-width: none;
+            }
         }
 
         .chat-bubble {
