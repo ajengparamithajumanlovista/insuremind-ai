@@ -209,7 +209,14 @@ class FeaturePagesTest extends TestCase
 
     public function test_chat_page_renders(): void
     {
-        $this->actingAs($this->user)->get(route('chat.index'))->assertOk()->assertSee('Asisten AI');
+        $this->actingAs($this->user)
+            ->get(route('chat.index'))
+            ->assertOk()
+            ->assertSee('Asisten AI')
+            ->assertSee('placeholder="Type your question..."', false)
+            ->assertSee('data-en="Ask anything about your insurance needs."', false)
+            ->assertSee('btn-primary chat-composer-submit', false)
+            ->assertSee('<svg viewBox="0 0 24 24" fill="none" aria-hidden="true">', false);
     }
 
     public function test_chat_store_returns_json_reply(): void

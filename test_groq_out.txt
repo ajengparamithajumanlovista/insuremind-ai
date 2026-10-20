@@ -1,0 +1,46 @@
+﻿
+   FAIL  Tests\Feature\ChatAssistantGroqTest
+  Γ£ô a successful groq answer keeps the frontend contract            1.07s  
+  Γ£ô the api key never leaves the authorization header               0.07s  
+  Γ£ô follow ups carry the conversation history in order              0.06s  
+  Γ£ô a missing key is reported without calling groq                  0.08s  
+  Γ£ô an invalid key is reported as invalid credentials               0.07s  
+  Γ£ô an unsupported model is reported as model not found             0.08s  
+  Γ£ô a per minute rate limit is retried once                         1.09s  
+  Γ£ô a spent daily quota is reported honestly and not retried        0.05s  
+  Γ£ô a timeout is reported as a network error                        1.06s  
+  Γ£ô a server error is reported as unavailable                       0.09s  
+  Γ£ô gemini takes over when groq key is rejected                     0.09s  
+  Γ£ô a groq server error is retried and does not burn gemini         1.12s  
+  Γ£ô both providers failing returns one honest error without localΓÇª  0.06s  
+  Γ¿» english and indonesian conversations are passed through unchanΓÇª 0.12s  
+  Γ£ô context contains this users profile and catalog products only   0.07s  
+  Γ£ô another users history never reaches the prompt                  0.06s  
+  Γ£ô the chat page reports groq as active only after a real probe    0.09s  
+  Γ£ô the chat page never claims active for a rejected key            0.06s  
+  Γ£ô the chat page marks a configured but unknown model              0.07s  
+  Γ£ô untrusted markup in a model answer is escaped on the page       0.07s  
+  ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇ  
+   FAILED  Tests\Feature\ChatAssistantGroqTest > english and indonesianΓÇª   
+  Failed asserting that two strings are identical.
+--- Expected
++++ Actual
+@@ @@
+-'Masa tunggu itu waktu sebelum perlindungan mulai aktif.'
++'A **waiting period** is the time before cover starts.'
+
+  at tests\Feature\ChatAssistantGroqTest.php:391
+    387Γûò 
+    388Γûò         $this->actingAs($this->user)
+    389Γûò             ->postJson(route('chat.store'), ['message' => 'kalau masa tunggu itu apa?'])
+    390Γûò             ->assertOk()
+  Γ₧£ 391Γûò             ->assertJsonPath('assistant.body_id', 'Masa tunggu itu waktu sebelum perlindungan mulai aktif.');
+    392Γûò     }
+    393Γûò 
+    394Γûò     public function test_context_contains_this_users_profile_and_catalog_products_only(): void
+    395Γûò     {
+
+
+  Tests:    1 failed, 19 passed (76 assertions)
+  Duration: 5.89s
+

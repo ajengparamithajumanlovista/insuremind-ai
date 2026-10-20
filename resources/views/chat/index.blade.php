@@ -105,16 +105,88 @@
         </div>
 
         {{-- â”€â”€ Formulir kirim â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ --}}
-        <form id="chatForm" style="display:flex;gap:9px;margin-top:14px;flex-wrap:wrap">
-            @csrf
-            <input type="text" id="chatInput" name="message" autocomplete="off" style="flex:1;min-width:200px;border:1px solid var(--line);border-radius:10px;padding:10px 12px;font-size:13px"
-                   data-id-placeholder="Tulis pertanyaan Andaâ€¦" data-en-placeholder="Type your questionâ€¦" placeholder="Tulis pertanyaan Andaâ€¦">
-            <button type="submit" id="chatSubmit" class="btn btn-primary"
-                    data-id="Kirim" data-en="Send">Kirim</button>
-        </form>
+        <div class="chat-composer">
+            <form id="chatForm" class="chat-composer-form">
+                @csrf
+                <input type="text" id="chatInput" name="message" autocomplete="off" class="chat-composer-input"
+                       data-id-placeholder="Tulis pertanyaan Anda..." data-en-placeholder="Type your question..."
+                       placeholder="Type your question...">
+                <button type="submit" id="chatSubmit" class="btn btn-primary chat-composer-submit"
+                        data-id="Kirim" data-en="Send">
+                    <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                        <path d="m21 3-7.2 18-3.9-7.9L2 9.2 21 3Z" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                        <path d="M10 13.1 21 3" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                    <span>Kirim</span>
+                </button>
+            </form>
+            <p class="chat-composer-hint"
+               data-id="Tanyakan apa saja tentang kebutuhan asuransi Anda."
+               data-en="Ask anything about your insurance needs.">Tanyakan apa saja tentang kebutuhan asuransi Anda.</p>
+        </div>
     </div>
 
     <style>
+        .chat-composer {
+            margin-top: 14px;
+            padding: 14px 16px;
+            border-radius: 16px;
+            background: #f5f7fc;
+        }
+        .chat-composer-form {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) auto;
+            gap: 12px;
+            margin: 0;
+        }
+        .chat-composer-input {
+            width: 100%;
+            min-width: 0;
+            height: 52px;
+            padding: 0 16px;
+            border: 1px solid #d8e0ef;
+            border-radius: 12px;
+            outline: none;
+            background: #fff;
+            color: var(--ink);
+            font-size: 16px;
+            transition: border-color .18s ease, box-shadow .18s ease;
+        }
+        .chat-composer-input::placeholder { color: #8290aa; opacity: 1; }
+        .chat-composer-input:focus {
+            border-color: var(--blue);
+            box-shadow: 0 0 0 3px #315ee81a;
+        }
+        .chat-composer-submit {
+            width: 96px;
+            height: 52px;
+            padding: 0 12px;
+            border: 0;
+            border-radius: 12px;
+            background: #315ee8;
+            box-shadow: none;
+            color: #fff;
+            font-size: 15px;
+            font-weight: 700;
+        }
+        .chat-composer-submit:hover {
+            background: #2854dc;
+            box-shadow: 0 6px 14px #315ee82e;
+        }
+        .chat-composer-submit svg { width: 18px; height: 18px; flex: none; }
+        .chat-composer-hint {
+            margin: 10px 0 0;
+            color: #7787a2;
+            font-size: 13px;
+            line-height: 1.45;
+        }
+        @media (max-width: 520px) {
+            .chat-composer { padding: 12px; }
+            .chat-composer-form { grid-template-columns: minmax(0, 1fr); gap: 9px; }
+            .chat-composer-input { height: 52px; font-size: 15px; }
+            .chat-composer-submit { width: 100%; height: 52px; }
+        }
+
         .chat-bubble {
             max-width: 72%;
             border-radius: 14px;
@@ -150,6 +222,7 @@
             const input = document.getElementById('chatInput');
             const log = document.getElementById('chatLog');
             const submit = document.getElementById('chatSubmit');
+            const submitLabel = submit.querySelector('span');
             const token = document.querySelector('meta[name="csrf-token"]').getAttribute('content');
             const endpoint = @json(route('chat.store'));
 
@@ -303,7 +376,7 @@
 
                 submit.disabled = true;
                 input.disabled = true;
-                submit.textContent = window.imString('sending');
+                submitLabel.textContent = window.imString('sending');
 
                 const { row: typingRow, bubble: typingBubble } = makeRow(
                     window.imString('thinking'), 'assistant'
@@ -400,7 +473,7 @@
                     sending = false;
                     submit.disabled = false;
                     input.disabled = false;
-                    submit.textContent = window.imLang() === 'en' ? 'Send' : 'Kirim';
+                    submitLabel.textContent = window.imLang() === 'en' ? 'Send' : 'Kirim';
                     scrollDown();
                     input.focus();
                 }

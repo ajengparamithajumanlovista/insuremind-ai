@@ -1,0 +1,138 @@
+﻿
+   PASS  Tests\Unit\ExampleTest
+  Γ£ô that true is true                                               0.01s  
+
+   PASS  Tests\Feature\Admin\AdminDashboardTest
+  Γ£ô guest is redirected to login                                    0.40s  
+  Γ£ô regular user cannot open admin area                             0.07s  
+  Γ£ô inactive user is signed out by active middleware                0.02s  
+  Γ£ô admin can open every admin page                                 0.17s  
+  Γ£ô reviewer reaches review queue but not admin pages               0.03s  
+  Γ£ô reviewer dashboard redirects to queue                           0.02s  
+  Γ£ô admin can suspend and reactivate a user                         0.05s  
+  Γ£ô admin cannot suspend own account                                0.05s  
+  Γ£ô admin can delete a user and audit is preserved                  0.10s  
+  Γ£ô admin cannot delete own account                                 0.05s  
+  Γ£ô last admin cannot be deleted                                    0.06s  
+  Γ£ô regular user cannot delete accounts                             0.04s  
+  Γ£ô role change is recorded in audit log                            0.05s  
+  Γ£ô product toggle hides from catalog and writes history            0.04s  
+  Γ£ô admin can create a product with generated slug and audit        0.03s  
+  Γ£ô product slug stays unique when creating duplicates              0.04s  
+  Γ£ô reviewer cannot create a product                                0.03s  
+  Γ£ô review workflow records actions and audit                       0.04s  
+  Γ£ô review decision requires a note                                 0.03s  
+  Γ£ô audit log export streams csv with filters                       0.03s  
+  Γ£ô document download logs audit entry                              0.05s  
+
+   PASS  Tests\Feature\Admin\AdminFoundationTest
+  Γ£ô user table has admin management columns                         0.04s  
+  Γ£ô existing rows default to active status                          0.03s  
+  Γ£ô reviewer role has limited privileges                            0.02s  
+  Γ£ô inactive user is not active                                     0.02s  
+  Γ£ô gates enforce least privilege                                   0.03s  
+  Γ£ô review case gate scopes reviewer to own records                 0.02s  
+  Γ£ô insurance product has catalog admin fields                      0.04s  
+  Γ£ô policy document status helpers                                  0.02s  
+  Γ£ô ai review case scopes and tone                                  0.03s  
+  Γ£ô audit logger records actor and redacts secrets                  0.02s  
+  Γ£ô audit logger diff only reports changed fields                   0.02s  
+  Γ£ô audit log is append only without updated at                     0.03s  
+  Γ£ô change detection on user role is captured                       0.02s  
+
+   PASS  Tests\Feature\Admin\DemoSeederTest
+  Γ£ô every feature table is populated                                0.18s  
+  Γ£ô seeders create all role and status variants                     0.13s  
+  Γ£ô demo profile is ready for risk analysis                         0.13s  
+  Γ£ô policies cover all reminder states                              0.12s  
+  Γ£ô chat seed contains message without reference                    0.12s  
+  Γ£ô review cases link to chat and documents                         0.13s  
+  Γ£ô documents cover success review and failure states               0.11s  
+  Γ£ô audit log covers multiple categories                            0.12s  
+  Γ£ô seeder is idempotent                                            0.19s  
+
+   PASS  Tests\Feature\AuthRegistrationAuditTest
+  Γ£ô successful registration writes an auth register audit log       0.04s  
+  Γ£ô failed registration writes a failed auth register audit log     0.02s  
+
+   PASS  Tests\Feature\ChatAssistantGeminiTest
+  Γ£ô it sends a generate content request and returns the model answΓÇª 0.08s  
+  Γ£ô follow up messages include ordered history without duplication  0.04s  
+  Γ£ô history is trimmed to the configured limit and starts with a uΓÇª 0.04s  
+  Γ£ô conversation builder drops invalid entries and merges same rolΓÇª 0.04s  
+  Γ£ô user context is scoped to the authenticated user                0.05s  
+  Γ£ô it reports an error when the api key is missing                 0.04s  
+  Γ£ô rate limit errors are reported as retryable                     1.06s  
+  Γ£ô unknown model is reported as model not found                    0.04s  
+  Γ£ô invalid api key is reported as invalid credentials              0.04s  
+  Γ£ô empty candidates produce an empty response error                0.06s  
+  Γ£ô thought parts are not returned as the answer                    0.09s  
+  Γ£ô connection failures are reported as network errors              1.05s  
+  Γ£ô client rejects requests that are missing a key                  0.03s  
+  Γ£ô chat page shows the assistant as inactive without a key         0.04s  
+  Γ£ô chat page shows gemini as active only after a successful probe  0.04s  
+  Γ£ô chat page does not claim active for an invalid key              0.04s  
+  Γ£ô chat page reports an unsupported model                          0.05s  
+  Γ£ô chat page reports a model rejected by the api                   0.04s  
+  Γ£ô chat page reports exhausted quota distinctly                    0.05s  
+  Γ£ô connection probe is cached between page loads                   0.08s  
+  Γ£ô incomplete profile tells the model exactly what is missing      0.10s  
+  Γ£ô complete profile marks the risk assessment as authoritative     0.08s  
+  Γ£ô a truncated answer is flagged instead of ending mid sentence    0.05s  
+  Γ£ô a truncated answer is flagged in english for english users      0.05s  
+  Γ£ô no request is made to google without a key                      0.04s  
+  Γ£ô credential check sends the key in header only and never leaksΓÇª  0.04s  
+  Γ£ô a successful reply recovers the connection state                0.08s  
+  Γ£ô a spent daily quota is reported honestly and not retried        0.06s  
+  Γ£ô a per minute rate limit is retried after a short delay          1.07s  
+  Γ£ô an overloaded model is retried as a transient error             1.05s  
+  Γ£ô retries are capped                                              1.05s  
+  Γ£ô a retry is skipped when google asks for a long wait             0.04s  
+  Γ£ô the error response never contains the key or quota internals    0.04s  
+  Γ£ô the chat page renders assistant answers with safe formatting    0.05s  
+  Γ£ô the chat page distinguishes a spent quota from a hard failure   0.04s  
+
+   PASS  Tests\Feature\ChatAssistantGroqTest
+  Γ£ô a successful groq answer keeps the frontend contract            0.07s  
+  Γ£ô the api key never leaves the authorization header               0.04s  
+  Γ£ô follow ups carry the conversation history in order              0.04s  
+  Γ£ô a missing key is reported without calling groq                  0.05s  
+  Γ£ô an invalid key is reported as invalid credentials               0.05s  
+  Γ£ô an unsupported model is reported as model not found             0.05s  
+  Γ£ô a per minute rate limit is retried once                         1.05s  
+  Γ£ô a spent daily quota is reported honestly and not retried        0.05s  
+  Γ£ô a timeout is reported as a network error                        1.05s  
+  Γ£ô a server error is reported as unavailable                       0.06s  
+  Γ£ô gemini takes over when groq key is rejected                     0.05s  
+  Γ£ô a groq server error is retried and does not burn gemini         1.06s  
+  Γ£ô both providers failing returns one honest error without localΓÇª  0.04s  
+  Γ£ô english and indonesian conversations are passed through unchanΓÇª 0.04s  
+  Γ£ô context contains this users profile and catalog products only   0.04s  
+  Γ£ô another users history never reaches the prompt                  0.04s  
+  Γ£ô the chat page reports groq as active only after a real probe    0.03s  
+  Γ£ô the chat page never claims active for a rejected key            0.04s  
+  Γ£ô the chat page marks a configured but unknown model              0.04s  
+  Γ£ô untrusted markup in a model answer is escaped on the page       0.05s  
+
+   PASS  Tests\Feature\ExampleTest
+  Γ£ô the application returns a successful response                   0.03s  
+
+   PASS  Tests\Feature\FeaturePagesTest
+  Γ£ô dashboard renders                                               0.05s  
+  Γ£ô profile page renders                                            0.04s  
+  Γ£ô profile can be updated                                          0.04s  
+  Γ£ô risk page renders and can be saved                              0.05s  
+  Γ£ô simulator renders for every scenario                            0.05s  
+  Γ£ô simulation can be saved                                         0.04s  
+  Γ£ô comparison page renders                                         0.05s  
+  Γ£ô category pages render                                           0.06s  
+  Γ£ô unknown category returns 404                                    0.04s  
+  Γ£ô policies page renders and crud works                            0.05s  
+  Γ£ô policy validation rejects invalid category                      0.03s  
+  Γ£ô chat page renders                                               0.48s  
+  Γ£ô chat store returns json reply                                   0.06s  
+  Γ£ô guests are redirected to login                                  0.05s  
+
+  Tests:    116 passed (495 assertions)
+  Duration: 15.30s
+
